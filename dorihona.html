@@ -1,0 +1,3117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PharmaCare — Your Health, Our Priority</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --ink:#16241D;
+    --green-deep:#0F5C38;
+    --green:#18A558;
+    --mint:#E7F6EC;
+    --mint-2:#D3EFDE;
+    --paper:#FAFBF8;
+    --amber:#D98E2E;
+    --amber-soft:#F6E4C6;
+    --red:#D9503A;
+    --line: rgba(15,92,56,0.16);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    color:var(--ink);
+}
+
+a{color:inherit;}
+
+.eyebrow{
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:12.5px;
+    color:var(--green-deep);
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--green-deep);
+    display:inline-block;
+}
+
+/* ---------- Header ---------- */
+
+header{
+    width:100%;
+    padding:18px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.logo-box{
+    width:46px;
+    height:46px;
+    background:var(--green-deep);
+    color:#fff;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    transform:rotate(-4deg);
+}
+
+.logo h2{
+    font-size:22px;
+    letter-spacing:-.01em;
+}
+
+nav{
+    display:flex;
+    gap:34px;
+}
+
+nav a{
+    text-decoration:none;
+    color:var(--ink);
+    font-weight:500;
+    font-size:14.5px;
+    position:relative;
+    padding-bottom:4px;
+    transition:.25s;
+}
+
+nav a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:0;
+    height:2px;
+    background:var(--green);
+    transition:.25s;
+}
+
+nav a:hover{color:var(--green-deep);}
+nav a:hover::after{width:100%;}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+    font-size:17px;
+    transition:.2s;
+}
+
+.icon-btn:hover{border-color:var(--green);}
+
+.icon-btn .badge{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:var(--red);
+    color:#fff;
+    font-size:10px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Space Mono',monospace;
+}
+
+.btn{
+    height:48px;
+    padding:0 28px;
+    border:none;
+    border-radius:8px;
+    background:var(--green-deep);
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+    font-family:'Inter',sans-serif;
+}
+
+.btn:hover{
+    background:var(--ink);
+    transform:translateY(-2px);
+}
+
+/* ---------- Announcement bar ---------- */
+
+.announce{
+    background:var(--ink);
+    color:#EAF6EF;
+    text-align:center;
+    padding:9px;
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:.03em;
+}
+
+.announce b{color:var(--amber-soft);}
+
+/* ---------- Hero ---------- */
+
+.hero{
+    width:100%;
+    max-width:1280px;
+    margin:0 auto;
+    padding:80px 8% 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:40px;
+}
+
+.left{width:52%;}
+
+.left h1{
+    font-size:clamp(40px,5vw,64px);
+    line-height:1.08;
+    letter-spacing:-.01em;
+    margin:22px 0 24px;
+}
+
+.left h1 em{font-style:italic;color:var(--green-deep);}
+
+.left p{
+    color:#4B5A50;
+    line-height:1.7;
+    font-size:17px;
+    max-width:460px;
+    margin-bottom:34px;
+}
+
+.buttons{display:flex;align-items:center;gap:24px;}
+
+.white-btn{
+    height:48px;
+    padding:0 26px;
+    border:none;
+    background:transparent;
+    color:var(--ink);
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Inter',sans-serif;
+}
+
+.white-btn span{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:1.5px solid var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.25s;
+}
+
+.white-btn:hover span{background:var(--ink);color:#fff;}
+
+.right{width:44%;display:flex;justify-content:center;position:relative;}
+
+.circle{
+    width:400px;
+    height:400px;
+    background:var(--mint);
+    border:1px solid var(--mint-2);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:150px;
+    position:relative;
+}
+
+.rx-label{
+    position:absolute;
+    bottom:-18px;
+    left:-10px;
+    width:210px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:14px 16px;
+    box-shadow:0 18px 40px rgba(15,92,56,.15);
+    transform:rotate(-6deg);
+    font-family:'Space Mono',monospace;
+}
+
+.rx-label .rx-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px dashed var(--line);
+    padding-bottom:8px;
+    margin-bottom:8px;
+}
+
+.rx-label .rx-top strong{color:var(--green-deep);font-size:15px;}
+
+.rx-label .rx-top span{
+    font-size:10px;
+    color:var(--amber);
+    background:var(--amber-soft);
+    padding:2px 6px;
+    border-radius:3px;
+}
+
+.rx-label p{font-size:10.5px;line-height:1.6;color:#5A6B60;}
+
+.trust-badge{
+    position:absolute;
+    top:6px;
+    right:-16px;
+    background:var(--green-deep);
+    color:#fff;
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-family:'Space Mono',monospace;
+    font-size:10px;
+    line-height:1.4;
+    box-shadow:0 12px 30px rgba(15,92,56,.3);
+}
+
+.trust-badge strong{font-size:20px;display:block;}
+
+/* ---------- Trust strip ---------- */
+
+.strip{width:100%;background:var(--green-deep);}
+
+.strip-inner{
+    max-width:1280px;
+    margin:0 auto;
+    padding:26px 8%;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.strip-item{display:flex;align-items:center;gap:12px;color:#EAF6EF;}
+
+.strip-item .num{
+    font-family:'Fraunces',serif;
+    font-size:26px;
+    font-weight:600;
+    color:#fff;
+}
+
+.strip-item .label{font-size:12.5px;line-height:1.4;color:#BFE2CD;}
+
+/* ---------- Section shell ---------- */
+
+.section{
+    max-width:1280px;
+    margin:0 auto;
+    padding:100px 8%;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:50px;
+    gap:30px;
+}
+
+.section-head h2{
+    font-size:clamp(30px,3.4vw,42px);
+    margin-top:14px;
+    max-width:560px;
+    line-height:1.15;
+}
+
+.section-head p{
+    color:#5A6B60;
+    max-width:320px;
+    line-height:1.6;
+    font-size:15px;
+}
+
+/* ---------- Categories ---------- */
+
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+
+.cat-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:30px 24px;
+    transition:.3s;
+    cursor:pointer;
+}
+
+.cat-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 40px rgba(15,92,56,.1);
+    border-color:var(--green);
+}
+
+.cat-icon{
+    width:52px;
+    height:52px;
+    background:var(--mint);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    margin-bottom:20px;
+}
+
+.cat-card h4{font-size:18px;margin-bottom:8px;}
+.cat-card p{font-size:13.5px;color:#5A6B60;line-height:1.6;}
+
+/* ---------- Filter tabs (products) ---------- */
+
+.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:40px;
+    flex-wrap:wrap;
+}
+
+.tab{
+    padding:10px 20px;
+    border-radius:30px;
+    border:1px solid var(--line);
+    background:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    color:#4B5A50;
+    transition:.2s;
+    font-family:'Inter',sans-serif;
+}
+
+.tab.active{background:var(--green-deep);color:#fff;border-color:var(--green-deep);}
+.tab:hover:not(.active){border-color:var(--green);color:var(--green-deep);}
+
+/* ---------- Product grid ---------- */
+
+.grid-products{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+}
+
+.product-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    transition:.3s;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+}
+
+.product-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 24px 48px rgba(15,92,56,.12);
+    border-color:var(--green);
+}
+
+.product-thumb{
+    height:170px;
+    background:var(--mint);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    position:relative;
+    overflow:hidden;
+}
+
+.product-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.product-tag{
+    position:absolute;
+    top:12px;
+    left:12px;
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    padding:4px 9px;
+    border-radius:4px;
+    font-weight:700;
+    letter-spacing:.02em;
+}
+
+.tag-sale{background:var(--red);color:#fff;}
+.tag-new{background:var(--amber);color:#fff;}
+.tag-rx{background:var(--green-deep);color:#fff;}
+
+.wishlist{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.product-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
+
+.product-cat{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--green-deep);
+}
+
+.product-body h4{font-size:15.5px;line-height:1.35;min-height:42px;}
+
+.rating{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    color:var(--amber);
+}
+
+.rating span{color:#8A9A8F;font-family:'Space Mono',monospace;font-size:11px;}
+
+.price-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:auto;
+    padding-top:10px;
+}
+
+.price{display:flex;align-items:baseline;gap:8px;}
+.price strong{font-family:'Fraunces',serif;font-size:19px;color:var(--ink);}
+.price del{font-size:12.5px;color:#A5B3AA;}
+
+.add-btn{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:none;
+    background:var(--green-deep);
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.add-btn:hover{background:var(--amber);transform:scale(1.08);}
+
+.section-foot{
+    display:flex;
+    justify-content:center;
+    margin-top:46px;
+}
+
+.outline-btn{
+    height:50px;
+    padding:0 32px;
+    border-radius:30px;
+    border:1.5px solid var(--green-deep);
+    background:transparent;
+    color:var(--green-deep);
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+    transition:.25s;
+    font-family:'Inter',sans-serif;
+}
+
+.outline-btn:hover{background:var(--green-deep);color:#fff;}
+
+/* ---------- Promo banner split ---------- */
+
+.promo-split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+}
+
+.promo-card{
+    border-radius:20px;
+    padding:44px;
+    position:relative;
+    overflow:hidden;
+    min-height:260px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.promo-card.green{background:var(--green-deep);color:#fff;}
+.promo-card.amber{background:var(--amber-soft);color:var(--ink);}
+
+.promo-card .eyebrow{color:inherit;opacity:.75;}
+.promo-card.green .eyebrow::before{background:#fff;}
+
+.promo-card h3{
+    font-size:30px;
+    margin:14px 0 10px;
+    color:inherit;
+    max-width:320px;
+}
+
+.promo-card p{font-size:14px;opacity:.85;max-width:300px;line-height:1.6;margin-bottom:22px;}
+
+.promo-card .icon-float{
+    position:absolute;
+    right:30px;
+    bottom:20px;
+    font-size:110px;
+    opacity:.16;
+}
+
+.promo-card .outline-btn{width:fit-content;}
+.promo-card.green .outline-btn{border-color:#fff;color:#fff;}
+.promo-card.green .outline-btn:hover{background:#fff;color:var(--green-deep);}
+.promo-card.amber .outline-btn{border-color:var(--ink);color:var(--ink);}
+.promo-card.amber .outline-btn:hover{background:var(--ink);color:#fff;}
+
+/* ---------- How it works ---------- */
+
+.how{background:var(--mint);}
+
+.rx-steps{display:flex;gap:0;}
+
+.rx-step{flex:1;position:relative;padding:0 26px;}
+
+.rx-step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:26px;
+    right:-10px;
+    width:40px;
+    border-top:1.5px dashed var(--green-deep);
+    opacity:.5;
+}
+
+.rx-step .rx-num{
+    font-family:'Space Mono',monospace;
+    color:var(--green-deep);
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.rx-step .rx-num::before{
+    content:"Rx";
+    font-weight:700;
+    background:var(--green-deep);
+    color:#fff;
+    padding:3px 8px;
+    border-radius:4px;
+    font-size:11px;
+}
+
+.rx-step h4{font-size:19px;margin-bottom:10px;}
+.rx-step p{font-size:14px;color:#4B5A50;line-height:1.6;}
+
+/* ---------- Brands ---------- */
+
+.brands{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:30px;
+    padding:50px 8%;
+    max-width:1280px;
+    margin:0 auto;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+}
+
+.brand-item{
+    font-family:'Fraunces',serif;
+    font-size:21px;
+    color:#B8C4BC;
+    font-weight:600;
+    letter-spacing:-.01em;
+    transition:.25s;
+}
+
+.brand-item:hover{color:var(--green-deep);}
+
+/* ---------- Testimonials grid ---------- */
+
+.testi-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.testi-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:32px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.testi-card .rating{color:var(--amber);}
+
+.testi-card p{
+    font-size:14.5px;
+    line-height:1.7;
+    color:#3E4C43;
+    flex:1;
+}
+
+.testi-who{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding-top:10px;
+    border-top:1px solid var(--line);
+}
+
+.testi-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:var(--mint);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+}
+
+.testi-who div strong{display:block;font-size:13.5px;}
+.testi-who div span{font-size:11.5px;color:#8A9A8F;font-family:'Space Mono',monospace;}
+
+/* ---------- FAQ ---------- */
+
+.faq-list{max-width:820px;margin:0 auto;}
+
+.faq-item{
+    border-bottom:1px solid var(--line);
+    padding:26px 0;
+    cursor:pointer;
+}
+
+.faq-q{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'Fraunces',serif;
+    font-size:18px;
+    font-weight:500;
+}
+
+.faq-q .plus{
+    font-family:'Space Mono',monospace;
+    font-size:20px;
+    color:var(--green-deep);
+    transition:.25s;
+    flex-shrink:0;
+    margin-left:20px;
+}
+
+.faq-item.open .plus{transform:rotate(45deg);}
+
+.faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:.3s ease;
+    font-size:14.5px;
+    color:#5A6B60;
+    line-height:1.7;
+}
+
+.faq-item.open .faq-a{max-height:200px;margin-top:14px;}
+
+/* ---------- Newsletter ---------- */
+
+.newsletter{
+    background:var(--ink);
+    border-radius:24px;
+    max-width:1280px;
+    margin:0 auto 20px;
+    padding:60px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+.newsletter h3{color:#fff;font-size:26px;max-width:380px;line-height:1.25;}
+.newsletter p{color:#8FA398;font-size:13.5px;margin-top:10px;max-width:380px;}
+
+.news-form{display:flex;gap:10px;}
+
+.news-form input{
+    width:260px;
+    height:52px;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.06);
+    color:#fff;
+    padding:0 18px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+}
+
+.news-form input::placeholder{color:#6B7C71;}
+
+.news-form .btn{background:var(--green);}
+.news-form .btn:hover{background:#fff;color:var(--ink);}
+
+/* ---------- CTA ---------- */
+
+.cta{
+    max-width:1280px;
+    margin:0 auto 100px;
+    padding:70px 8%;
+    background:var(--green-deep);
+    border-radius:24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+.cta h2{color:#fff;font-size:clamp(26px,3vw,36px);max-width:480px;line-height:1.2;}
+.cta .btn{background:#fff;color:var(--green-deep);}
+.cta .btn:hover{background:var(--amber-soft);}
+
+/* ---------- Footer ---------- */
+
+footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
+
+.footer-top{
+    max-width:1280px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    gap:40px;
+    padding-bottom:40px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.footer-brand{max-width:280px;}
+.footer-brand .logo h2{color:#fff;}
+.footer-brand p{font-size:13.5px;line-height:1.7;margin-top:16px;color:#8FA398;}
+
+.footer-col h4{color:#fff;font-size:14px;margin-bottom:16px;font-family:'Inter',sans-serif;}
+
+.footer-col a{
+    display:block;
+    color:#8FA398;
+    text-decoration:none;
+    font-size:13.5px;
+    line-height:2.2;
+    transition:.2s;
+}
+
+.footer-col a:hover{color:#fff;}
+
+.footer-bottom{
+    max-width:1280px;
+    margin:0 auto;
+    padding-top:24px;
+    display:flex;
+    justify-content:space-between;
+    font-size:12.5px;
+    color:#6B7C71;
+    font-family:'Space Mono',monospace;
+}
+
+/* ---------- Why us ---------- */
+
+.why-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.why-item{
+    background:#fff;
+    padding:38px 32px;
+}
+
+.why-item .why-icon{font-size:30px;margin-bottom:16px;display:block;}
+.why-item h4{font-size:16.5px;margin-bottom:8px;}
+.why-item p{font-size:13.5px;color:#5A6B60;line-height:1.65;}
+
+/* ---------- Doctors ---------- */
+
+.doc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+
+.doc-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    text-align:center;
+    transition:.3s;
+}
+
+.doc-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(15,92,56,.1);border-color:var(--green);}
+
+.doc-photo{
+    height:180px;
+    background:var(--mint);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:72px;
+}
+
+.doc-body{padding:22px 18px 26px;}
+.doc-body h4{font-size:16px;margin-bottom:4px;}
+
+.doc-spec{
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    color:var(--green-deep);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-bottom:10px;
+    display:block;
+}
+
+.doc-body p{font-size:12.5px;color:#5A6B60;line-height:1.6;margin-bottom:16px;}
+
+.doc-btn{
+    width:100%;
+    height:40px;
+    border-radius:8px;
+    border:1.5px solid var(--green-deep);
+    background:transparent;
+    color:var(--green-deep);
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    transition:.25s;
+    font-family:'Inter',sans-serif;
+}
+
+.doc-btn:hover{background:var(--green-deep);color:#fff;}
+
+/* ---------- Blog ---------- */
+
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+
+.blog-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    transition:.3s;
+    cursor:pointer;
+}
+
+.blog-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(15,92,56,.1);}
+
+.blog-thumb{
+    height:190px;
+    background:var(--mint);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:60px;
+}
+
+.blog-body{padding:24px;}
+
+.blog-meta{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    color:var(--green-deep);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-bottom:10px;
+}
+
+.blog-body h4{font-size:17px;line-height:1.35;margin-bottom:10px;}
+.blog-body p{font-size:13.5px;color:#5A6B60;line-height:1.6;}
+
+.blog-read{
+    margin-top:16px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--green-deep);
+}
+
+/* ---------- App download ---------- */
+
+.app-section{
+    max-width:1280px;
+    margin:0 auto 100px;
+    background:var(--mint);
+    border-radius:24px;
+    padding:70px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:40px;
+    flex-wrap:wrap;
+}
+
+.app-left h2{font-size:clamp(26px,3vw,36px);max-width:440px;line-height:1.2;margin-bottom:16px;}
+.app-left p{font-size:14.5px;color:#4B5A50;max-width:420px;line-height:1.7;margin-bottom:26px;}
+
+.app-badges{display:flex;gap:14px;}
+
+.app-badge{
+    height:54px;
+    padding:0 22px;
+    background:var(--ink);
+    color:#fff;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.app-badge:hover{background:var(--green-deep);}
+.app-badge .ic{font-size:22px;}
+.app-badge .txt{display:flex;flex-direction:column;line-height:1.2;}
+.app-badge .txt span{font-size:9.5px;color:#B9C7BE;}
+.app-badge .txt strong{font-size:14px;font-family:'Inter',sans-serif;}
+
+.app-right{
+    width:230px;
+    height:230px;
+    background:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:100px;
+    flex-shrink:0;
+    box-shadow:0 20px 50px rgba(15,92,56,.12);
+}
+
+@keyframes likePop{
+    0%{background:var(--mint-2);}
+    100%{background:transparent;}
+}
+
+.hamburger{display:none;font-size:20px;}
+
+.mobile-nav{
+    max-height:0;
+    overflow:hidden;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    transition:.3s ease;
+    display:flex;
+    flex-direction:column;
+}
+
+.mobile-nav.open{max-height:400px;}
+
+.mobile-link{
+    padding:16px 8%;
+    text-decoration:none;
+    color:var(--ink);
+    font-weight:500;
+    font-size:15px;
+    border-bottom:1px solid var(--line);
+}
+
+.mobile-link:hover{color:var(--green-deep);background:var(--mint);}
+
+.mobile-nav .full-btn{margin:16px 8%;width:auto;}
+
+/* ---------- Search bar ---------- */
+
+.search-bar{
+    max-height:0;
+    overflow:hidden;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    transition:.3s ease;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:0 8%;
+}
+
+.search-bar.open{max-height:80px;padding:16px 8%;}
+
+.search-bar input{
+    flex:1;
+    height:46px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:0 16px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+}
+
+.search-bar input:focus{outline:none;border-color:var(--green);}
+
+.no-match{
+    text-align:center;
+    padding:40px;
+    color:#8A9A8F;
+    font-size:14px;
+    grid-column:1/-1;
+}
+
+/* ---------- Cart drawer ---------- */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,36,26,.45);
+    z-index:200;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+
+.overlay.show{opacity:1;pointer-events:auto;}
+
+.cart-drawer{
+    position:fixed;
+    top:0;
+    right:0;
+    width:420px;
+    max-width:92vw;
+    height:100vh;
+    background:#fff;
+    z-index:201;
+    display:flex;
+    flex-direction:column;
+    transform:translateX(100%);
+    transition:.35s cubic-bezier(.4,0,.2,1);
+    box-shadow:-20px 0 50px rgba(15,92,56,.15);
+}
+
+.cart-drawer.open{transform:translateX(0);}
+
+.cart-head{
+    padding:24px 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--line);
+}
+
+.cart-head h3{font-size:20px;}
+
+.close-x{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:16px;
+    transition:.2s;
+}
+
+.close-x:hover{background:var(--mint);border-color:var(--green);}
+
+.cart-body{flex:1;overflow-y:auto;padding:10px 26px;}
+
+.cart-row{
+    display:flex;
+    gap:14px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+}
+
+.cart-thumb{
+    width:60px;
+    height:60px;
+    background:var(--mint);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    flex-shrink:0;
+    overflow:hidden;
+}
+
+.cart-thumb svg, .cart-thumb img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+
+.cart-info{flex:1;display:flex;flex-direction:column;gap:6px;}
+.cart-info h5{font-size:14px;font-weight:600;line-height:1.3;font-family:'Inter',sans-serif;}
+.cart-info .cart-price{font-family:'Fraunces',serif;font-size:15px;color:var(--green-deep);}
+
+.qty-box{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:8px;width:fit-content;}
+
+.qty-box button{
+    width:28px;
+    height:28px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    font-size:15px;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+}
+
+.qty-box button:hover{color:var(--green-deep);}
+.qty-box span{width:26px;text-align:center;font-size:13px;font-family:'Space Mono',monospace;}
+
+.remove-x{
+    align-self:flex-start;
+    background:none;
+    border:none;
+    color:#A5B3AA;
+    cursor:pointer;
+    font-size:17px;
+    line-height:1;
+}
+
+.remove-x:hover{color:var(--red);}
+
+.empty-cart{
+    text-align:center;
+    padding:80px 20px;
+    color:#8A9A8F;
+}
+
+.empty-cart .ic{font-size:50px;display:block;margin-bottom:16px;}
+.empty-cart p{font-size:14px;}
+
+.cart-foot{padding:22px 26px 26px;border-top:1px solid var(--line);}
+
+.cart-total-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:18px;
+    font-family:'Fraunces',serif;
+}
+
+.cart-total-row span:first-child{font-size:14px;font-family:'Inter',sans-serif;color:#5A6B60;}
+.cart-total-row span:last-child{font-size:24px;color:var(--ink);}
+
+.full-btn{width:100%;height:52px;}
+
+.form-group input.field-error, .form-group select.field-error{
+    border-color:var(--red);
+    animation:shake .35s;
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+}
+
+/* ---------- Checkout modal ---------- */
+
+.checkout-modal{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-48%);
+    width:480px;
+    max-width:92vw;
+    max-height:88vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:20px;
+    z-index:202;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    box-shadow:0 40px 90px rgba(15,92,56,.25);
+}
+
+.checkout-modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%);}
+
+.checkout-head{
+    padding:26px 28px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.checkout-head h3{font-size:22px;max-width:340px;line-height:1.25;}
+
+.checkout-form{padding:20px 28px 28px;}
+
+.form-group{margin-bottom:16px;}
+
+.form-group label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:#4B5A50;
+    margin-bottom:7px;
+}
+
+.form-group input, .form-group select{
+    width:100%;
+    height:48px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    padding:0 15px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+}
+
+.form-group input:focus, .form-group select:focus{outline:none;border-color:var(--green);}
+
+.pay-options{display:flex;gap:10px;margin-bottom:18px;}
+
+.pay-option{
+    flex:1;
+    height:52px;
+    border-radius:10px;
+    border:1.5px solid var(--line);
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+    color:#4B5A50;
+}
+
+.pay-option.active{border-color:var(--green-deep);background:var(--mint);color:var(--green-deep);}
+
+.card-fields{
+    max-height:0;
+    overflow:hidden;
+    transition:.3s ease;
+}
+
+.card-fields.show{max-height:400px;margin-top:4px;}
+
+.brand-options{display:flex;gap:8px;margin-bottom:16px;}
+
+.brand-btn{
+    flex:1;
+    height:46px;
+    border-radius:8px;
+    border:1.5px solid var(--line);
+    background:#fff;
+    font-size:12px;
+    font-weight:700;
+    font-family:'Space Mono',monospace;
+    cursor:pointer;
+    transition:.2s;
+    color:#5A6B60;
+}
+
+.brand-btn.active{border-color:var(--green-deep);background:var(--green-deep);color:#fff;}
+
+.form-row{display:flex;gap:12px;}
+.form-row .form-group{flex:1;}
+
+.submit-order{width:100%;height:52px;margin-top:6px;}
+
+.checkout-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--mint);
+    border-radius:10px;
+    padding:14px 18px;
+    margin-bottom:18px;
+    font-family:'Fraunces',serif;
+}
+
+.checkout-total span:first-child{font-size:13px;font-family:'Inter',sans-serif;color:#4B5A50;}
+.checkout-total span:last-child{font-size:20px;color:var(--green-deep);}
+
+.success-view{padding:50px 34px;text-align:center;}
+.success-view .ic{font-size:56px;display:block;margin-bottom:18px;}
+.success-view h3{font-size:22px;margin-bottom:10px;}
+.success-view p{font-size:14px;color:#5A6B60;line-height:1.7;margin-bottom:8px;}
+.success-view .sms-note{
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    color:var(--green-deep);
+    background:var(--mint);
+    padding:10px 14px;
+    border-radius:8px;
+    margin:18px 0;
+    display:inline-block;
+}
+
+.toast{
+    position:fixed;
+    bottom:26px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--ink);
+    color:#fff;
+    padding:14px 24px;
+    border-radius:30px;
+    font-size:13.5px;
+    z-index:300;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:980px){
+    nav{display:none;}
+    .hamburger{display:flex;}
+    .header-right .btn{display:none;}
+    .hero{flex-direction:column;}
+    .left,.right{width:100%;}
+    .left{text-align:center;}
+    .left p{margin:30px auto;}
+    .buttons{justify-content:center;}
+    .grid-4{grid-template-columns:repeat(2,1fr);}
+    .grid-products{grid-template-columns:repeat(2,1fr);}
+    .rx-steps{flex-direction:column;gap:40px;}
+    .rx-step::after{display:none;}
+    .testi-grid{grid-template-columns:1fr;}
+    .promo-split{grid-template-columns:1fr;}
+    .footer-top{flex-direction:column;gap:30px;}
+    .brands{justify-content:center;}
+    .why-grid{grid-template-columns:1fr;}
+    .doc-grid{grid-template-columns:repeat(2,1fr);}
+    .blog-grid{grid-template-columns:1fr;}
+    .app-section{justify-content:center;text-align:center;}
+    .app-left p{margin-left:auto;margin-right:auto;}
+    .app-badges{justify-content:center;}
+}
+
+@media(max-width:560px){
+    header{padding:14px 5%;}
+    .header-right{gap:10px;}
+    .logo h2{font-size:18px;}
+    .logo-box{width:38px;height:38px;font-size:18px;}
+    .icon-btn{width:38px;height:38px;font-size:15px;}
+    .grid-4{grid-template-columns:1fr;}
+    .grid-products{grid-template-columns:1fr;}
+    .circle{width:280px;height:280px;font-size:100px;}
+    .rx-label{width:170px;}
+    .news-form{flex-direction:column;width:100%;}
+    .news-form input{width:100%;}
+    .doc-grid{grid-template-columns:1fr;}
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="announce">🚚 Barcha buyurtmalarda bepul yetkazib berish &nbsp;•&nbsp; Birinchi xariddan <b>15% chegirma</b>: kod <b>SOG'LOM15</b></div>
+
+<header>
+
+<div class="logo">
+<div class="logo-box">💊</div>
+<h2>PharmaCare</h2>
+</div>
+
+<nav>
+<a href="#">Bosh sahifa</a>
+<a href="#products">Mahsulotlar</a>
+<a href="#">Kategoriyalar</a>
+<a href="#">Shifokorlar</a>
+<a href="#">Aloqa</a>
+</nav>
+
+<div class="header-right">
+<div class="icon-btn" id="searchBtn">🔍</div>
+<div class="icon-btn" id="cartBtn">🛒<span class="badge" id="cartBadge">0</span></div>
+<button class="btn" id="headerOrderBtn">Buyurtma berish</button>
+<div class="icon-btn hamburger" id="hamburgerBtn">☰</div>
+</div>
+
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+<a href="#" class="mobile-link">Bosh sahifa</a>
+<a href="#products" class="mobile-link">Mahsulotlar</a>
+<a href="#" class="mobile-link">Kategoriyalar</a>
+<a href="#" class="mobile-link">Shifokorlar</a>
+<a href="#" class="mobile-link">Aloqa</a>
+<button class="btn full-btn" id="mobileOrderBtn">Buyurtma berish</button>
+</div>
+
+<div class="search-bar" id="searchBar">
+<input type="text" id="searchInput" placeholder="Mahsulot nomini kiriting...">
+<div class="close-x" id="closeSearch">✕</div>
+</div>
+
+<section class="hero">
+
+<div class="left">
+
+<div class="eyebrow">Ishonchli onlayn dorixona</div>
+
+<h1>Sog'ligingiz,<br><em>vaqtida</em> to'ldiriladi.</h1>
+
+<p>
+Original dorilar, vitaminlar va sog'liqni saqlash mahsulotlari — litsenziyalangan
+farmatsevtlar tomonidan tekshirilgan va uyingizga 2 soat ichida yetkaziladi.
+</p>
+
+<div class="buttons">
+<button class="btn" id="heroShopBtn">Hozir xarid qiling</button>
+<button class="white-btn" id="heroLearnBtn">Batafsil <span>→</span></button>
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="circle">
+<svg width="180" height="180" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="10" width="24" height="10" rx="3" fill="#D98E2E"/><rect x="16" y="18" width="32" height="36" rx="6" fill="#0F5C38"/><rect x="16" y="30" width="32" height="10" fill="#FAFBF8"/><circle cx="26" cy="45" r="2.5" fill="#FAFBF8"/><circle cx="34" cy="45" r="2.5" fill="#FAFBF8"/><circle cx="42" cy="45" r="2.5" fill="#FAFBF8"/></svg>
+
+<div class="trust-badge">
+<strong>25k+</strong>
+tasdiqlangan sharh
+</div>
+
+<div class="rx-label">
+<div class="rx-top">
+<strong>Rx 00214</strong>
+<span>TASDIQLANGAN</span>
+</div>
+<p>Kuniga bir marta iching.<br>Qayta to'ldirish: cheksiz.<br>PharmaCare orqali yetkaziladi.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<div class="strip">
+<div class="strip-inner">
+
+<div class="strip-item">
+<span class="num">1,200+</span>
+<span class="label">Litsenziyalangan<br>dorilar</span>
+</div>
+
+<div class="strip-item">
+<span class="num">98%</span>
+<span class="label">Kunning o'zida<br>yetkaziladi</span>
+</div>
+
+<div class="strip-item">
+<span class="num">40+</span>
+<span class="label">Hamkor<br>farmatsevtlar</span>
+</div>
+
+<div class="strip-item">
+<span class="num">24/7</span>
+<span class="label">Farmatsevt<br>qo'llab-quvvatlash</span>
+</div>
+
+</div>
+</div>
+
+<section class="section" style="padding-bottom:0;">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Nega aynan biz</div>
+<h2>Dorixona emas — sog'liq bo'yicha hamkoringiz.</h2>
+</div>
+</div>
+
+<div class="why-grid">
+
+<div class="why-item">
+<span class="why-icon">✅</span>
+<h4>100% original mahsulot</h4>
+<p>Har bir dori rasmiy distribyutorlardan olinadi va partiya sertifikati bilan tekshiriladi.</p>
+</div>
+
+<div class="why-item">
+<span class="why-icon">🧊</span>
+<h4>Sovutgichli yetkazish</h4>
+<p>Harorat talab qiladigan dorilar maxsus izolyatsiyalangan sumkalarda tashiladi.</p>
+</div>
+
+<div class="why-item">
+<span class="why-icon">👩‍⚕️</span>
+<h4>Litsenziyalangan farmatsevtlar</h4>
+<p>Har bir buyurtma yuborilishidan oldin malakali mutaxassis tomonidan tekshiriladi.</p>
+</div>
+
+<div class="why-item">
+<span class="why-icon">💳</span>
+<h4>Moslashuvchan to'lov</h4>
+<p>Karta, Click yoki yetkazib berishda naqd — o'zingizga qulayini tanlang.</p>
+</div>
+
+<div class="why-item">
+<span class="why-icon">🔁</span>
+<h4>Oson qaytarish</h4>
+<p>Mahsulot mos kelmasa, 14 kun ichida bepul qaytarish va pulni qaytarish.</p>
+</div>
+
+<div class="why-item">
+<span class="why-icon">📍</span>
+<h4>Real vaqtda kuzatish</h4>
+<p>Buyurtmangiz qayerda ekanini xaritada jonli kuzatib boring.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Ehtiyojga qarab xarid qiling</div>
+<h2>Dori shkafingizda yetishmagan hamma narsa.</h2>
+</div>
+<p>Kundalik zaruriyatlardan tortib maxsus retseptlargacha — farmatsevtlarimiz tomonidan tanlangan kategoriyalar.</p>
+</div>
+
+<div class="grid-4">
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="10" width="24" height="10" rx="3" fill="#D98E2E"/><rect x="16" y="18" width="32" height="36" rx="6" fill="#0F5C38"/><rect x="16" y="30" width="32" height="10" fill="#FAFBF8"/></svg></div>
+<h4>Retsept bo'yicha</h4>
+<p>Retseptingizni yuklang, biz shifokoringiz bilan tasdiqlaymiz.</p>
+</div>
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="8" width="16" height="8" rx="2" fill="#D98E2E"/><path d="M18 16h28v34a6 6 0 0 1-6 6H24a6 6 0 0 1-6-6V16z" fill="#0F5C38"/><rect x="18" y="28" width="28" height="12" fill="#FAFBF8"/></svg></div>
+<h4>Vitaminlar</h4>
+<p>Butun oila uchun kundalik qo'shimchalar va immunitet mahsulotlari.</p>
+</div>
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="14" width="40" height="32" rx="6" fill="#0F5C38"/><rect x="18" y="20" width="28" height="14" rx="2" fill="#DDF8E8"/></svg></div>
+<h4>Qurilmalar</h4>
+<p>Termometr, tonometr va uy sharoitida diagnostika vositalari.</p>
+</div>
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="8" width="12" height="8" rx="2" fill="#D98E2E"/><path d="M20 16h24l-4 6v28a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6V22z" fill="#0F5C38"/></svg></div>
+<h4>Ona va bola</h4>
+<p>Har bir bosqich uchun pediatr tomonidan tasdiqlangan mahsulotlar.</p>
+</div>
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="8" width="12" height="8" fill="#D98E2E"/><path d="M20 16h24v14c0 10-6 16-12 24-6-8-12-14-12-24V16z" fill="#0F5C38"/></svg></div>
+<h4>Teri parvarishi</h4>
+<p>Dermatologik tekshiruvdan o'tgan krem va losyonlar.</p>
+</div>
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="40" width="40" height="8" rx="4" transform="rotate(-25 10 40)" fill="#0F5C38"/><rect x="8" y="14" width="18" height="10" rx="3" transform="rotate(-25 8 14)" fill="#D98E2E"/></svg></div>
+<h4>Og'iz bo'shlig'i</h4>
+<p>Tish pastasi, ip va professional parvarish vositalari.</p>
+</div>
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="6" width="8" height="14" fill="#D98E2E"/><path d="M22 20h20v26a6 6 0 0 1-6 6h-8a6 6 0 0 1-6-6V20z" fill="#0F5C38"/></svg></div>
+<h4>Ko'z parvarishi</h4>
+<p>Tomchilar, linza eritmalari va ko'rish vositalari.</p>
+</div>
+
+<div class="cat-card">
+<div class="cat-icon"><svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 12a20 20 0 1 0 12 30 16 16 0 0 1-12-30z" fill="#0F5C38"/></svg></div>
+<h4>Stress va uyqu</h4>
+<p>Tabiiy vositalar bilan tinch uyqu va aqliy tiniqlik.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="products">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Katalog</div>
+<h2>Eng ko'p sotib olinadigan mahsulotlar.</h2>
+</div>
+<p>25,000+ mijoz tomonidan tanlangan, sifat kafolati bilan.</p>
+</div>
+
+<div class="tabs">
+<div class="tab active">Barchasi</div>
+<div class="tab">Retsept</div>
+<div class="tab">Vitaminlar</div>
+<div class="tab">Qurilmalar</div>
+<div class="tab">Teri parvarishi</div>
+<div class="tab">Ona va bola</div>
+</div>
+
+<div class="grid-products">
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1679592180719-6d5124363e97?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Og'riq qoldiruvchi</span>
+<h4>Paratabs Forte 500mg, 20 tabletka</h4>
+<div class="rating">★★★★★ <span>(412)</span></div>
+<div class="price-row">
+<div class="price"><strong>28,000 so'm</strong><del>35,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Teri parvarishi</span>
+<h4>HydraCare namlantiruvchi krem, 50ml</h4>
+<div class="rating">★★★★☆ <span>(198)</span></div>
+<div class="price-row">
+<div class="price"><strong>64,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1596177583101-26b7dada4f5c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Vitaminlar</span>
+<h4>ImmunoPlus Vitamin C+D3, 60 kapsula</h4>
+<div class="rating">★★★★★ <span>(536)</span></div>
+<div class="price-row">
+<div class="price"><strong>92,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Qurilmalar</span>
+<h4>OmniCheck raqamli qon bosimi o'lchagich</h4>
+<div class="rating">★★★★★ <span>(287)</span></div>
+<div class="price-row">
+<div class="price"><strong>412,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ona va bola</span>
+<h4>BabySoft gipoallergenik losyon, 200ml</h4>
+<div class="rating">★★★★★ <span>(163)</span></div>
+<div class="price-row">
+<div class="price"><strong>47,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1679592180719-6d5124363e97?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Yurak-qon tomir</span>
+<h4>CardioBalance 10mg, 30 tabletka</h4>
+<div class="rating">★★★★☆ <span>(94)</span></div>
+<div class="price-row">
+<div class="price"><strong>76,500 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1550985543-f1ea83691cd8?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Og'iz bo'shlig'i</span>
+<h4>DentaFresh elektr tish cho'tkasi</h4>
+<div class="rating">★★★★★ <span>(321)</span></div>
+<div class="price-row">
+<div class="price"><strong>187,000 so'm</strong><del>220,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1596177583101-26b7dada4f5c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Uyqu va stress</span>
+<h4>SereneNight melatonin kompleksi</h4>
+<div class="rating">★★★★★ <span>(275)</span></div>
+<div class="price-row">
+<div class="price"><strong>58,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="section-foot">
+<button class="outline-btn" id="seeAllBtn">Barcha mahsulotlarni ko'rish →</button>
+</div>
+
+</section>
+
+<section class="section" style="padding-top:0;">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Yangi kelganlar</div>
+<h2>Katalogimizga yaqinda qo'shilgan mahsulotlar.</h2>
+</div>
+</div>
+
+<div class="grid-products">
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Teri parvarishi</span>
+<h4>SunShield SPF50 quyosh kremi, 100ml</h4>
+<div class="rating">★★★★★ <span>(87)</span></div>
+<div class="price-row">
+<div class="price"><strong>71,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1702475139570-b90434243af2?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ko'z parvarishi</span>
+<h4>OptiClear namlantiruvchi tomchi, 15ml</h4>
+<div class="rating">★★★★☆ <span>(52)</span></div>
+<div class="price-row">
+<div class="price"><strong>34,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1596177583101-26b7dada4f5c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Vitaminlar</span>
+<h4>MagneCalm Magniy B6, 60 tabletka</h4>
+<div class="rating">★★★★★ <span>(140)</span></div>
+<div class="price-row">
+<div class="price"><strong>68,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1615486511262-c7b5c7f42b14?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Qurilmalar</span>
+<h4>PulseOx barmoq pulsoksimetri</h4>
+<div class="rating">★★★★★ <span>(203)</span></div>
+<div class="price-row">
+<div class="price"><strong>146,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1702475139570-b90434243af2?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ona va bola</span>
+<h4>ColicEase chaqaloq shamollash tomchisi</h4>
+<div class="rating">★★★★☆ <span>(65)</span></div>
+<div class="price-row">
+<div class="price"><strong>39,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1550985543-f1ea83691cd8?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Og'iz bo'shlig'i</span>
+<h4>FreshMint og'iz chayqash suvi, 500ml</h4>
+<div class="rating">★★★★★ <span>(118)</span></div>
+<div class="price-row">
+<div class="price"><strong>29,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1596177583101-26b7dada4f5c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Uyqu va stress</span>
+<h4>CalmLeaf valeriana ekstrakti, 30 kapsula</h4>
+<div class="rating">★★★★☆ <span>(74)</span></div>
+<div class="price-row">
+<div class="price"><strong>45,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1596177583101-26b7dada4f5c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ovqat hazm qilish</span>
+<h4>GastroFix probiotik kompleks, 20 kapsula</h4>
+<div class="rating">★★★★★ <span>(156)</span></div>
+<div class="price-row">
+<div class="price"><strong>82,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" style="padding-top:0;">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Aksiyadagi narxlar</div>
+<h2>Bugungi eng yaxshi chegirmalar.</h2>
+</div>
+</div>
+
+<div class="grid-products">
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-30%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Og'riq qoldiruvchi</span>
+<h4>FlexoGel og'riq qoldiruvchi jel, 100g</h4>
+<div class="rating">★★★★☆ <span>(211)</span></div>
+<div class="price-row">
+<div class="price"><strong>31,500 so'm</strong><del>45,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1596177583101-26b7dada4f5c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-25%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Vitaminlar</span>
+<h4>MultiVita kompleks, 90 tabletka</h4>
+<div class="rating">★★★★★ <span>(342)</span></div>
+<div class="price-row">
+<div class="price"><strong>67,500 so'm</strong><del>90,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Teri parvarishi</span>
+<h4>AcneClear tozalovchi gel, 150ml</h4>
+<div class="rating">★★★★☆ <span>(129)</span></div>
+<div class="price-row">
+<div class="price"><strong>52,000 so'm</strong><del>65,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1615486511369-31ff08672204?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-18%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Qurilmalar</span>
+<h4>ThermoFast infraqizil termometr</h4>
+<div class="rating">★★★★★ <span>(268)</span></div>
+<div class="price-row">
+<div class="price"><strong>172,000 so'm</strong><del>210,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ona va bola</span>
+<h4>PureFeed chaqaloq shishasi, 250ml</h4>
+<div class="rating">★★★★★ <span>(97)</span></div>
+<div class="price-row">
+<div class="price"><strong>38,000 so'm</strong><del>45,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-22%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Og'iz bo'shlig'i</span>
+<h4>WhiteSmile oqartiruvchi tish pastasi</h4>
+<div class="rating">★★★★☆ <span>(183)</span></div>
+<div class="price-row">
+<div class="price"><strong>23,000 so'm</strong><del>29,500</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1596177583101-26b7dada4f5c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-25%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Uyqu va stress</span>
+<h4>ZenMind ashwagandha ekstrakti</h4>
+<div class="rating">★★★★★ <span>(176)</span></div>
+<div class="price-row">
+<div class="price"><strong>61,500 so'm</strong><del>82,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1702475139570-b90434243af2?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-10%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ko'z parvarishi</span>
+<h4>VisionCare kontakt linza eritmasi, 360ml</h4>
+<div class="rating">★★★★☆ <span>(89)</span></div>
+<div class="price-row">
+<div class="price"><strong>36,000 so'm</strong><del>40,000</del></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" style="padding-top:0;">
+
+<div class="promo-split">
+
+<div class="promo-card green">
+<div class="eyebrow">Oylik obuna</div>
+<h3>Doimiy dorilaringiz avtomatik yetkaziladi.</h3>
+<p>Retseptingizni bir marta yuklang — biz har oy vaqtida yetkazib beramiz, hech qachon tugab qolmaydi.</p>
+<button class="outline-btn" id="promoSubBtn">Obuna bo'lish</button>
+<div class="icon-float">📦</div>
+</div>
+
+<div class="promo-card amber">
+<div class="eyebrow">Farmatsevt maslahati</div>
+<h3>Bepul onlayn konsultatsiya — 24/7.</h3>
+<p>Dori qabul qilishdan oldin savolingiz bormi? Litsenziyalangan farmatsevtlarimiz istalgan vaqt javob beradi.</p>
+<button class="outline-btn" id="promoChatBtn">Chatni boshlash</button>
+<div class="icon-float">🩺</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="how">
+<div class="section">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Qanday ishlaydi</div>
+<h2>Retseptdan uyingiz eshigigacha uch qadam.</h2>
+</div>
+</div>
+
+<div class="rx-steps">
+
+<div class="rx-step">
+<div class="rx-num">Yuklash</div>
+<h4>Retseptingizni yuboring</h4>
+<p>Rasmga oling yoki saqlangan retseptlardan tanlang — farmatsevtlarimiz bir necha daqiqada tasdiqlaydi.</p>
+</div>
+
+<div class="rx-step">
+<div class="rx-num">Tasdiqlash</div>
+<h4>Shifokoringiz bilan tekshiramiz</h4>
+<p>Dozirovka yoki o'zaro ta'sir haqidagi savollar buyurtma jo'natilishidan oldin hal qilinadi.</p>
+</div>
+
+<div class="rx-step">
+<div class="rx-num">Yetkazish</div>
+<h4>Kunning o'zida yetkaziladi</h4>
+<p>Harorat nazorati ostida, real vaqtda kuzatiladigan yetkazib berish — to'g'ridan-to'g'ri eshigingizga.</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<div class="brands">
+<div class="brand-item">Nurofarm</div>
+<div class="brand-item">VitaLab</div>
+<div class="brand-item">MediCore</div>
+<div class="brand-item">PureHealth</div>
+<div class="brand-item">CardioLine</div>
+<div class="brand-item">BabyWell</div>
+</div>
+
+<section class="section">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Mutaxassislarimiz</div>
+<h2>Sizga g'amxo'rlik qiladigan shifokorlar.</h2>
+</div>
+<p>Har bir retsept va savolingiz malakali mutaxassislar tomonidan ko'rib chiqiladi.</p>
+</div>
+
+<div class="doc-grid">
+
+<div class="doc-card">
+<div class="doc-photo">👩‍⚕️</div>
+<div class="doc-body">
+<h4>Dr. Feruza Qosimova</h4>
+<span class="doc-spec">Terapevt</span>
+<p>12 yillik tajriba, umumiy sog'liq va retsept konsultatsiyasi.</p>
+<button class="doc-btn">Bog'lanish</button>
+</div>
+</div>
+
+<div class="doc-card">
+<div class="doc-photo">👨‍⚕️</div>
+<div class="doc-body">
+<h4>Dr. Sardor Aliyev</h4>
+<span class="doc-spec">Kardiolog</span>
+<p>Yurak-qon tomir dorilari va dozirovka bo'yicha maslahat.</p>
+<button class="doc-btn">Bog'lanish</button>
+</div>
+</div>
+
+<div class="doc-card">
+<div class="doc-photo">👩‍⚕️</div>
+<div class="doc-body">
+<h4>Dr. Kamola Yusupova</h4>
+<span class="doc-spec">Pediatr</span>
+<p>Bolalar salomatligi va xavfsiz dorilar bo'yicha yo'nalish.</p>
+<button class="doc-btn">Bog'lanish</button>
+</div>
+</div>
+
+<div class="doc-card">
+<div class="doc-photo">👨‍⚕️</div>
+<div class="doc-body">
+<h4>Dr. Jasur Normatov</h4>
+<span class="doc-spec">Farmatsevt</span>
+<p>Dori o'zaro ta'siri va to'g'ri qabul qilish bo'yicha maslahat.</p>
+<button class="doc-btn">Bog'lanish</button>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" style="padding-top:0;">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Sog'liq blogi</div>
+<h2>Farmatsevtlarimizdan foydali maslahatlar.</h2>
+</div>
+</div>
+
+<div class="blog-grid">
+
+<div class="blog-card">
+<div class="blog-thumb">🧊</div>
+<div class="blog-body">
+<div class="blog-meta">Saqlash • 4 daq. o'qish</div>
+<h4>Dorilarni uyda qanday to'g'ri saqlash kerak</h4>
+<p>Harorat va namlik dorilarning ta'sirini qanday o'zgartirishi haqida bilib oling.</p>
+<div class="blog-read">O'qish davomi →</div>
+</div>
+</div>
+
+<div class="blog-card">
+<div class="blog-thumb">🌿</div>
+<div class="blog-body">
+<div class="blog-meta">Immunitet • 6 daq. o'qish</div>
+<h4>Qishda immunitetni mustahkamlash yo'llari</h4>
+<p>Vitaminlar va kundalik odatlar orqali kasallikning oldini olish.</p>
+<div class="blog-read">O'qish davomi →</div>
+</div>
+</div>
+
+<div class="blog-card">
+<div class="blog-thumb">💊</div>
+<div class="blog-body">
+<div class="blog-meta">Xavfsizlik • 5 daq. o'qish</div>
+<h4>Dorilarni birga qabul qilishdan oldin bilishingiz kerak</h4>
+<p>O'zaro ta'sir xavfini kamaytirish uchun farmatsevt maslahatlari.</p>
+<div class="blog-read">O'qish davomi →</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Mijozlar fikri</div>
+<h2>25,000 dan ortiq mijoz ishonchi.</h2>
+</div>
+</div>
+
+<div class="testi-grid">
+
+<div class="testi-card">
+<div class="rating">★★★★★</div>
+<p>PharmaCare onamning yurak dori uchun arzonroq generikni topib, eski dozasi tugashidan oldin yetkazib berdi. Aynan shunday g'amxo'rlik bizni doimiy mijozga aylantiradi.</p>
+<div class="testi-who">
+<div class="testi-avatar">👩</div>
+<div><strong>Nodira A.</strong><span>Mijoz, 2022 yildan</span></div>
+</div>
+</div>
+
+<div class="testi-card">
+<div class="rating">★★★★★</div>
+<p>Ilova juda qulay — retseptni yuklash, farmatsevt bilan yozishish va buyurtmani kuzatish bir joyda. Yetkazib berish har doim vaqtida.</p>
+<div class="testi-who">
+<div class="testi-avatar">👨</div>
+<div><strong>Aziz R.</strong><span>Mijoz, 2023 yildan</span></div>
+</div>
+</div>
+
+<div class="testi-card">
+<div class="rating">★★★★☆</div>
+<p>Bolam uchun vitaminlarni doim shu yerdan olamiz. Narxlar odilona va mahsulotlar har doim original ekanligiga ishonaman.</p>
+<div class="testi-who">
+<div class="testi-avatar">👩</div>
+<div><strong>Malika T.</strong><span>Mijoz, 2021 yildan</span></div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" style="padding-top:0;">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Ko'p so'raladigan savollar</div>
+<h2>Bilishingiz kerak bo'lgan hamma narsa.</h2>
+</div>
+</div>
+
+<div class="faq-list">
+
+<div class="faq-item open">
+<div class="faq-q">Retseptni qanday yuklayman? <span class="plus">+</span></div>
+<div class="faq-a">Ilova yoki saytdagi "Retsept yuklash" tugmasi orqali rasmga olib yuboring. Farmatsevtlarimiz odatda 15 daqiqa ichida tasdiqlaydi.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q">Yetkazib berish qancha vaqt oladi? <span class="plus">+</span></div>
+<div class="faq-a">Toshkent bo'ylab o'rtacha 2 soat, viloyatlarga esa 24 soat ichida yetkazib beramiz.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q">Mahsulotlar original ekanligiga qanday ishonch hosil qilaman? <span class="plus">+</span></div>
+<div class="faq-a">Barcha mahsulotlar litsenziyalangan yetkazib beruvchilardan olinadi va har bir partiya sertifikatlashtiriladi.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q">To'lovni qanday amalga oshiraman? <span class="plus">+</span></div>
+<div class="faq-a">Plastik karta, click yoki naqd pul orqali yetkazib berish vaqtida to'lashingiz mumkin.</div>
+</div>
+
+</div>
+
+</section>
+
+<div class="app-section">
+
+<div class="app-left">
+<div class="eyebrow">Mobil ilova</div>
+<h2>PharmaCare ilovasi bilan dorilaringiz doim nazoratda.</h2>
+<p>Retseptlaringizni saqlang, buyurtmani kuzatib boring va farmatsevt bilan bir zumda yozishing — barchasi bir ilovada.</p>
+<div class="app-badges">
+<div class="app-badge">
+<span class="ic"></span>
+<div class="txt"><span>Yuklab oling</span><strong>App Store</strong></div>
+</div>
+<div class="app-badge">
+<span class="ic">▶</span>
+<div class="txt"><span>Yuklab oling</span><strong>Google Play</strong></div>
+</div>
+</div>
+</div>
+
+<div class="app-right">📱</div>
+
+</div>
+
+<div class="newsletter">
+<div>
+<h3>Sog'liq bo'yicha maslahatlar va chegirmalarni oling.</h3>
+<p>Har hafta farmatsevtlarimizdan maslahatlar va eksklyuziv aksiyalar haqida xabar bering.</p>
+</div>
+<div class="news-form">
+<input type="email" id="newsletterEmail" placeholder="Email manzilingiz">
+<button class="btn" id="newsletterBtn">Obuna bo'lish</button>
+</div>
+</div>
+
+<div class="cta">
+<h2>Endi hech qachon dorini vaqtida to'ldirishni unutmaysiz. Birinchi buyurtmada 15% chegirma.</h2>
+<button class="btn" id="ctaShopBtn">Xaridni boshlash</button>
+</div>
+
+<footer>
+
+<div class="footer-top">
+
+<div class="footer-brand">
+<div class="logo">
+<div class="logo-box">💊</div>
+<h2>PharmaCare</h2>
+</div>
+<p>2019 yildan beri original dorilar va sog'liqni saqlash mahsulotlarini yetkazib beruvchi litsenziyalangan onlayn dorixona.</p>
+</div>
+
+<div class="footer-col">
+<h4>Xarid</h4>
+<a href="#">Dorilar</a>
+<a href="#">Vitaminlar</a>
+<a href="#">Qurilmalar</a>
+<a href="#">Ona va bola</a>
+</div>
+
+<div class="footer-col">
+<h4>Kompaniya</h4>
+<a href="#">Biz haqimizda</a>
+<a href="#">Shifokorlar</a>
+<a href="#">Karyera</a>
+<a href="#">Aloqa</a>
+</div>
+
+<div class="footer-col">
+<h4>Yordam</h4>
+<a href="#">Yordam markazi</a>
+<a href="#">Buyurtmani kuzatish</a>
+<a href="#">Qaytarish</a>
+<a href="#">Maxfiylik siyosati</a>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<span>© 2026 PharmaCare. Barcha huquqlar himoyalangan.</span>
+<span>Litsenziya raqami: UZ-4471 &nbsp;•&nbsp; <a href="#" id="tgTestLink" style="text-decoration:underline;cursor:pointer;">Telegram ulanishini tekshirish</a></span>
+</div>
+
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="cart-drawer" id="cartDrawer">
+<div class="cart-head">
+<h3>Savat</h3>
+<div class="close-x" id="closeCart">✕</div>
+</div>
+<div class="cart-body" id="cartBody">
+<div class="empty-cart">
+<span class="ic">🛒</span>
+<p>Savatingiz hozircha bo'sh.<br>Mahsulot qo'shish uchun "+" tugmasini bosing.</p>
+</div>
+</div>
+<div class="cart-foot" id="cartFoot" style="display:none;">
+<div class="cart-total-row">
+<span>Jami</span>
+<span id="cartTotal">0 so'm</span>
+</div>
+<button class="btn full-btn" id="goCheckout">Buyurtma berish</button>
+</div>
+</div>
+
+<div class="checkout-modal" id="checkoutModal">
+
+<div id="checkoutStep">
+<div class="checkout-head">
+<h3>Buyurtmani rasmiylashtirish</h3>
+<div class="close-x" id="closeCheckout">✕</div>
+</div>
+
+<form class="checkout-form" id="orderForm" novalidate>
+
+<div class="checkout-total">
+<span>To'lanadigan summa</span>
+<span id="checkoutTotal">0 so'm</span>
+</div>
+
+<div class="form-group">
+<label>Ism va familiya</label>
+<input type="text" id="custName" placeholder="Masalan: Aziz Rahimov">
+</div>
+
+<div class="form-group">
+<label>Telefon raqam</label>
+<input type="tel" id="custPhone" placeholder="+998 90 123 45 67">
+</div>
+
+<div class="form-group">
+<label>Yetkazib berish manzili</label>
+<input type="text" id="custAddress" placeholder="Shahar, tuman, ko'cha, uy">
+</div>
+
+<div class="form-group">
+<label>To'lov usuli</label>
+<div class="pay-options">
+<div class="pay-option active" data-pay="naxt">💵 Naqd pul</div>
+<div class="pay-option" data-pay="karta">💳 Karta orqali</div>
+</div>
+</div>
+
+<div class="card-fields" id="cardFields">
+
+<div class="form-group">
+<label>Karta brendi</label>
+<div class="brand-options">
+<div class="brand-btn active" data-brand="Uzcard">UZCARD</div>
+<div class="brand-btn" data-brand="Humo">HUMO</div>
+<div class="brand-btn" data-brand="Visa">VISA</div>
+<div class="brand-btn" data-brand="Mastercard">MASTER</div>
+</div>
+</div>
+
+<div class="form-group">
+<label>Karta raqami</label>
+<input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+</div>
+
+<div class="form-row">
+<div class="form-group">
+<label>Amal qilish muddati</label>
+<input type="text" id="cardExpiry" placeholder="OO/YY" maxlength="5">
+</div>
+<div class="form-group">
+<label>CVV</label>
+<input type="text" id="cardCvv" placeholder="•••" maxlength="3">
+</div>
+</div>
+
+</div>
+
+<button type="submit" class="btn submit-order">Buyurtmani tasdiqlash</button>
+
+</form>
+</div>
+
+<div class="success-view" id="successStep" style="display:none;">
+<span class="ic">✅</span>
+<h3>Buyurtma qabul qilindi!</h3>
+<p>Buyurtmangiz farmatsevtimiz tomonidan tekshirilmoqda. Tez orada operatorimiz siz bilan bog'lanadi.</p>
+<div class="sms-note" id="smsNote">📩 Admin (@man_adminn) ga Telegram orqali yuborilmoqda...</div>
+<p style="font-size:12.5px;color:#8A9A8F;">Buyurtma raqami: <span id="orderNum"></span></p>
+<button class="btn full-btn" id="closeSuccess" style="margin-top:20px;">Yopish</button>
+</div>
+
+</div>
+
+<div class="toast" id="toast">✓ Mahsulot savatga qo'shildi</div>
+
+<script>
+/* ================= TABS ================= */
+
+document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+        document.querySelector('.tab.active').classList.remove('active');
+        tab.classList.add('active');
+    });
+});
+
+/* ================= FAQ ================= */
+
+document.querySelectorAll('.faq-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+        item.classList.toggle('open');
+    });
+});
+
+/* ================= TOAST ================= */
+
+const toast = document.getElementById('toast');
+let toastTimer = null;
+
+function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>toast.classList.remove('show'), 2400);
+}
+
+/* ================= WISHLIST (like -> move to top) ================= */
+
+document.querySelectorAll('.wishlist').forEach(w=>{
+    w.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        const liked = w.textContent.trim() === '♡';
+        w.textContent = liked ? '♥' : '♡';
+        w.style.color = liked ? '#D9503A' : '';
+
+        if(liked){
+            const card = w.closest('.product-card');
+            const grid = card ? card.parentElement : null;
+            if(card && grid){
+                grid.prepend(card);
+                card.style.animation = 'none';
+                requestAnimationFrame(()=>{ card.style.animation = 'likePop .4s ease'; });
+                showToast('♥ Sevimlilarga qo\'shildi va ro\'yxat boshiga chiqarildi');
+            }
+        }
+    });
+});
+
+/* ================= SEARCH ================= */
+
+const searchBtn = document.getElementById('searchBtn');
+const searchBar = document.getElementById('searchBar');
+const searchInput = document.getElementById('searchInput');
+const closeSearch = document.getElementById('closeSearch');
+
+searchBtn.addEventListener('click', ()=>{
+    searchBar.classList.toggle('open');
+    if(searchBar.classList.contains('open')) searchInput.focus();
+});
+
+closeSearch.addEventListener('click', ()=>{
+    searchBar.classList.remove('open');
+    searchInput.value = '';
+    filterProducts('');
+});
+
+searchInput.addEventListener('input', ()=>{
+    filterProducts(searchInput.value.trim().toLowerCase());
+});
+
+searchInput.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){
+        e.preventDefault();
+        scrollToProducts();
+    }
+});
+
+function filterProducts(query){
+    let totalVisible = 0;
+    document.querySelectorAll('.grid-products').forEach(grid=>{
+        let visibleCount = 0;
+        grid.querySelectorAll('.product-card').forEach(card=>{
+            const name = card.querySelector('h4').textContent.toLowerCase();
+            const cat = card.querySelector('.product-cat').textContent.toLowerCase();
+            const match = !query || name.includes(query) || cat.includes(query);
+            card.style.display = match ? '' : 'none';
+            if(match) visibleCount++;
+        });
+        totalVisible += visibleCount;
+
+        let msg = grid.querySelector('.no-match');
+        if(visibleCount === 0 && query){
+            if(!msg){
+                msg = document.createElement('div');
+                msg.className = 'no-match';
+                grid.appendChild(msg);
+            }
+            msg.textContent = '😕 "' + query + '" bo\'yicha mahsulot topilmadi';
+        } else if(msg){
+            msg.remove();
+        }
+    });
+
+    if(query) scrollToProducts();
+}
+
+/* ================= NAV / SCROLL BUTTONS ================= */
+
+function scrollToProducts(){
+    const el = document.getElementById('products');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+document.getElementById('headerOrderBtn').addEventListener('click', scrollToProducts);
+
+/* mobile hamburger menu */
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+
+hamburgerBtn.addEventListener('click', ()=>{
+    const opening = !mobileNav.classList.contains('open');
+    mobileNav.classList.toggle('open');
+    hamburgerBtn.textContent = opening ? '✕' : '☰';
+});
+
+document.querySelectorAll('.mobile-link').forEach(link=>{
+    link.addEventListener('click', ()=>{
+        mobileNav.classList.remove('open');
+        hamburgerBtn.textContent = '☰';
+    });
+});
+
+document.getElementById('mobileOrderBtn').addEventListener('click', ()=>{
+    mobileNav.classList.remove('open');
+    hamburgerBtn.textContent = '☰';
+    scrollToProducts();
+});
+document.getElementById('heroShopBtn').addEventListener('click', scrollToProducts);
+document.getElementById('ctaShopBtn').addEventListener('click', scrollToProducts);
+document.getElementById('seeAllBtn').addEventListener('click', ()=>{
+    showToast('Barcha mahsulotlar yuklandi');
+    scrollToProducts();
+});
+
+document.getElementById('heroLearnBtn').addEventListener('click', ()=>{
+    const el = document.querySelector('.why-grid');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+/* category cards jump to catalog */
+document.querySelectorAll('.cat-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+        scrollToProducts();
+    });
+});
+
+/* promo cards */
+document.getElementById('promoSubBtn').addEventListener('click', ()=>{
+    showToast('✓ Oylik obunaga yozildingiz');
+});
+document.getElementById('promoChatBtn').addEventListener('click', ()=>{
+    showToast('💬 Farmatsevt bilan chat tez orada ochiladi');
+});
+
+/* doctors */
+document.querySelectorAll('.doc-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+        const name = btn.closest('.doc-card').querySelector('h4').textContent;
+        showToast('📞 ' + name + ' bilan bog\'lanish so\'rovi yuborildi');
+    });
+});
+
+/* blog cards */
+document.querySelectorAll('.blog-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+        showToast('📰 Maqola tez orada to\'liq ochiladi');
+    });
+});
+
+/* app badges */
+document.querySelectorAll('.app-badge').forEach(badge=>{
+    badge.addEventListener('click', ()=>{
+        const store = badge.querySelector('strong').textContent;
+        showToast('📱 ' + store + ' uchun ilova tez orada chiqadi');
+    });
+});
+
+/* newsletter */
+document.getElementById('newsletterBtn').addEventListener('click', ()=>{
+    const input = document.getElementById('newsletterEmail');
+    const val = input.value.trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    if(!ok){
+        input.classList.add('field-error');
+        setTimeout(()=>input.classList.remove('field-error'), 500);
+        showToast('To\'g\'ri email manzil kiriting');
+        return;
+    }
+    showToast('✓ Obuna muvaffaqiyatli amalga oshirildi');
+    input.value = '';
+});
+
+/* ================= CART ================= */
+
+let cart = [];
+
+/* ---- Telegram admin notification config ----
+   1) Telegram'da @BotFather ga yozing, /newbot buyrug'i bilan bot yarating — u sizga TOKEN beradi.
+   2) Admin (@man_adminn) shu botga /start yozishi kerak — aks holda bot unga xabar yubora olmaydi
+      (Telegram maxfiylik siyosati tufayli botlar userga faqat u botni ishga tushirgandan keyin yoza oladi).
+   3) Admin /start yozgandan so'ng https://api.telegram.org/bot<TOKEN>/getUpdates sahifasini oching —
+      javobda "chat":{"id": ...} qiymatini topib, pastga CHAT_ID sifatida qo'ying.
+   Token va chat_id kiritilmaguncha, xabar faqat brauzer konsoliga (F12) yoziladi — sayt baribir ishlayveradi. */
+const TELEGRAM_BOT_TOKEN = ''; // masalan: '7123456789:AAExampleTokenHere'
+const TELEGRAM_CHAT_ID   = '8480297110'; // @man_adminn ning shaxsiy chat_id raqami
+
+async function sendAdminNotification(text){
+    if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID){
+        console.log('[PharmaCare] Telegram sozlanmagan — konsolga yozildi:\n' + text);
+        return {ok:false, reason:'not-configured'};
+    }
+    try{
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text })
+        });
+        const data = await res.json();
+        if(!data.ok) console.log('[PharmaCare] Telegram xatosi:', data);
+        return data;
+    }catch(err){
+        console.log('[PharmaCare] Telegram yuborishda xatolik:', err);
+        return {ok:false, reason:'network-error'};
+    }
+}
+
+const overlay = document.getElementById('overlay');
+const cartDrawer = document.getElementById('cartDrawer');
+const cartBtn = document.getElementById('cartBtn');
+const closeCartBtn = document.getElementById('closeCart');
+const cartBody = document.getElementById('cartBody');
+const cartFoot = document.getElementById('cartFoot');
+const cartBadge = document.getElementById('cartBadge');
+const cartTotal = document.getElementById('cartTotal');
+const checkoutModal = document.getElementById('checkoutModal');
+const goCheckout = document.getElementById('goCheckout');
+const closeCheckoutBtn = document.getElementById('closeCheckout');
+const checkoutTotal = document.getElementById('checkoutTotal');
+const checkoutStep = document.getElementById('checkoutStep');
+const successStep = document.getElementById('successStep');
+
+function parsePrice(text){
+    return parseInt(text.replace(/[^\d]/g,''),10) || 0;
+}
+
+function openOverlay(){ overlay.classList.add('show'); }
+function closeOverlay(){ overlay.classList.remove('show'); }
+
+function openCart(){
+    renderCart();
+    cartDrawer.classList.add('open');
+    openOverlay();
+}
+function closeCartFn(){
+    cartDrawer.classList.remove('open');
+    if(!checkoutModal.classList.contains('show')) closeOverlay();
+}
+
+cartBtn.addEventListener('click', openCart);
+closeCartBtn.addEventListener('click', closeCartFn);
+overlay.addEventListener('click', ()=>{
+    closeCartFn();
+    closeCheckoutFn();
+});
+
+document.querySelectorAll('.product-card').forEach(card=>{
+    const addBtn = card.querySelector('.add-btn');
+    if(!addBtn) return;
+    addBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const name = card.querySelector('h4').textContent.trim();
+        const priceEl = card.querySelector('.price strong');
+        const price = parsePrice(priceEl.textContent);
+        const thumbEl = card.querySelector('.product-thumb img');
+        const thumb = thumbEl ? thumbEl.outerHTML : '💊';
+
+        const existing = cart.find(i=>i.name===name);
+        if(existing){
+            existing.qty += 1;
+        } else {
+            cart.push({name, price, qty:1, thumb});
+        }
+        updateBadge();
+        showToast('✓ "' + name + '" savatga qo\'shildi');
+    });
+});
+
+function updateBadge(){
+    const count = cart.reduce((s,i)=>s+i.qty,0);
+    cartBadge.textContent = count;
+}
+
+function cartSum(){
+    return cart.reduce((s,i)=>s+i.price*i.qty,0);
+}
+
+function fmt(n){
+    return n.toLocaleString('en-US').replace(/,/g,' ') + " so'm";
+}
+
+function renderCart(){
+    if(cart.length===0){
+        cartBody.innerHTML = '<div class="empty-cart"><span class="ic">🛒</span><p>Savatingiz hozircha bo\'sh.<br>Mahsulot qo\'shish uchun "+" tugmasini bosing.</p></div>';
+        cartFoot.style.display = 'none';
+        return;
+    }
+    cartFoot.style.display = 'block';
+    cartBody.innerHTML = cart.map((item, idx)=>`
+        <div class="cart-row">
+            <div class="cart-thumb">${item.thumb}</div>
+            <div class="cart-info">
+                <h5>${item.name}</h5>
+                <div class="cart-price">${fmt(item.price)}</div>
+                <div class="qty-box">
+                    <button type="button" data-act="dec" data-idx="${idx}">−</button>
+                    <span>${item.qty}</span>
+                    <button type="button" data-act="inc" data-idx="${idx}">+</button>
+                </div>
+            </div>
+            <button type="button" class="remove-x" data-act="remove" data-idx="${idx}">✕</button>
+        </div>
+    `).join('');
+    cartTotal.textContent = fmt(cartSum());
+
+    cartBody.querySelectorAll('[data-act]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+            const idx = parseInt(btn.dataset.idx,10);
+            const act = btn.dataset.act;
+            if(act==='inc') cart[idx].qty += 1;
+            if(act==='dec'){
+                cart[idx].qty -= 1;
+                if(cart[idx].qty<=0) cart.splice(idx,1);
+            }
+            if(act==='remove') cart.splice(idx,1);
+            updateBadge();
+            renderCart();
+        });
+    });
+}
+
+/* ================= CHECKOUT ================= */
+
+function openCheckout(){
+    if(cart.length===0){
+        showToast('Avval savatga mahsulot qo\'shing');
+        return;
+    }
+    checkoutStep.style.display = 'block';
+    successStep.style.display = 'none';
+    checkoutTotal.textContent = fmt(cartSum());
+    cartDrawer.classList.remove('open');
+    checkoutModal.classList.add('show');
+    openOverlay();
+}
+
+function closeCheckoutFn(){
+    checkoutModal.classList.remove('show');
+    closeOverlay();
+}
+
+goCheckout.addEventListener('click', openCheckout);
+closeCheckoutBtn.addEventListener('click', closeCheckoutFn);
+
+/* payment method toggle */
+const payOptions = document.querySelectorAll('.pay-option');
+const cardFields = document.getElementById('cardFields');
+let selectedPay = 'naxt';
+
+payOptions.forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+        payOptions.forEach(o=>o.classList.remove('active'));
+        opt.classList.add('active');
+        selectedPay = opt.dataset.pay;
+        cardFields.classList.toggle('show', selectedPay==='karta');
+    });
+});
+
+/* card brand toggle */
+const brandBtns = document.querySelectorAll('.brand-btn');
+let selectedBrand = 'Uzcard';
+brandBtns.forEach(b=>{
+    b.addEventListener('click', ()=>{
+        brandBtns.forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        selectedBrand = b.dataset.brand;
+    });
+});
+
+/* card number auto formatting */
+const cardNumberInput = document.getElementById('cardNumber');
+cardNumberInput.addEventListener('input', ()=>{
+    let digits = cardNumberInput.value.replace(/\D/g,'').slice(0,16);
+    cardNumberInput.value = digits.replace(/(.{4})/g,'$1 ').trim();
+});
+
+const cardExpiry = document.getElementById('cardExpiry');
+cardExpiry.addEventListener('input', ()=>{
+    let digits = cardExpiry.value.replace(/\D/g,'').slice(0,4);
+    if(digits.length>=3) digits = digits.slice(0,2)+'/'+digits.slice(2);
+    cardExpiry.value = digits;
+});
+
+const cardCvv = document.getElementById('cardCvv');
+cardCvv.addEventListener('input', ()=>{
+    cardCvv.value = cardCvv.value.replace(/\D/g,'').slice(0,3);
+});
+
+/* ---- manual validation helpers ---- */
+
+function markError(input){
+    input.classList.add('field-error');
+    setTimeout(()=>input.classList.remove('field-error'), 500);
+}
+
+function clearErrors(){
+    document.querySelectorAll('#orderForm .field-error').forEach(el=>el.classList.remove('field-error'));
+}
+
+/* order submit — fully manual validation (no native browser validation,
+   which fails silently inside this fixed/transformed modal) */
+
+const orderForm = document.getElementById('orderForm');
+const orderNum = document.getElementById('orderNum');
+const closeSuccess = document.getElementById('closeSuccess');
+const submitBtn = document.querySelector('.submit-order');
+
+function submitOrder(){
+    clearErrors();
+
+    const nameEl = document.getElementById('custName');
+    const phoneEl = document.getElementById('custPhone');
+    const addrEl = document.getElementById('custAddress');
+
+    let valid = true;
+    let firstBad = null;
+
+    if(nameEl.value.trim().length < 2){
+        markError(nameEl); valid = false; firstBad = firstBad || nameEl;
+    }
+    if(phoneEl.value.trim().length < 7){
+        markError(phoneEl); valid = false; firstBad = firstBad || phoneEl;
+    }
+    if(addrEl.value.trim().length < 5){
+        markError(addrEl); valid = false; firstBad = firstBad || addrEl;
+    }
+
+    if(selectedPay==='karta'){
+        const digits = cardNumberInput.value.replace(/\D/g,'');
+        if(digits.length < 16){
+            markError(cardNumberInput); valid = false; firstBad = firstBad || cardNumberInput;
+        }
+        if(cardExpiry.value.length < 5){
+            markError(cardExpiry); valid = false; firstBad = firstBad || cardExpiry;
+        }
+        if(cardCvv.value.length < 3){
+            markError(cardCvv); valid = false; firstBad = firstBad || cardCvv;
+        }
+    }
+
+    if(!valid){
+        showToast('Iltimos, belgilangan maydonlarni to\'g\'ri to\'ldiring');
+        if(firstBad) firstBad.focus();
+        return;
+    }
+
+    const id = 'PC-' + Math.floor(10000 + Math.random()*89999);
+    orderNum.textContent = id;
+
+    const payLabel = selectedPay==='karta' ? (selectedBrand + ' karta') : 'Naqd pul';
+    const orderData = {
+        id,
+        customer: nameEl.value.trim(),
+        phone: phoneEl.value.trim(),
+        address: addrEl.value.trim(),
+        total: cartSum(),
+        payment: payLabel,
+        items: cart
+    };
+    console.log('[PharmaCare] Yangi buyurtma:', orderData);
+
+    const itemsText = cart.map(i => `• ${i.name} x${i.qty} — ${fmt(i.price*i.qty)}`).join('\n');
+    const tgText =
+`🆕 Yangi buyurtma — PharmaCare
+🧾 Raqam: ${id}
+👤 Mijoz: ${orderData.customer}
+📞 Tel: ${orderData.phone}
+📍 Manzil: ${orderData.address}
+💳 To'lov: ${payLabel}
+${itemsText}
+💰 Jami: ${fmt(orderData.total)}`;
+
+    const smsNote = document.getElementById('smsNote');
+    if(smsNote) smsNote.textContent = '📩 Admin (@man_adminn) ga Telegram orqali yuborilmoqda...';
+
+    checkoutStep.style.display = 'none';
+    successStep.style.display = 'block';
+
+    sendAdminNotification(tgText).then(res=>{
+        if(!smsNote) return;
+        if(res.ok){
+            smsNote.textContent = '📩 Admin (@man_adminn) Telegram orqali xabardor qilindi';
+        } else if(res.reason === 'not-configured'){
+            smsNote.textContent = '⚠️ Telegram bot sozlanmagan — xabar konsolga yozildi (sinov rejimi)';
+        } else {
+            smsNote.textContent = '⚠️ Telegram xabarini yuborib bo\'lmadi — qayta urinib ko\'ring';
+        }
+    });
+
+    cart = [];
+    updateBadge();
+}
+
+orderForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    submitOrder();
+});
+
+/* extra safety net: some environments swallow form submit events
+   inside sandboxed iframes, so also bind the button click directly */
+submitBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    submitOrder();
+});
+
+closeSuccess.addEventListener('click', ()=>{
+    closeCheckoutFn();
+    orderForm.reset();
+    clearErrors();
+    payOptions[0].click();
+});
+
+/* ================= TELEGRAM DIAGNOSTICS =================
+   Click "Telegram ulanishini tekshirish" in the footer to send a
+   real test message and see exactly what Telegram's API returned —
+   this pinpoints whether the problem is the token, the chat id,
+   or the browser/network blocking the request entirely. */
+
+const tgTestLink = document.getElementById('tgTestLink');
+if(tgTestLink){
+    tgTestLink.addEventListener('click', async (e)=>{
+        e.preventDefault();
+
+        if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID){
+            showToast('⚠️ Avval TELEGRAM_BOT_TOKEN va TELEGRAM_CHAT_ID ni kiriting');
+            return;
+        }
+
+        showToast('⏳ Test xabari yuborilmoqda...');
+        console.log('[PharmaCare][TG TEST] So\'rov yuborilmoqda...');
+
+        const result = await sendAdminNotification('🔧 PharmaCare test xabari — ulanish ishlayapti!');
+
+        console.log('[PharmaCare][TG TEST] Telegram javobi:', result);
+
+        if(result.ok){
+            showToast('✅ Test xabari yuborildi — Telegramni tekshiring');
+        } else if(result.reason === 'not-configured'){
+            showToast('⚠️ Token/chat_id kiritilmagan');
+        } else if(result.reason === 'network-error'){
+            showToast('❌ Tarmoq xatosi — batafsili uchun konsolni (F12) oching');
+        } else if(result.error_code){
+            showToast('❌ Telegram xatosi ' + result.error_code + ': ' + (result.description || '') );
+        } else {
+            showToast('❌ Noma\'lum xato — konsolni (F12) tekshiring');
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>
