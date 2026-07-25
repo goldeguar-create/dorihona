@@ -2747,26 +2747,36 @@ let cart = [];
       javobda "chat":{"id": ...} qiymatini topib, pastga CHAT_ID sifatida qo'ying.
    Token va chat_id kiritilmaguncha, xabar faqat brauzer konsoliga (F12) yoziladi — sayt baribir ishlayveradi. */
 const TELEGRAM_BOT_TOKEN = '7880982758:AAHsteBEMXv79Y-rChwGRup0051joizHFX0'; // masalan: '7123456789:AAExampleTokenHere'
-const TELEGRAM_CHAT_ID   = '8480297110'; // @man_adminn ning shaxsiy chat_id raqami
+const TELEGRAM_CHAT_IDS  = ['8480297110', '']; // bir nechta admin — har birining chat_id'sini shu ro'yxatga qo'shing
 
 async function sendAdminNotification(text){
-    if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID){
+    const validIds = TELEGRAM_CHAT_IDS.filter(id => id && id.trim().length > 0);
+
+    if(!TELEGRAM_BOT_TOKEN || validIds.length === 0){
         console.log('[PharmaCare] Telegram sozlanmagan — konsolga yozildi:\n' + text);
         return {ok:false, reason:'not-configured'};
     }
-    try{
-        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text })
-        });
-        const data = await res.json();
-        if(!data.ok) console.log('[PharmaCare] Telegram xatosi:', data);
-        return data;
-    }catch(err){
-        console.log('[PharmaCare] Telegram yuborishda xatolik:', err);
-        return {ok:false, reason:'network-error'};
-    }
+
+    const results = await Promise.all(validIds.map(async (chatId) => {
+        try{
+            const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({ chat_id: chatId, text })
+            });
+            const data = await res.json();
+            if(!data.ok) console.log('[PharmaCare] Telegram xatosi (' + chatId + '):', data);
+            return data;
+        }catch(err){
+            console.log('[PharmaCare] Telegram yuborishda xatolik (' + chatId + '):', err);
+            return {ok:false, reason:'network-error'};
+        }
+    }));
+
+    /* muvaffaqiyatli deb hisoblanadi, agar kamida bitta adminga yetib borsa */
+    const anyOk = results.some(r => r.ok);
+    if(anyOk) return {ok:true, results};
+    return results[0] || {ok:false, reason:'unknown'};
 }
 
 const overlay = document.getElementById('overlay');
@@ -3085,8 +3095,9 @@ if(tgTestLink){
     tgTestLink.addEventListener('click', async (e)=>{
         e.preventDefault();
 
-        if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID){
-            showToast('⚠️ Avval TELEGRAM_BOT_TOKEN va TELEGRAM_CHAT_ID ni kiriting');
+        const hasChatId = TELEGRAM_CHAT_IDS.some(id => id && id.trim().length > 0);
+        if(!TELEGRAM_BOT_TOKEN || !hasChatId){
+            showToast('⚠️ Avval TELEGRAM_BOT_TOKEN va TELEGRAM_CHAT_IDS ni kiriting');
             return;
         }
 
