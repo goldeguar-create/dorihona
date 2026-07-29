@@ -1814,7 +1814,7 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 </nav>
 
 <div class="header-right">
-<button class="btn" id="installBtn" style="display:none;background:var(--amber);">📲 Ilovani o'rnatish</button>
+<button class="btn" id="installBtn" style="background:var(--amber);">📲 Ilovani o'rnatish</button>
 <div class="icon-btn" id="searchBtn">🔍</div>
 <div class="icon-btn" id="cartBtn">🛒<span class="badge" id="cartBadge">0</span></div>
 <button class="btn" id="headerOrderBtn">Buyurtma berish</button>
@@ -1829,7 +1829,7 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 <a href="#" class="mobile-link">Kategoriyalar</a>
 <a href="#" class="mobile-link">Shifokorlar</a>
 <a href="#" class="mobile-link">Aloqa</a>
-<button class="btn full-btn" id="mobileInstallBtn" style="display:none;background:var(--amber);margin-bottom:10px;">📲 Ilovani o'rnatish</button>
+<button class="btn full-btn" id="mobileInstallBtn" style="background:var(--amber);margin-bottom:10px;">📲 Ilovani o'rnatish</button>
 <button class="btn full-btn" id="mobileOrderBtn">Buyurtma berish</button>
 </div>
 
@@ -4399,30 +4399,46 @@ function hideInstallButtons(){
     if(mobileInstallBtn) mobileInstallBtn.style.display = 'none';
 }
 
-/* already running as an installed app (standalone) -> nothing to offer */
+/* already running as an installed app (standalone) -> hide, nothing to offer */
 const runningStandalone = window.matchMedia('(display-mode: standalone)').matches
     || window.navigator.standalone === true;
 
-if(!runningStandalone){
+if(runningStandalone){
+    hideInstallButtons();
+} else {
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredInstallPrompt = e;
-        showInstallButtons();
     });
 }
 
+const ua = navigator.userAgent || '';
+const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+const isAndroid = /Android/.test(ua);
+const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+
 async function triggerInstall(){
-    if(!deferredInstallPrompt){
-        showToast('📲 Ilova sifatida o\'rnatish uchun brauzeringiz menyusidan "Ilovani o\'rnatish / Add to Home screen" ni tanlang');
+    /* native install prompt available (mostly Chrome/Edge on Android/desktop) */
+    if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if(choice && choice.outcome === 'accepted'){
+            showToast('✓ PharmaCare ilova sifatida o\'rnatilmoqda...');
+        }
+        deferredInstallPrompt = null;
         return;
     }
-    deferredInstallPrompt.prompt();
-    const choice = await deferredInstallPrompt.userChoice;
-    if(choice && choice.outcome === 'accepted'){
-        showToast('✓ PharmaCare ilova sifatida o\'rnatilmoqda...');
+
+    /* no native prompt -> give platform-specific manual instructions */
+    if(isIOS && isSafari){
+        showToast('📲 Pastdagi "Ulashish" (⬆️) tugmasini bosing, so\'ng "Bosh ekranga qo\'shish" ni tanlang');
+    } else if(isIOS){
+        showToast('📲 Bu havolani Safari brauzerida oching, so\'ng "Ulashish → Bosh ekranga qo\'shish"ni tanlang');
+    } else if(isAndroid){
+        showToast('📲 Brauzer menyusidan (⋮) "Ilovani o\'rnatish" yoki "Bosh ekranga qo\'shish"ni tanlang');
+    } else {
+        showToast('📲 Brauzeringiz manzil qatoridagi o\'rnatish belgisini yoki menyudagi "Ilovani o\'rnatish"ni bosing');
     }
-    deferredInstallPrompt = null;
-    hideInstallButtons();
 }
 
 if(installBtn) installBtn.addEventListener('click', triggerInstall);
