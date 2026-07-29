@@ -1490,12 +1490,304 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
     .news-form input{width:100%;}
     .doc-grid{grid-template-columns:1fr;}
 }
+/* ===== LOADER ===== */
+#loader{
+    position:fixed;
+    inset:0;
+    background:#ffffff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+    transition:opacity .6s ease, visibility .6s;
+}
 
+#loader.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.loader-box{
+    text-align:center;
+}
+
+.spinner{
+    width:80px;
+    height:80px;
+    border:8px solid #d9f5e3;
+    border-top:8px solid #18A558;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:0 auto 20px;
+}
+
+.loader-box h2{
+    color:#18A558;
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.loader-box p{
+    color:#666;
+    font-size:15px;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+/* ===== AI ASSISTANT ===== */
+
+.ai-fab{
+    position:fixed;
+    bottom:26px;
+    right:26px;
+    z-index:150;
+    height:56px;
+    padding:0 22px 0 18px;
+    border-radius:30px;
+    background:var(--green-deep);
+    color:#fff;
+    border:none;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    box-shadow:0 14px 34px rgba(15,92,56,.35);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    transition:.25s;
+}
+
+.ai-fab:hover{background:var(--ink);transform:translateY(-3px);}
+
+.ai-fab .ai-ic{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:rgba(255,255,255,.16);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+}
+
+.ai-modal{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-48%);
+    width:520px;
+    max-width:92vw;
+    max-height:86vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:20px;
+    z-index:210;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    box-shadow:0 40px 90px rgba(15,92,56,.25);
+}
+
+.ai-modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%);}
+
+.ai-head{
+    padding:26px 28px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+}
+
+.ai-head-left{display:flex;gap:14px;align-items:center;}
+
+.ai-head-ic{
+    width:46px;
+    height:46px;
+    border-radius:12px;
+    background:var(--mint);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    flex-shrink:0;
+}
+
+.ai-head h3{font-size:19px;line-height:1.25;}
+.ai-head span{font-size:12.5px;color:#8A9A8F;font-family:'Space Mono',monospace;}
+
+.ai-body{padding:20px 28px 28px;}
+
+.ai-disclaimer{
+    background:var(--amber-soft);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:12.5px;
+    line-height:1.6;
+    color:#6B4C1A;
+    margin-bottom:18px;
+}
+
+.ai-chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:18px;
+}
+
+.ai-chip{
+    padding:8px 14px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    font-size:12.5px;
+    font-weight:600;
+    color:#4B5A50;
+    cursor:pointer;
+    transition:.2s;
+    font-family:'Inter',sans-serif;
+}
+
+.ai-chip:hover{border-color:var(--green);color:var(--green-deep);background:var(--mint);}
+
+.ai-input-row{display:flex;gap:10px;margin-bottom:6px;}
+
+.ai-input-row textarea{
+    flex:1;
+    min-height:64px;
+    max-height:140px;
+    resize:vertical;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+}
+
+.ai-input-row textarea:focus{outline:none;border-color:var(--green);}
+
+.ai-submit{
+    align-self:flex-end;
+    height:44px;
+    padding:0 20px;
+    margin-top:auto;
+}
+
+.ai-results{margin-top:20px;display:none;}
+
+.ai-results.show{display:block;}
+
+.ai-results-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--green-deep);
+}
+
+.ai-loading{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:20px 0;
+    color:#5A6B60;
+    font-size:13.5px;
+}
+
+.ai-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--green);
+    animation:aiPulse 1s infinite ease-in-out;
+}
+
+.ai-dot:nth-child(2){animation-delay:.15s;}
+.ai-dot:nth-child(3){animation-delay:.3s;}
+
+@keyframes aiPulse{
+    0%,100%{opacity:.3;transform:scale(.8);}
+    50%{opacity:1;transform:scale(1.1);}
+}
+
+.ai-product{
+    display:flex;
+    gap:14px;
+    padding:14px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    margin-bottom:12px;
+    align-items:center;
+    transition:.2s;
+}
+
+.ai-product:hover{border-color:var(--green);background:var(--mint);}
+
+.ai-product-thumb{
+    width:56px;
+    height:56px;
+    border-radius:10px;
+    overflow:hidden;
+    flex-shrink:0;
+    background:var(--mint);
+}
+
+.ai-product-thumb img{width:100%;height:100%;object-fit:cover;}
+
+.ai-product-info{flex:1;min-width:0;}
+.ai-product-info h5{font-size:13.5px;font-weight:600;line-height:1.35;font-family:'Inter',sans-serif;margin-bottom:4px;}
+.ai-product-info .ai-why{font-size:11.5px;color:#8A9A8F;line-height:1.5;}
+.ai-product-info .ai-price{font-family:'Fraunces',serif;font-size:14.5px;color:var(--green-deep);margin-top:4px;}
+
+.ai-add-btn{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:none;
+    background:var(--green-deep);
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:.2s;
+}
+
+.ai-add-btn:hover{background:var(--amber);}
+
+.ai-no-result{
+    text-align:center;
+    padding:24px 10px;
+    color:#8A9A8F;
+    font-size:13.5px;
+    line-height:1.7;
+}
+
+.ai-footnote{
+    margin-top:16px;
+    font-size:11.5px;
+    color:#8A9A8F;
+    line-height:1.6;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+}
 </style>
 
 </head>
 <body>
-
+<div id="loader">
+    <div class="loader-box">
+        <div class="spinner"></div>
+        <h2>Care Pharm</h2>
+        <p>Sayt yuklanmoqda...</p>
+    </div>
+</div>
 <div class="announce">💚 Sog'lom bo'ling!</div>
 
 <header>
@@ -1657,6 +1949,31 @@ tasdiqlangan sharh
 
 </section>
 
+<section class="section" id="ai-section">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">AI yordamchi</div>
+<h2>Nima sizni bezovta qilyapti? AI mahsulot tanlashda yordam beradi.</h2>
+</div>
+<p>Shikoyatingizni yozing — sun'iy intellekt katalogimizdan mos mahsulotlarni taklif qiladi.</p>
+</div>
+
+<div style="background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px;display:flex;gap:30px;align-items:center;flex-wrap:wrap;">
+
+<div style="width:64px;height:64px;border-radius:16px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;">🤖</div>
+
+<div style="flex:1;min-width:240px;">
+<h4 style="font-size:18px;margin-bottom:6px;">AI dori tavsiyachisi</h4>
+<p style="font-size:13.5px;color:#5A6B60;line-height:1.6;">Masalan: "bosh og'rig'i", "shamollash" yoki "uyqu bezovta" deb yozing — AI sizga mos mahsulotlarni taklif qiladi.</p>
+</div>
+
+<button class="btn" id="openAiBtn">🤖 AI bilan tekshirish</button>
+
+</div>
+
+</section>
+
 <section class="section">
 
 <div class="section-head">
@@ -1795,7 +2112,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220413-50865dc0bb4f?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Ona va bola</span>
 <h4>BabySoft gipoallergenik losyon, 200ml</h4>
@@ -1808,7 +2125,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1679592180719-6d5124363e97?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1702776102021-657894e2033c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Yurak-qon tomir</span>
 <h4>CardioBalance 10mg, 30 tabletka</h4>
@@ -1834,7 +2151,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Uyqu va stress</span>
 <h4>SereneNight melatonin kompleksi</h4>
@@ -1866,7 +2183,7 @@ tasdiqlangan sharh
 <div class="grid-products">
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220323-2e40467b0744?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>SunShield SPF50 quyosh kremi, 100ml</h4>
@@ -1918,7 +2235,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220388-17d1218ff01f?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Ona va bola</span>
 <h4>ColicEase chaqaloq shamollash tomchisi</h4>
@@ -1944,7 +2261,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Uyqu va stress</span>
 <h4>CalmLeaf valeriana ekstrakti, 30 kapsula</h4>
@@ -1985,7 +2302,7 @@ tasdiqlangan sharh
 <div class="grid-products">
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1679592180719-6d5124363e97?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-30%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1704895376532-c565c7c3c231?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-30%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Og'riq qoldiruvchi</span>
 <h4>FlexoGel og'riq qoldiruvchi jel, 100g</h4>
@@ -1998,7 +2315,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-25%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-25%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Vitaminlar</span>
 <h4>MultiVita kompleks, 90 tabletka</h4>
@@ -2011,7 +2328,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220370-07ead417d683?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>AcneClear tozalovchi gel, 150ml</h4>
@@ -2037,7 +2354,7 @@ tasdiqlangan sharh
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220300-3a51676e466e?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Ona va bola</span>
 <h4>PureFeed chaqaloq shishasi, 250ml</h4>
@@ -2110,33 +2427,33 @@ tasdiqlangan sharh
 <h4>NeoPain kuchli og'riq qoldiruvchi, 10 ampula</h4>
 <div class="rating">★★★★★ <span>(30)</span></div>
 <div class="price-row">
-<div class="price"><strong>42,000 so'm</strong><del>52,000</del></div>
+<div class="price"><strong>47,000 so'm</strong><del>52,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1679592180719-6d5124363e97?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1702776102021-657894e2033c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Sovuq va gripp</span>
 <h4>ColdFlu grippga qarshi kompleks, 12 tabletka</h4>
 <div class="rating">★★★★☆ <span>(143)</span></div>
 <div class="price-row">
-<div class="price"><strong>31,000 so'm</strong></div>
+<div class="price"><strong>36,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1679592180719-6d5124363e97?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1704895376532-c565c7c3c231?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Sovuq va gripp</span>
 <h4>ThroatEase bo'g'iz pastillasi, 24 dona</h4>
 <div class="rating">★★★★★ <span>(89)</span></div>
 <div class="price-row">
-<div class="price"><strong>19,000 so'm</strong></div>
+<div class="price"><strong>24,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2149,33 +2466,33 @@ tasdiqlangan sharh
 <h4>AllerStop antigistamin tabletka, 30 dona</h4>
 <div class="rating">★★★★★ <span>(364)</span></div>
 <div class="price-row">
-<div class="price"><strong>27,000 so'm</strong></div>
+<div class="price"><strong>32,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1679592180719-6d5124363e97?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1702776102021-657894e2033c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Sovuq va gripp</span>
 <h4>SinusClear burun sprayi, 20ml</h4>
 <div class="rating">★★★☆☆ <span>(62)</span></div>
 <div class="price-row">
-<div class="price"><strong>24,000 so'm</strong><del>28,000</del></div>
+<div class="price"><strong>29,000 so'm</strong><del>28,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Vitaminlar</span>
 <h4>VitaminD3 4000IU, 60 kapsula</h4>
 <div class="rating">★★★☆☆ <span>(234)</span></div>
 <div class="price-row">
-<div class="price"><strong>58,000 so'm</strong></div>
+<div class="price"><strong>63,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2188,20 +2505,20 @@ tasdiqlangan sharh
 <h4>Omega-3 baliq yog'i, 90 kapsula</h4>
 <div class="rating">★★★★★ <span>(33)</span></div>
 <div class="price-row">
-<div class="price"><strong>89,000 so'm</strong></div>
+<div class="price"><strong>94,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Vitaminlar</span>
 <h4>ZincPlus rux tabletkasi, 60 dona</h4>
 <div class="rating">★★★★★ <span>(129)</span></div>
 <div class="price-row">
-<div class="price"><strong>46,000 so'm</strong></div>
+<div class="price"><strong>51,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2214,20 +2531,20 @@ tasdiqlangan sharh
 <h4>Kaltsiy+Magniy kompleks, 90 tabletka</h4>
 <div class="rating">★★★★★ <span>(276)</span></div>
 <div class="price-row">
-<div class="price"><strong>62,000 so'm</strong><del>78,000</del></div>
+<div class="price"><strong>67,000 so'm</strong><del>78,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Go'zallik</span>
 <h4>Kolagen go'zallik kompleksi, 60 kapsula</h4>
 <div class="rating">★★★☆☆ <span>(31)</span></div>
 <div class="price-row">
-<div class="price"><strong>118,000 so'm</strong></div>
+<div class="price"><strong>123,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2240,46 +2557,85 @@ tasdiqlangan sharh
 <h4>Biotin soch-tirnoq vitamini, 60 tabletka</h4>
 <div class="rating">★★★☆☆ <span>(119)</span></div>
 <div class="price-row">
-<div class="price"><strong>74,000 so'm</strong></div>
+<div class="price"><strong>79,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220368-52ff7f7b1cc3?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Ona va bola</span>
 <h4>FolikAcid homiladorlik vitamini, 90 tabletka</h4>
 <div class="rating">★★★☆☆ <span>(232)</span></div>
 <div class="price-row">
-<div class="price"><strong>38,000 so'm</strong></div>
+<div class="price"><strong>43,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220359-a29722407593?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Ona va bola</span>
 <h4>PrenatalCare homiladorlar uchun kompleks</h4>
 <div class="rating">★★★★★ <span>(247)</span></div>
 <div class="price-row">
-<div class="price"><strong>96,000 so'm</strong><del>113,000</del></div>
+<div class="price"><strong>101,000 so'm</strong><del>113,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220375-79aa5830f8b9?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Ona va bola</span>
 <h4>KidsVita bolalar uchun vitamin, chaynash</h4>
 <div class="rating">★★★☆☆ <span>(160)</span></div>
 <div class="price-row">
-<div class="price"><strong>54,000 so'm</strong></div>
+<div class="price"><strong>59,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ona va bola</span>
+<h4>BabyDrops D vitamini tomchisi, 15ml</h4>
+<div class="rating">★★★★★ <span>(406)</span></div>
+<div class="price-row">
+<div class="price"><strong>37,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ona va bola</span>
+<h4>GentleWash bolalar shampuni, 300ml</h4>
+<div class="rating">★★★★★ <span>(375)</span></div>
+<div class="price-row">
+<div class="price"><strong>46,000 so'm</strong></div>
+<button class="add-btn">+</button>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
+<div class="product-body">
+<span class="product-cat">Ona va bola</span>
+<h4>DiaperCare pelena kremi, 100ml</h4>
+<div class="rating">★★★★★ <span>(192)</span></div>
+<div class="price-row">
+<div class="price"><strong>41,000 so'm</strong><del>45,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2288,115 +2644,76 @@ tasdiqlangan sharh
 <div class="product-card">
 <div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
-<span class="product-cat">Ona va bola</span>
-<h4>BabyDrops D vitamini tomchisi, 15ml</h4>
-<div class="rating">★★★★★ <span>(406)</span></div>
-<div class="price-row">
-<div class="price"><strong>32,000 so'm</strong></div>
-<button class="add-btn">+</button>
-</div>
-</div>
-</div>
-
-<div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220413-50865dc0bb4f?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
-<div class="product-body">
-<span class="product-cat">Ona va bola</span>
-<h4>GentleWash bolalar shampuni, 300ml</h4>
-<div class="rating">★★★★★ <span>(375)</span></div>
-<div class="price-row">
-<div class="price"><strong>41,000 so'm</strong></div>
-<button class="add-btn">+</button>
-</div>
-</div>
-</div>
-
-<div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220323-2e40467b0744?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
-<div class="product-body">
-<span class="product-cat">Ona va bola</span>
-<h4>DiaperCare pelena kremi, 100ml</h4>
-<div class="rating">★★★★★ <span>(192)</span></div>
-<div class="price-row">
-<div class="price"><strong>36,000 so'm</strong><del>45,000</del></div>
-<button class="add-btn">+</button>
-</div>
-</div>
-</div>
-
-<div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220388-17d1218ff01f?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
-<div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>HydraFace namlantiruvchi seres, 30ml</h4>
 <div class="rating">★★★★☆ <span>(97)</span></div>
 <div class="price-row">
-<div class="price"><strong>87,000 so'm</strong></div>
+<div class="price"><strong>92,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220370-07ead417d683?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-rx">Rx</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>NightRepair tungi krem, 50ml</h4>
 <div class="rating">★★★★★ <span>(408)</span></div>
 <div class="price-row">
-<div class="price"><strong>94,000 so'm</strong></div>
+<div class="price"><strong>99,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220300-3a51676e466e?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>VitC seres, quyosh himoyasi, 30ml</h4>
 <div class="rating">★★★★☆ <span>(70)</span></div>
 <div class="price-row">
-<div class="price"><strong>79,000 so'm</strong></div>
+<div class="price"><strong>84,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220368-52ff7f7b1cc3?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-15%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>CalmSkin sezgir teri uchun losyon</h4>
 <div class="rating">★★★★★ <span>(212)</span></div>
 <div class="price-row">
-<div class="price"><strong>58,000 so'm</strong><del>68,000</del></div>
+<div class="price"><strong>63,000 so'm</strong><del>68,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220359-a29722407593?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>PsoriCare dermatologik krem, 40g</h4>
 <div class="rating">★★★★★ <span>(201)</span></div>
 <div class="price-row">
-<div class="price"><strong>67,000 so'm</strong></div>
+<div class="price"><strong>72,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220375-79aa5830f8b9?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>ScarFade chandiq uchun jel, 20g</h4>
 <div class="rating">★★★★☆ <span>(327)</span></div>
 <div class="price-row">
-<div class="price"><strong>71,000 so'm</strong></div>
+<div class="price"><strong>76,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2409,33 +2726,33 @@ tasdiqlangan sharh
 <h4>EczemaRelief atopik dermatit kremi</h4>
 <div class="rating">★★★★☆ <span>(431)</span></div>
 <div class="price-row">
-<div class="price"><strong>63,000 so'm</strong></div>
+<div class="price"><strong>68,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220413-50865dc0bb4f?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-sale">-20%</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>HandCare qo'l kremi, 75ml</h4>
 <div class="rating">★★★★★ <span>(391)</span></div>
 <div class="price-row">
-<div class="price"><strong>27,000 so'm</strong><del>34,000</del></div>
+<div class="price"><strong>32,000 so'm</strong><del>34,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220323-2e40467b0744?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634327065-e1b653a48566?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Teri parvarishi</span>
 <h4>LipBalm bo'yoqsiz labo balzami</h4>
 <div class="rating">★★★★★ <span>(292)</span></div>
 <div class="price-row">
-<div class="price"><strong>15,000 so'm</strong></div>
+<div class="price"><strong>20,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2448,7 +2765,7 @@ tasdiqlangan sharh
 <h4>DentaCare tish ipi, 50m</h4>
 <div class="rating">★★★★★ <span>(211)</span></div>
 <div class="price-row">
-<div class="price"><strong>12,000 so'm</strong></div>
+<div class="price"><strong>17,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2461,7 +2778,7 @@ tasdiqlangan sharh
 <h4>SensitiveTeeth sezgir tish pastasi</h4>
 <div class="rating">★★★★★ <span>(300)</span></div>
 <div class="price-row">
-<div class="price"><strong>21,000 so'm</strong></div>
+<div class="price"><strong>26,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2474,7 +2791,7 @@ tasdiqlangan sharh
 <h4>KidsBrush bolalar tish cho'tkasi</h4>
 <div class="rating">★★★★☆ <span>(442)</span></div>
 <div class="price-row">
-<div class="price"><strong>18,000 so'm</strong><del>21,000</del></div>
+<div class="price"><strong>23,000 so'm</strong><del>21,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2487,7 +2804,7 @@ tasdiqlangan sharh
 <h4>BreathFresh nafas sprayi, 15ml</h4>
 <div class="rating">★★★☆☆ <span>(471)</span></div>
 <div class="price-row">
-<div class="price"><strong>22,000 so'm</strong></div>
+<div class="price"><strong>27,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2500,7 +2817,7 @@ tasdiqlangan sharh
 <h4>GumCare milk uchun gel, 20g</h4>
 <div class="rating">★★★★☆ <span>(313)</span></div>
 <div class="price-row">
-<div class="price"><strong>26,000 so'm</strong></div>
+<div class="price"><strong>31,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2513,7 +2830,7 @@ tasdiqlangan sharh
 <h4>EyeRelief quruq ko'z tomchisi, 10ml</h4>
 <div class="rating">★★★★★ <span>(378)</span></div>
 <div class="price-row">
-<div class="price"><strong>29,000 so'm</strong></div>
+<div class="price"><strong>34,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2526,7 +2843,7 @@ tasdiqlangan sharh
 <h4>AllergyEye allergik ko'z tomchisi</h4>
 <div class="rating">★★★★★ <span>(41)</span></div>
 <div class="price-row">
-<div class="price"><strong>33,000 so'm</strong><del>41,000</del></div>
+<div class="price"><strong>38,000 so'm</strong><del>41,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2539,7 +2856,7 @@ tasdiqlangan sharh
 <h4>ContactCase linza qutisi va eritma</h4>
 <div class="rating">★★★★★ <span>(413)</span></div>
 <div class="price-row">
-<div class="price"><strong>24,000 so'm</strong></div>
+<div class="price"><strong>29,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2552,7 +2869,7 @@ tasdiqlangan sharh
 <h4>BloodSugar glyukometr test tasmalari, 50</h4>
 <div class="rating">★★★★☆ <span>(58)</span></div>
 <div class="price-row">
-<div class="price"><strong>68,000 so'm</strong></div>
+<div class="price"><strong>73,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2565,7 +2882,7 @@ tasdiqlangan sharh
 <h4>DigitalScale tibbiy tarozi</h4>
 <div class="rating">★★★★★ <span>(461)</span></div>
 <div class="price-row">
-<div class="price"><strong>214,000 so'm</strong></div>
+<div class="price"><strong>219,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2578,7 +2895,7 @@ tasdiqlangan sharh
 <h4>NebulizerMini ingalyator qurilmasi</h4>
 <div class="rating">★★★★★ <span>(212)</span></div>
 <div class="price-row">
-<div class="price"><strong>386,000 so'm</strong><del>454,000</del></div>
+<div class="price"><strong>391,000 so'm</strong><del>454,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2591,7 +2908,7 @@ tasdiqlangan sharh
 <h4>PulseWatch fitnes pulsometri</h4>
 <div class="rating">★★★★☆ <span>(250)</span></div>
 <div class="price-row">
-<div class="price"><strong>298,000 so'm</strong></div>
+<div class="price"><strong>303,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2604,7 +2921,7 @@ tasdiqlangan sharh
 <h4>FirstAidKit birinchi yordam to'plami</h4>
 <div class="rating">★★★★☆ <span>(101)</span></div>
 <div class="price-row">
-<div class="price"><strong>142,000 so'm</strong></div>
+<div class="price"><strong>147,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2617,7 +2934,7 @@ tasdiqlangan sharh
 <h4>HeatingPad issiq kompress yostiqchasi</h4>
 <div class="rating">★★★★☆ <span>(199)</span></div>
 <div class="price-row">
-<div class="price"><strong>96,000 so'm</strong></div>
+<div class="price"><strong>101,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2630,20 +2947,20 @@ tasdiqlangan sharh
 <h4>KneeSupport tizza bandaji</h4>
 <div class="rating">★★★★★ <span>(361)</span></div>
 <div class="price-row">
-<div class="price"><strong>58,000 so'm</strong><del>72,000</del></div>
+<div class="price"><strong>63,000 so'm</strong><del>72,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Uyqu va stress</span>
 <h4>SleepMask uyqu niqobi, ipak</h4>
 <div class="rating">★★★★☆ <span>(377)</span></div>
 <div class="price-row">
-<div class="price"><strong>34,000 so'm</strong></div>
+<div class="price"><strong>39,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2656,20 +2973,20 @@ tasdiqlangan sharh
 <h4>LavenderOil aromaterapiya moyi, 10ml</h4>
 <div class="rating">★★★★★ <span>(329)</span></div>
 <div class="price-row">
-<div class="price"><strong>41,000 so'm</strong></div>
+<div class="price"><strong>46,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Uyqu va stress</span>
 <h4>StressAway magniy glitsinat, 60 kapsula</h4>
 <div class="rating">★★★★★ <span>(291)</span></div>
 <div class="price-row">
-<div class="price"><strong>69,000 so'm</strong></div>
+<div class="price"><strong>74,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2682,20 +2999,20 @@ tasdiqlangan sharh
 <h4>ProbioBalance probiotik kompleks, 30 kapsula</h4>
 <div class="rating">★★★★★ <span>(101)</span></div>
 <div class="price-row">
-<div class="price"><strong>84,000 so'm</strong><del>99,000</del></div>
+<div class="price"><strong>89,000 so'm</strong><del>99,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Ovqat hazm qilish</span>
 <h4>FiberBoost kletchatka kukuni, 200g</h4>
 <div class="rating">★★★★★ <span>(212)</span></div>
 <div class="price-row">
-<div class="price"><strong>47,000 so'm</strong></div>
+<div class="price"><strong>52,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2708,20 +3025,20 @@ tasdiqlangan sharh
 <h4>AntacidFast oshqozon kislotasi tabletkasi</h4>
 <div class="rating">★★★★☆ <span>(345)</span></div>
 <div class="price-row">
-<div class="price"><strong>23,000 so'm</strong></div>
+<div class="price"><strong>28,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Vitaminlar</span>
 <h4>LiverCare jigar uchun kompleks, 60 kapsula</h4>
 <div class="rating">★★★☆☆ <span>(130)</span></div>
 <div class="price-row">
-<div class="price"><strong>91,000 so'm</strong></div>
+<div class="price"><strong>96,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2734,20 +3051,20 @@ tasdiqlangan sharh
 <h4>JointFlex bo'g'imlar uchun glyukozamin</h4>
 <div class="rating">★★★★☆ <span>(449)</span></div>
 <div class="price-row">
-<div class="price"><strong>108,000 so'm</strong><del>135,000</del></div>
+<div class="price"><strong>113,000 so'm</strong><del>135,000</del></div>
 <button class="add-btn">+</button>
 </div>
 </div>
 </div>
 
 <div class="product-card">
-<div class="product-thumb"><img src="https://images.unsplash.com/photo-1711985220426-696a1c74575a?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
+<div class="product-thumb"><img src="https://images.unsplash.com/photo-1695634405587-e2eefa40cc9c?fm=jpg&q=70&w=500&auto=format&fit=crop" alt="" loading="lazy"><div class="product-tag tag-new">Yangi</div><div class="wishlist">♡</div></div>
 <div class="product-body">
 <span class="product-cat">Vitaminlar</span>
 <h4>EnergyBoost B kompleks vitamini, 60 tabletka</h4>
 <div class="rating">★★★★★ <span>(135)</span></div>
 <div class="price-row">
-<div class="price"><strong>53,000 so'm</strong></div>
+<div class="price"><strong>58,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -2760,7 +3077,7 @@ tasdiqlangan sharh
 <h4>ImmunoShield immunitet spreyi, 30ml</h4>
 <div class="rating">★★★★★ <span>(430)</span></div>
 <div class="price-row">
-<div class="price"><strong>44,000 so'm</strong></div>
+<div class="price"><strong>49,000 so'm</strong></div>
 <button class="add-btn">+</button>
 </div>
 </div>
@@ -3204,6 +3521,50 @@ tasdiqlangan sharh
 
 </div>
 
+<button class="ai-fab" id="aiFabBtn"><span class="ai-ic">🤖</span> AI yordamchi</button>
+
+<div class="ai-modal" id="aiModal">
+
+<div class="ai-head">
+<div class="ai-head-left">
+<div class="ai-head-ic">🤖</div>
+<div>
+<h3>AI dori tavsiyachisi</h3>
+<span>PharmaCare AI • Beta</span>
+</div>
+</div>
+<div class="close-x" id="closeAi">✕</div>
+</div>
+
+<div class="ai-body">
+
+<div class="ai-disclaimer">
+⚠️ Bu AI faqat katalogdagi mahsulotlarni tavsiya qiladi va farmatsevt yoki shifokor konsultatsiyasi o'rnini bosmaydi. Aniq tashxis, dozirovka va davolash uchun litsenziyalangan mutaxassisga murojaat qiling.
+</div>
+
+<div class="ai-chip-row">
+<div class="ai-chip" data-symptom="bosh og'rig'i">🤕 Bosh og'rig'i</div>
+<div class="ai-chip" data-symptom="shamollash">🤧 Shamollash</div>
+<div class="ai-chip" data-symptom="qorin og'rig'i">🤢 Qorin og'rig'i</div>
+<div class="ai-chip" data-symptom="uyqu bezovta">😴 Uyqu bezovta</div>
+<div class="ai-chip" data-symptom="allergiya">🌸 Allergiya</div>
+<div class="ai-chip" data-symptom="teri toshmasi">🧴 Teri toshmasi</div>
+</div>
+
+<div class="ai-input-row">
+<textarea id="aiInput" placeholder="Masalan: bosh og'rig'i, harorat va tomoq og'rig'i bor..."></textarea>
+</div>
+
+<div style="display:flex;justify-content:flex-end;">
+<button class="btn ai-submit" id="aiSubmitBtn">🔍 Tavsiya olish</button>
+</div>
+
+<div class="ai-results" id="aiResults"></div>
+
+</div>
+
+</div>
+
 <div class="toast" id="toast">✓ Mahsulot savatga qo'shildi</div>
 
 <script>
@@ -3412,6 +3773,18 @@ document.getElementById('newsletterBtn').addEventListener('click', ()=>{
     input.value = '';
 });
 
+/* ================= LOADER (fixed: now runs on page load, not on link click) ================= */
+
+window.addEventListener('load', function () {
+    setTimeout(function () {
+        const loader = document.getElementById("loader");
+        if (loader) {
+            loader.classList.add('hide');
+            setTimeout(() => loader.remove(), 700);
+        }
+    }, 1200);
+});
+
 /* ================= CART ================= */
 
 let cart = [];
@@ -3422,7 +3795,11 @@ let cart = [];
       (Telegram maxfiylik siyosati tufayli botlar userga faqat u botni ishga tushirgandan keyin yoza oladi).
    3) Admin /start yozgandan so'ng https://api.telegram.org/bot<TOKEN>/getUpdates sahifasini oching —
       javobda "chat":{"id": ...} qiymatini topib, pastga CHAT_ID sifatida qo'ying.
-   Token va chat_id kiritilmaguncha, xabar faqat brauzer konsoliga (F12) yoziladi — sayt baribir ishlayveradi. */
+   Token va chat_id kiritilmaguncha, xabar faqat brauzer konsoliga (F12) yoziladi — sayt baribir ishlayveradi.
+
+   OGOHLANTIRISH: bot tokeni shu yerda ochiq matnda saqlanadi va har qanday tashrif buyuruvchi
+   sahifa manbasini ko'rish orqali uni ko'ra oladi va botdan foydalanishi mumkin. Ishlab chiqarish
+   (production) muhitida buni serverga (backend) ko'chirish tavsiya etiladi. */
 const TELEGRAM_BOT_TOKEN = '7880982758:AAHsteBEMXv79Y-rChwGRup0051joizHFX0'; // masalan: '7123456789:AAExampleTokenHere'
 const TELEGRAM_CHAT_IDS  = ['8480297110', '5504569185']; // bir nechta admin — har birining chat_id'sini shu ro'yxatga qo'shing
 
@@ -3493,6 +3870,7 @@ closeCartBtn.addEventListener('click', closeCartFn);
 overlay.addEventListener('click', ()=>{
     closeCartFn();
     closeCheckoutFn();
+    closeAiFn();
 });
 
 document.querySelectorAll('.product-card').forEach(card=>{
@@ -3760,6 +4138,207 @@ closeSuccess.addEventListener('click', ()=>{
     clearErrors();
     payOptions[0].click();
 });
+
+/* ================= AI ASSISTANT ================= */
+
+/* Simple local knowledge base — maps everyday symptom keywords to
+   product categories/names already sold in the catalog above.
+   This is a keyword-matching helper, NOT a medical diagnosis tool:
+   it only points to relevant product categories. Real dosage and
+   safety decisions always stay with a licensed pharmacist/doctor
+   (see the disclaimer shown in the AI panel). */
+const AI_KNOWLEDGE = [
+    {
+        keywords: ['bosh og\'rig\'i','bosh og\'riq','migren','bosh og\'irlashdi'],
+        label: 'Bosh og\'rig\'i',
+        why: 'Og\'riq qoldiruvchi kategoriyasidagi mahsulotlar odatda shu holatda ishlatiladi',
+        match: (name, cat) => cat.includes('og\'riq qoldiruvchi')
+    },
+    {
+        keywords: ['shamollash','gripp','harorat','isitma','tumov','yo\'tal','tomoq'],
+        label: 'Shamollash / gripp belgilari',
+        why: 'Sovuq va gripp kategoriyasidagi mahsulotlar belgilarni yengillashtirishga yordam beradi',
+        match: (name, cat) => cat.includes('sovuq va gripp') || name.includes('throatease') || name.includes('coldflu')
+    },
+    {
+        keywords: ['qorin og\'rig\'i','oshqozon','hazm','ich ketishi','qabziyat','me\'da'],
+        label: 'Qorin / hazm tizimi shikoyati',
+        why: 'Ovqat hazm qilish kategoriyasidagi mahsulotlar shu turdagi noqulaylikda foydalaniladi',
+        match: (name, cat) => cat.includes('ovqat hazm qilish')
+    },
+    {
+        keywords: ['uyqu bezovta','uxlay olmayapman','bezovta','stress','tashvish','asabiylashish'],
+        label: 'Uyqu va stress',
+        why: 'Uyqu va stressni yengillashtiruvchi tabiiy mahsulotlar shu toifada joylashgan',
+        match: (name, cat) => cat.includes('uyqu va stress')
+    },
+    {
+        keywords: ['allergiya','qichishish','chuchkirish','burun bitishi'],
+        label: 'Allergiya belgilari',
+        why: 'Allergiyaga qarshi mahsulotlar shu shikoyat uchun tavsiya etiladi',
+        match: (name, cat) => cat.includes('allergiya') || name.includes('allerstop') || name.includes('allergyeye')
+    },
+    {
+        keywords: ['teri toshmasi','toshma','qichima','ekzema','dermatit','quruq teri'],
+        label: 'Teri muammosi',
+        why: 'Teri parvarishi kategoriyasidagi dermatologik mahsulotlar shu holatda ishlatiladi',
+        match: (name, cat) => cat.includes('teri parvarishi')
+    },
+    {
+        keywords: ['immunitet','vitamin','charchoq','holsizlik'],
+        label: 'Immunitet / umumiy holsizlik',
+        why: 'Vitaminlar kategoriyasi immunitetni va umumiy holatni qo\'llab-quvvatlaydi',
+        match: (name, cat) => cat.includes('vitaminlar')
+    },
+    {
+        keywords: ['ko\'z','ko\'zim qichiydi','ko\'z qizarishi','quruq ko\'z'],
+        label: 'Ko\'z shikoyati',
+        why: 'Ko\'z parvarishi kategoriyasidagi tomchilar shu holatda foydalaniladi',
+        match: (name, cat) => cat.includes('ko\'z parvarishi')
+    }
+];
+
+function aiFindMatches(query){
+    const q = query.toLowerCase();
+    let matchedRule = null;
+
+    for(const rule of AI_KNOWLEDGE){
+        if(rule.keywords.some(k => q.includes(k))){
+            matchedRule = rule;
+            break;
+        }
+    }
+    if(!matchedRule) return null;
+
+    const results = [];
+    document.querySelectorAll('#products .product-card, .grid-products .product-card').forEach(card=>{
+        if(results.length >= 4) return;
+        const name = card.querySelector('h4').textContent.trim();
+        const cat = card.querySelector('.product-cat').textContent.trim().toLowerCase();
+        if(matchedRule.match(name.toLowerCase(), cat)){
+            if(results.some(r=>r.name===name)) return;
+            const priceEl = card.querySelector('.price strong');
+            const thumbEl = card.querySelector('.product-thumb img');
+            results.push({
+                name,
+                price: priceEl ? priceEl.textContent.trim() : '',
+                thumb: thumbEl ? thumbEl.getAttribute('src') : '',
+                why: matchedRule.why,
+                priceNum: priceEl ? parsePrice(priceEl.textContent) : 0
+            });
+        }
+    });
+
+    return {label: matchedRule.label, results};
+}
+
+const aiFabBtn = document.getElementById('aiFabBtn');
+const openAiBtn = document.getElementById('openAiBtn');
+const aiModal = document.getElementById('aiModal');
+const closeAiBtn = document.getElementById('closeAi');
+const aiInput = document.getElementById('aiInput');
+const aiSubmitBtn = document.getElementById('aiSubmitBtn');
+const aiResults = document.getElementById('aiResults');
+
+function openAiFn(){
+    aiModal.classList.add('show');
+    openOverlay();
+    setTimeout(()=>aiInput.focus(), 200);
+}
+function closeAiFn(){
+    aiModal.classList.remove('show');
+    if(!cartDrawer.classList.contains('open') && !checkoutModal.classList.contains('show')) closeOverlay();
+}
+
+aiFabBtn.addEventListener('click', openAiFn);
+if(openAiBtn) openAiBtn.addEventListener('click', openAiFn);
+closeAiBtn.addEventListener('click', closeAiFn);
+
+document.querySelectorAll('.ai-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+        aiInput.value = chip.dataset.symptom;
+        runAiSearch();
+    });
+});
+
+aiSubmitBtn.addEventListener('click', runAiSearch);
+aiInput.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' && !e.shiftKey){
+        e.preventDefault();
+        runAiSearch();
+    }
+});
+
+function runAiSearch(){
+    const query = aiInput.value.trim();
+    if(query.length < 3){
+        showToast('Iltimos, shikoyatingizni batafsilroq yozing');
+        return;
+    }
+
+    aiResults.classList.add('show');
+    aiResults.innerHTML = `
+        <div class="ai-loading">
+            <span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span>
+            AI tavsiyalarni tahlil qilmoqda...
+        </div>`;
+
+    setTimeout(()=>{
+        const found = aiFindMatches(query);
+
+        if(!found || found.results.length === 0){
+            aiResults.innerHTML = `
+                <div class="ai-no-result">
+                    😕 Kechirasiz, ushbu shikoyat bo'yicha aniq mahsulot topa olmadim.<br>
+                    Farmatsevtimiz bilan bepul konsultatsiyaga yozilishingiz mumkin.
+                </div>
+                <div style="display:flex;justify-content:center;margin-top:10px;">
+                    <button class="btn" id="aiToChatBtn">🩺 Farmatsevt bilan bog'lanish</button>
+                </div>
+            `;
+            const toChat = document.getElementById('aiToChatBtn');
+            if(toChat) toChat.addEventListener('click', ()=>{
+                closeAiFn();
+                showToast('💬 Farmatsevt bilan chat tez orada ochiladi');
+            });
+            return;
+        }
+
+        aiResults.innerHTML = `
+            <div class="ai-results-head">✨ "${found.label}" bo'yicha tavsiyalar</div>
+            ${found.results.map(p => `
+                <div class="ai-product" data-name="${p.name}">
+                    <div class="ai-product-thumb"><img src="${p.thumb}" alt=""></div>
+                    <div class="ai-product-info">
+                        <h5>${p.name}</h5>
+                        <div class="ai-why">${p.why}</div>
+                        <div class="ai-price">${p.price}</div>
+                    </div>
+                    <button type="button" class="ai-add-btn" data-name="${p.name}" data-price="${p.priceNum}" data-thumb="${p.thumb}">+</button>
+                </div>
+            `).join('')}
+            <div class="ai-footnote">
+                Bu tavsiyalar faqat yo'naltirish uchun. Dorini qabul qilishdan oldin farmatsevtimiz bilan maslahatlashib oling.
+            </div>
+        `;
+
+        aiResults.querySelectorAll('.ai-add-btn').forEach(btn=>{
+            btn.addEventListener('click', ()=>{
+                const name = btn.dataset.name;
+                const price = parseInt(btn.dataset.price,10) || 0;
+                const thumb = btn.dataset.thumb ? `<img src="${btn.dataset.thumb}">` : '💊';
+                const existing = cart.find(i=>i.name===name);
+                if(existing){
+                    existing.qty += 1;
+                } else {
+                    cart.push({name, price, qty:1, thumb});
+                }
+                updateBadge();
+                showToast('✓ "' + name + '" savatga qo\'shildi');
+            });
+        });
+    }, 900);
+}
 
 /* ================= TELEGRAM DIAGNOSTICS =================
    Click "Telegram ulanishini tekshirish" in the footer to send a
