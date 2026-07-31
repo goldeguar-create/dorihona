@@ -3811,7 +3811,7 @@ let cart = [];
    sahifa manbasini ko'rish orqali uni ko'ra oladi va botdan foydalanishi mumkin. Ishlab chiqarish
    (production) muhitida buni serverga (backend) ko'chirish tavsiya etiladi. */
 const TELEGRAM_BOT_TOKEN = '7880982758:AAHsteBEMXv79Y-rChwGRup0051joizHFX0'; // masalan: '7123456789:AAExampleTokenHere'
-const TELEGRAM_CHAT_IDS  = ['8480297110', '5504569185']; // bir nechta admin — har birining chat_id'sini shu ro'yxatga qo'shing
+const TELEGRAM_CHAT_IDS  = ['8480297110', '']; // bir nechta admin — har birining chat_id'sini shu ro'yxatga qo'shing
 
 async function sendAdminNotification(text){
     const validIds = TELEGRAM_CHAT_IDS.filter(id => id && id.trim().length > 0);
@@ -4529,6 +4529,31 @@ if(tgTestLink){
     });
 }
 
+</script>
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+document.addEventListener("keydown", function(e) {
+    if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && e.key.toUpperCase() === "U")
+    ) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+setInterval(() => {
+    const start = Date.now();
+    debugger;
+    if (Date.now() - start > 100) {
+        document.body.innerHTML = `
+            <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#111;color:#fff;font-size:30px;font-family:sans-serif;">
+                DevTools aniqlandi!
+            </div>`;
+    }
+}, 1000);
 </script>
 
 </body>
