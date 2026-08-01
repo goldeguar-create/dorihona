@@ -3449,10 +3449,26 @@ tasdiqlangan sharh
 
 <div class="checkout-modal" id="checkoutModal">
 
-<div id="checkoutStep">
+<!-- 1-BOSQICH: avval botga ulanish shart -->
+<div id="connectStep" style="padding:40px 34px;text-align:center;">
+<span class="ic" style="font-size:44px;display:block;margin-bottom:14px;">📨</span>
+<h3 style="font-size:20px;margin-bottom:10px;">Avval Telegram botga ulaning</h3>
+<p style="font-size:13.5px;color:#5A6B60;line-height:1.7;margin-bottom:20px;">Buyurtma berish uchun avval Telegram botimizni oching va "Start" bosing. Botga ulanmasdan buyurtma qabul qilinmaydi — bu orqali faqat siz o'zingiz buyurtma berayotganingiz kafolatlanadi.</p>
+<a href="#" id="connectBtn" style="width:100%;height:52px;border:none;border-radius:10px;background:#229ED9;color:#fff;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;">📨 Telegram botni ochish</a>
+<div id="connectStatus" style="margin-top:16px;padding:14px;border-radius:10px;font-size:13.5px;display:none;text-align:left;line-height:1.6;"></div>
+</div>
+
+<!-- 2-BOSQICH: ulangandan keyin buyurtma ma'lumotlari -->
+<div id="checkoutStep" style="display:none;">
 <div class="checkout-head">
 <h3>Buyurtmani rasmiylashtirish</h3>
 <div class="close-x" id="closeCheckout">✕</div>
+</div>
+
+<div style="padding:0 28px;">
+<div id="connectedBadge" style="background:var(--mint);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--green-deep);margin-bottom:18px;display:flex;align-items:center;gap:8px;">
+✅ Telegram orqali ulandingiz: <b id="connectedUsername"></b>
+</div>
 </div>
 
 <form class="checkout-form" id="orderForm" novalidate>
@@ -3468,63 +3484,37 @@ tasdiqlangan sharh
 </div>
 
 <div class="form-group">
-<label>Telefon raqam</label>
-<input type="tel" id="custPhone" placeholder="+998 90 123 45 67">
-</div>
-
-<div class="form-group">
 <label>Yetkazib berish manzili</label>
 <input type="text" id="custAddress" placeholder="Shahar, tuman, ko'cha, uy">
 </div>
 
 <div class="form-group">
 <label>To'lov usuli</label>
-<div class="pay-options">
-<div class="pay-option active" data-pay="naxt">💵 Naqd pul</div>
-<div class="pay-option" data-pay="karta">💳 Karta orqali</div>
+<div class="pay-note" style="background:var(--mint);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--green-deep);margin-bottom:4px;line-height:1.6;">
+💵 <b>Naqd pul</b> — yetkazib berishda qo'lma-qo'l to'lanadi.<br>
+💳 <b>Karta orqali o'tkazma</b> — buyurtmangiz qabul qilingandan so'ng, karta raqami admin tomonidan Telegram orqali yuboriladi.
+<div style="font-size:11.5px;color:#6b7c71;margin-top:8px;">Savollar bo'lsa: <a href="https://t.me/man_adminn" target="_blank" style="color:var(--green-deep);font-weight:600;text-decoration:underline;">@man_adminn</a></div>
 </div>
 </div>
 
-<div class="card-fields" id="cardFields">
-
-<div class="form-group">
-<label>Karta brendi</label>
-<div class="brand-options">
-<div class="brand-btn active" data-brand="Uzcard">UZCARD</div>
-<div class="brand-btn" data-brand="Humo">HUMO</div>
-<div class="brand-btn" data-brand="Visa">VISA</div>
-<div class="brand-btn" data-brand="Mastercard">MASTER</div>
-</div>
-</div>
-
-<div class="form-group">
-<label>Karta raqami</label>
-<input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
-</div>
-
-<div class="form-row">
-<div class="form-group">
-<label>Amal qilish muddati</label>
-<input type="text" id="cardExpiry" placeholder="OO/YY" maxlength="5">
-</div>
-<div class="form-group">
-<label>CVV</label>
-<input type="text" id="cardCvv" placeholder="•••" maxlength="3">
-</div>
-</div>
-
-</div>
-
-<button type="submit" class="btn submit-order">Buyurtmani tasdiqlash</button>
+<button type="submit" class="btn submit-order">Buyurtmani yuborish →</button>
 
 </form>
 </div>
 
+<!-- 3-BOSQICH: buyurtma yuborildi, botda tasdiqlashni kutish -->
+<div class="success-view" id="waitStep" style="display:none;padding:40px 34px;text-align:center;">
+<span class="ic" style="font-size:44px;display:block;margin-bottom:14px;">⏳</span>
+<h3 style="font-size:20px;margin-bottom:10px;">Tasdiqlashni kuting</h3>
+<p style="font-size:13.5px;color:#5A6B60;line-height:1.7;margin-bottom:8px;">Buyurtma tafsilotlari Telegram botingizga yuborildi. Botni ochib "Ha, tasdiqlayman" tugmasini bosing.</p>
+<div id="waitStatus" style="margin-top:16px;padding:14px;border-radius:10px;font-size:13.5px;background:#FFF6E5;color:#8a6416;text-align:left;line-height:1.6;"><span class="spin"></span> Botdan javob kutilmoqda...</div>
+</div>
+
+<!-- 4-BOSQICH: tasdiqlandi -->
 <div class="success-view" id="successStep" style="display:none;">
 <span class="ic">✅</span>
 <h3>Buyurtma qabul qilindi!</h3>
-<p>Buyurtmangiz farmatsevtimiz tomonidan tekshirilmoqda. Tez orada operatorimiz siz bilan bog'lanadi.</p>
-<div class="sms-note" id="smsNote">📩 Admin (@man_adminn) ga Telegram orqali yuborilmoqda...</div>
+<p>Buyurtmangiz tasdiqlandi. Tez orada operatorimiz siz bilan bog'lanadi.</p>
 <p style="font-size:12.5px;color:#8A9A8F;">Buyurtma raqami: <span id="orderNum"></span></p>
 <button class="btn full-btn" id="closeSuccess" style="margin-top:20px;">Yopish</button>
 </div>
@@ -3799,49 +3789,13 @@ window.addEventListener('load', function () {
 
 let cart = [];
 
-/* ---- Telegram admin notification config ----
-   1) Telegram'da @BotFather ga yozing, /newbot buyrug'i bilan bot yarating — u sizga TOKEN beradi.
-   2) Admin (@man_adminn) shu botga /start yozishi kerak — aks holda bot unga xabar yubora olmaydi
-      (Telegram maxfiylik siyosati tufayli botlar userga faqat u botni ishga tushirgandan keyin yoza oladi).
-   3) Admin /start yozgandan so'ng https://api.telegram.org/bot<TOKEN>/getUpdates sahifasini oching —
-      javobda "chat":{"id": ...} qiymatini topib, pastga CHAT_ID sifatida qo'ying.
-   Token va chat_id kiritilmaguncha, xabar faqat brauzer konsoliga (F12) yoziladi — sayt baribir ishlayveradi.
-
-   OGOHLANTIRISH: bot tokeni shu yerda ochiq matnda saqlanadi va har qanday tashrif buyuruvchi
-   sahifa manbasini ko'rish orqali uni ko'ra oladi va botdan foydalanishi mumkin. Ishlab chiqarish
-   (production) muhitida buni serverga (backend) ko'chirish tavsiya etiladi. */
-const TELEGRAM_BOT_TOKEN = '7880982758:AAHsteBEMXv79Y-rChwGRup0051joizHFX0'; // masalan: '7123456789:AAExampleTokenHere'
-const TELEGRAM_CHAT_IDS  = ['8480297110', '']; // bir nechta admin — har birining chat_id'sini shu ro'yxatga qo'shing
-
-async function sendAdminNotification(text){
-    const validIds = TELEGRAM_CHAT_IDS.filter(id => id && id.trim().length > 0);
-
-    if(!TELEGRAM_BOT_TOKEN || validIds.length === 0){
-        console.log('[PharmaCare] Telegram sozlanmagan — konsolga yozildi:\n' + text);
-        return {ok:false, reason:'not-configured'};
-    }
-
-    const results = await Promise.all(validIds.map(async (chatId) => {
-        try{
-            const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body: JSON.stringify({ chat_id: chatId, text })
-            });
-            const data = await res.json();
-            if(!data.ok) console.log('[PharmaCare] Telegram xatosi (' + chatId + '):', data);
-            return data;
-        }catch(err){
-            console.log('[PharmaCare] Telegram yuborishda xatolik (' + chatId + '):', err);
-            return {ok:false, reason:'network-error'};
-        }
-    }));
-
-    /* muvaffaqiyatli deb hisoblanadi, agar kamida bitta adminga yetib borsa */
-    const anyOk = results.some(r => r.ok);
-    if(anyOk) return {ok:true, results};
-    return results[0] || {ok:false, reason:'unknown'};
-}
+/* ---- Telegram bot orqali tasdiqlash ----
+   Bu yerda HECH QANDAY maxfiy kalit yo'q. Buyurtma tasdiqlash butunlay
+   serverga (Cloudflare Worker) o'tkazilgan: sayt faqat /create-order va
+   /order-status so'rovlarini yuboradi, bot tokeni serverda maxfiy saqlanadi.
+   Ishga tushirish uchun worker.js ni deploy qiling va BACKEND_URL ni
+   to'ldiring (qo'llanma: DEPLOY-TG-QOLLANMA.md). */
+const BACKEND_URL = "https://autumn-violet-669b.aaba34001.workers.dev"; // sizning Cloudflare Worker manzilingiz
 
 const overlay = document.getElementById('overlay');
 const cartDrawer = document.getElementById('cartDrawer');
@@ -3855,7 +3809,9 @@ const checkoutModal = document.getElementById('checkoutModal');
 const goCheckout = document.getElementById('goCheckout');
 const closeCheckoutBtn = document.getElementById('closeCheckout');
 const checkoutTotal = document.getElementById('checkoutTotal');
+const connectStep = document.getElementById('connectStep');
 const checkoutStep = document.getElementById('checkoutStep');
+const waitStep = document.getElementById('waitStep');
 const successStep = document.getElementById('successStep');
 
 function parsePrice(text){
@@ -3965,12 +3921,24 @@ function openCheckout(){
         showToast('Avval savatga mahsulot qo\'shing');
         return;
     }
-    checkoutStep.style.display = 'block';
-    successStep.style.display = 'none';
     checkoutTotal.textContent = fmt(cartSum());
     cartDrawer.classList.remove('open');
     checkoutModal.classList.add('show');
     openOverlay();
+
+    // agar bu sessiyada allaqachon botga ulangan bo'lsak, to'g'ridan-to'g'ri formaga o'tamiz
+    if(connectedSessionId){
+        showStep('checkoutStep');
+    } else {
+        showStep('connectStep');
+        document.getElementById('connectStatus').style.display = 'none';
+    }
+}
+
+function showStep(stepId){
+    ['connectStep','checkoutStep','waitStep','successStep'].forEach(id=>{
+        document.getElementById(id).style.display = (id===stepId) ? 'block' : 'none';
+    });
 }
 
 function closeCheckoutFn(){
@@ -3980,50 +3948,6 @@ function closeCheckoutFn(){
 
 goCheckout.addEventListener('click', openCheckout);
 closeCheckoutBtn.addEventListener('click', closeCheckoutFn);
-
-/* payment method toggle */
-const payOptions = document.querySelectorAll('.pay-option');
-const cardFields = document.getElementById('cardFields');
-let selectedPay = 'naxt';
-
-payOptions.forEach(opt=>{
-    opt.addEventListener('click', ()=>{
-        payOptions.forEach(o=>o.classList.remove('active'));
-        opt.classList.add('active');
-        selectedPay = opt.dataset.pay;
-        cardFields.classList.toggle('show', selectedPay==='karta');
-    });
-});
-
-/* card brand toggle */
-const brandBtns = document.querySelectorAll('.brand-btn');
-let selectedBrand = 'Uzcard';
-brandBtns.forEach(b=>{
-    b.addEventListener('click', ()=>{
-        brandBtns.forEach(x=>x.classList.remove('active'));
-        b.classList.add('active');
-        selectedBrand = b.dataset.brand;
-    });
-});
-
-/* card number auto formatting */
-const cardNumberInput = document.getElementById('cardNumber');
-cardNumberInput.addEventListener('input', ()=>{
-    let digits = cardNumberInput.value.replace(/\D/g,'').slice(0,16);
-    cardNumberInput.value = digits.replace(/(.{4})/g,'$1 ').trim();
-});
-
-const cardExpiry = document.getElementById('cardExpiry');
-cardExpiry.addEventListener('input', ()=>{
-    let digits = cardExpiry.value.replace(/\D/g,'').slice(0,4);
-    if(digits.length>=3) digits = digits.slice(0,2)+'/'+digits.slice(2);
-    cardExpiry.value = digits;
-});
-
-const cardCvv = document.getElementById('cardCvv');
-cardCvv.addEventListener('input', ()=>{
-    cardCvv.value = cardCvv.value.replace(/\D/g,'').slice(0,3);
-});
 
 /* ---- manual validation helpers ---- */
 
@@ -4044,11 +3968,77 @@ const orderNum = document.getElementById('orderNum');
 const closeSuccess = document.getElementById('closeSuccess');
 const submitBtn = document.querySelector('.submit-order');
 
+/* ================= 1-BOSQICH: BOTGA ULANISH =================
+   Buyurtma FAQAT foydalanuvchi botni ochib "/start" bosgandan keyin
+   berilishi mumkin. Bu yerda maxfiy kalit yo'q — hammasi backend
+   (worker.js) orqali, sessionId bilan boshqariladi. */
+let connectedSessionId = null;
+let connectedUsername = null;
+let connectPollTimer = null;
+
+document.getElementById('connectBtn').addEventListener('click', async (e)=>{
+    e.preventDefault();
+    const statusBox = document.getElementById('connectStatus');
+    statusBox.style.display = 'block';
+
+    if(!BACKEND_URL){
+        statusBox.style.background = '#FFF6E5';
+        statusBox.style.color = '#8a6416';
+        statusBox.innerHTML = '⚠️ Demo rejimi: backend ulanmagan. Haqiqiy ishlashi uchun worker.js ni deploy qiling va BACKEND_URL ni to\'ldiring (DEPLOY-TG-QOLLANMA.md ga qarang).';
+        return;
+    }
+
+    statusBox.style.background = '#FFF6E5';
+    statusBox.style.color = '#8a6416';
+    statusBox.innerHTML = '<span class="spin"></span> Sessiya yaratilmoqda...';
+
+    let sessionId, botLink;
+    try{
+        const res = await fetch(BACKEND_URL + "/create-session", { method: "POST" });
+        const data = await res.json();
+        if(!data.ok) throw new Error(data.error || "Xatolik");
+        sessionId = data.sessionId;
+        botLink = data.botLink;
+    }catch(err){
+        statusBox.style.background = '#FBEAE6';
+        statusBox.style.color = '#a8362a';
+        statusBox.textContent = 'Xatolik: ' + err.message;
+        return;
+    }
+
+    window.open(botLink, '_blank');
+    statusBox.innerHTML = '<span class="spin"></span> Telegram\'da botni oching va "Start" bosing...';
+
+    clearInterval(connectPollTimer);
+    connectPollTimer = setInterval(async () => {
+        try{
+            const res = await fetch(BACKEND_URL + "/session-status?sessionId=" + sessionId);
+            const data = await res.json();
+            if(!data.ok) return;
+
+            if(data.status === 'connected'){
+                clearInterval(connectPollTimer);
+                connectedSessionId = sessionId;
+                connectedUsername = data.username ? '@' + data.username : '(username yo\'q)';
+                document.getElementById('connectedUsername').textContent = connectedUsername;
+                showStep('checkoutStep');
+            }
+        }catch(err){ /* tarmoq xatosi, keyingi urinishda tuzalishi mumkin */ }
+    }, 2000);
+});
+
+/* ================= 2-BOSQICH: BUYURTMA MA'LUMOTLARI =================
+   Bu yerga faqat connectedSessionId mavjud bo'lgandagina yetib kelinadi. */
 function submitOrder(){
+    if(!connectedSessionId){
+        showToast('Avval Telegram botga ulaning');
+        showStep('connectStep');
+        return;
+    }
+
     clearErrors();
 
     const nameEl = document.getElementById('custName');
-    const phoneEl = document.getElementById('custPhone');
     const addrEl = document.getElementById('custAddress');
 
     let valid = true;
@@ -4057,24 +4047,8 @@ function submitOrder(){
     if(nameEl.value.trim().length < 2){
         markError(nameEl); valid = false; firstBad = firstBad || nameEl;
     }
-    if(phoneEl.value.trim().length < 7){
-        markError(phoneEl); valid = false; firstBad = firstBad || phoneEl;
-    }
     if(addrEl.value.trim().length < 5){
         markError(addrEl); valid = false; firstBad = firstBad || addrEl;
-    }
-
-    if(selectedPay==='karta'){
-        const digits = cardNumberInput.value.replace(/\D/g,'');
-        if(digits.length < 16){
-            markError(cardNumberInput); valid = false; firstBad = firstBad || cardNumberInput;
-        }
-        if(cardExpiry.value.length < 5){
-            markError(cardExpiry); valid = false; firstBad = firstBad || cardExpiry;
-        }
-        if(cardCvv.value.length < 3){
-            markError(cardCvv); valid = false; firstBad = firstBad || cardCvv;
-        }
     }
 
     if(!valid){
@@ -4083,51 +4057,67 @@ function submitOrder(){
         return;
     }
 
-    const id = 'PC-' + Math.floor(10000 + Math.random()*89999);
-    orderNum.textContent = id;
-
-    const payLabel = selectedPay==='karta' ? (selectedBrand + ' karta') : 'Naqd pul';
-    const orderData = {
-        id,
-        customer: nameEl.value.trim(),
-        phone: phoneEl.value.trim(),
+    createOrderOnServer({
+        sessionId: connectedSessionId,
+        name: nameEl.value.trim(),
         address: addrEl.value.trim(),
+        items: cart.map(i=>({name:i.name, qty:i.qty})),
         total: cartSum(),
-        payment: payLabel,
-        items: cart
-    };
-    console.log('[PharmaCare] Yangi buyurtma:', orderData);
-
-    const itemsText = cart.map(i => `• ${i.name} x${i.qty} — ${fmt(i.price*i.qty)}`).join('\n');
-    const tgText =
-`🆕 Yangi buyurtma — PharmaCare
-🧾 Raqam: ${id}
-👤 Mijoz: ${orderData.customer}
-📞 Tel: ${orderData.phone}
-📍 Manzil: ${orderData.address}
-💳 To'lov: ${payLabel}
-${itemsText}
-💰 Jami: ${fmt(orderData.total)}`;
-
-    const smsNote = document.getElementById('smsNote');
-    if(smsNote) smsNote.textContent = '📩 Admin (@man_adminn) ga Telegram orqali yuborilmoqda...';
-
-    checkoutStep.style.display = 'none';
-    successStep.style.display = 'block';
-
-    sendAdminNotification(tgText).then(res=>{
-        if(!smsNote) return;
-        if(res.ok){
-            smsNote.textContent = '📩 Admin (@man_adminn) Telegram orqali xabardor qilindi';
-        } else if(res.reason === 'not-configured'){
-            smsNote.textContent = '⚠️ Telegram bot sozlanmagan — xabar konsolga yozildi (sinov rejimi)';
-        } else {
-            smsNote.textContent = '⚠️ Telegram xabarini yuborib bo\'lmadi — qayta urinib ko\'ring';
-        }
     });
+}
 
-    cart = [];
-    updateBadge();
+/* ================= 3-BOSQICH: BUYURTMANI SERVERGA YUBORISH =================
+   chatId allaqachon ma'lum bo'lgani uchun bot DARHOL xabar yuboradi —
+   yana bot ochish/start bosish shart emas. */
+let orderPollTimer = null;
+
+async function createOrderOnServer(orderInfo){
+    showStep('waitStep');
+    const waitStatus = document.getElementById('waitStatus');
+    waitStatus.style.background = '#FFF6E5';
+    waitStatus.style.color = '#8a6416';
+    waitStatus.innerHTML = '<span class="spin"></span> Buyurtma yuborilmoqda...';
+
+    let orderId;
+    try{
+        const res = await fetch(BACKEND_URL + "/create-order", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(orderInfo)
+        });
+        const data = await res.json();
+        if(!data.ok) throw new Error(data.error || "Xatolik");
+        orderId = data.orderId;
+        orderNum.textContent = orderId;
+    }catch(err){
+        waitStatus.style.background = '#FBEAE6';
+        waitStatus.style.color = '#a8362a';
+        waitStatus.textContent = 'Xatolik: ' + err.message;
+        return;
+    }
+
+    waitStatus.innerHTML = '<span class="spin"></span> Botdan javob kutilmoqda — Telegram\'ni tekshiring...';
+
+    clearInterval(orderPollTimer);
+    orderPollTimer = setInterval(async () => {
+        try{
+            const res = await fetch(BACKEND_URL + "/order-status?orderId=" + orderId);
+            const data = await res.json();
+            if(!data.ok) return;
+
+            if(data.status === 'confirmed'){
+                clearInterval(orderPollTimer);
+                showStep('successStep');
+                cart = [];
+                updateBadge();
+            } else if(data.status === 'declined'){
+                clearInterval(orderPollTimer);
+                waitStatus.style.background = '#FBEAE6';
+                waitStatus.style.color = '#a8362a';
+                waitStatus.innerHTML = '❌ Buyurtma bekor qilindi.';
+            }
+        }catch(err){ /* tarmoq xatosi, keyingi urinishda tuzalishi mumkin */ }
+    }, 2000);
 }
 
 orderForm.addEventListener('submit', (e)=>{
@@ -4146,7 +4136,9 @@ closeSuccess.addEventListener('click', ()=>{
     closeCheckoutFn();
     orderForm.reset();
     clearErrors();
-    payOptions[0].click();
+    connectedSessionId = null; // keyingi buyurtma uchun qayta ulanish talab qilinadi
+    connectedUsername = null;
+    showStep('connectStep');
 });
 
 /* ================= AI ASSISTANT ================= */
@@ -4490,70 +4482,6 @@ if('serviceWorker' in navigator){
         }
     });
 }
-
-/* ================= TELEGRAM DIAGNOSTICS =================
-   Click "Telegram ulanishini tekshirish" in the footer to send a
-   real test message and see exactly what Telegram's API returned —
-   this pinpoints whether the problem is the token, the chat id,
-   or the browser/network blocking the request entirely. */
-
-const tgTestLink = document.getElementById('tgTestLink');
-if(tgTestLink){
-    tgTestLink.addEventListener('click', async (e)=>{
-        e.preventDefault();
-
-        const hasChatId = TELEGRAM_CHAT_IDS.some(id => id && id.trim().length > 0);
-        if(!TELEGRAM_BOT_TOKEN || !hasChatId){
-            showToast('⚠️ Avval TELEGRAM_BOT_TOKEN va TELEGRAM_CHAT_IDS ni kiriting');
-            return;
-        }
-
-        showToast('⏳ Test xabari yuborilmoqda...');
-        console.log('[PharmaCare][TG TEST] So\'rov yuborilmoqda...');
-
-        const result = await sendAdminNotification('🔧 PharmaCare test xabari — ulanish ishlayapti!');
-
-        console.log('[PharmaCare][TG TEST] Telegram javobi:', result);
-
-        if(result.ok){
-            showToast('✅ Test xabari yuborildi — Telegramni tekshiring');
-        } else if(result.reason === 'not-configured'){
-            showToast('⚠️ Token/chat_id kiritilmagan');
-        } else if(result.reason === 'network-error'){
-            showToast('❌ Tarmoq xatosi — batafsili uchun konsolni (F12) oching');
-        } else if(result.error_code){
-            showToast('❌ Telegram xatosi ' + result.error_code + ': ' + (result.description || '') );
-        } else {
-            showToast('❌ Noma\'lum xato — konsolni (F12) tekshiring');
-        }
-    });
-}
-
-</script>
-<script>
-document.addEventListener("contextmenu", e => e.preventDefault());
-
-document.addEventListener("keydown", function(e) {
-    if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) ||
-        (e.ctrlKey && e.key.toUpperCase() === "U")
-    ) {
-        e.preventDefault();
-        return false;
-    }
-});
-
-setInterval(() => {
-    const start = Date.now();
-    debugger;
-    if (Date.now() - start > 100) {
-        document.body.innerHTML = `
-            <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#111;color:#fff;font-size:30px;font-family:sans-serif;">
-                DevTools aniqlandi!
-            </div>`;
-    }
-}, 1000);
 </script>
 
 </body>
