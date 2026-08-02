@@ -4446,43 +4446,18 @@ window.addEventListener('appinstalled', () => {
     showToast('🎉 PharmaCare ilovasi o\'rnatildi! Endi uni bosh ekrandan ochishingiz mumkin');
 });
 
-/* register a minimal inline (Blob-based) service worker so the app can
-   work offline once visited. Some browsers restrict Blob-URL service
-   workers for security reasons, so this is wrapped in a try/catch and
-   fails silently if unsupported — the rest of the site still works fine. */
+/* Eslatma: bu saytda service worker (offline kesh) ATAYIN ishlatilmaydi —
+   chunki u dinamik API so'rovlarini (masalan buyurtma holatini tekshirish)
+   ham keshlab, saytni "eskirgan" holatda muzlatib qo'yishi mumkin edi.
+   Agar foydalanuvchida avvalgi versiyadan qolgan service worker bo'lsa,
+   uni avtomatik o'chiramiz. */
 if('serviceWorker' in navigator){
-    window.addEventListener('load', () => {
-        try{
-            const swSource = `
-                const CACHE_NAME = 'pharmacare-cache-v1';
-                self.addEventListener('install', (event) => { self.skipWaiting(); });
-                self.addEventListener('activate', (event) => { self.clients.claim(); });
-                self.addEventListener('fetch', (event) => {
-                    if (event.request.method !== 'GET') return;
-                    event.respondWith(
-                        caches.open(CACHE_NAME).then((cache) =>
-                            cache.match(event.request).then((cached) => {
-                                if (cached) return cached;
-                                return fetch(event.request).then((response) => {
-                                    try { cache.put(event.request, response.clone()); } catch(e) {}
-                                    return response;
-                                }).catch(() => cached);
-                            })
-                        )
-                    );
-                });
-            `;
-            const swBlob = new Blob([swSource], {type: 'application/javascript'});
-            const swUrl = URL.createObjectURL(swBlob);
-            navigator.serviceWorker.register(swUrl).catch((err) => {
-                console.log('[PharmaCare] Service worker ro\'yxatdan o\'tmadi (brauzer Blob SW ni qo\'llamasligi mumkin):', err);
-            });
-        }catch(err){
-            console.log('[PharmaCare] Service worker sozlanmadi:', err);
-        }
+    navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(reg => reg.unregister());
     });
 }
 </script>
+
 
 </body>
 </html>
