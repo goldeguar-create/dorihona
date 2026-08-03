@@ -2,14 +2,6 @@ name = "pharmacare-bot"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
-# Sessiya/buyurtma holatini saqlaydigan Durable Object.
-# KV endi kerak emas — undan ko'ra tezroq va izchil (consistent).
-[[durable_objects.bindings]]
-name = "STORE"
-class_name = "Store"
-
-# Bepul (free) tarifda Durable Object yaratish uchun SQLite-backed
-# migratsiya kerak (new_classes emas, new_sqlite_classes).
-[[migrations]]
-tag = "v1"
-new_sqlite_classes = ["Store"]
+[[kv_namespaces]]
+binding = "KV"
+id = "b4adc2f581fc48b5a5e75b6f58dd80ce"

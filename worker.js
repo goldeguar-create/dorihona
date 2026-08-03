@@ -1,7 +1,3 @@
-
-
-
-
 /*
   BU FAYL CLOUDFLARE WORKER'DA ISHLAYDI.
   Bot tokeni bu yerda YOZILMAYDI — u alohida "Secret" sifatida saqlanadi.
@@ -265,30 +261,16 @@ async function tgWebhook(request, env) {
           `📍 Manzil: ${orderData.address}\n\n` +
           `🛒 Mahsulotlar:\n${itemsText}\n\n` +
           `💰 Jami: ${orderData.total} so'm`;
- 
+
         await tgApi(env, "sendMessage", {
           chat_id: env.TELEGRAM_ADMIN_CHAT_ID,
           text: summaryText,
         });
       }
     }
- 
+
     return new Response("ok");
   }
- 
+
   return new Response("ok");
 }
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
