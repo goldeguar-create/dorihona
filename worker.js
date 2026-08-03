@@ -310,40 +310,15 @@ async function tgWebhook(request, env, store) {
 export class SessionStore {
   constructor(state) {
     this.state = state;
-    this.sessions = new Map();
-    this.orders = new Map();
-
-    // DO birinchi marta ishga tushganda avvalgi holatni diskdan yuklaydi.
-    // blockConcurrencyWhile — shu tugagunча boshqa so'rovlar navbatda kutadi.
-    this.state.blockConcurrencyWhile(async () => {
-      const s = await this.state.storage.get("sessions");
-      if (s) this.sessions = new Map(Object.entries(s));
-      const o = await this.state.storage.get("orders");
-      if (o) this.orders = new Map(Object.entries(o));
-    });
   }
 
-  async persistSessions() {
-    await this.state.storage.put("sessions", Object.fromEntries(this.sessions));
-  }
-  async persistOrders() {
-    await this.state.storage.put("orders", Object.fromEntries(this.orders));
-  }
-
-  cleanupExpired() {
-    const now = Date.now();
-    for (const [id, s] of this.sessions) {
-      if (now - s.createdAt > 15 * 60 * 1000) this.sessions.delete(id); // 15 daqiqa
-    }
-    for (const [id, o] of this.orders) {
-      if (now - o.createdAt > 60 * 60 * 1000) this.orders.delete(id); // 60 daqiqa
-    }
+  isExpired(createdAt, ttlMs) {
+    return Date.now() - createdAt > ttlMs;
   }
 
   async fetch(request) {
     const url = new URL(request.url);
     const parts = url.pathname.split("/").filter(Boolean); // ["session", id] yoki ["session", id, "connect"]
-    this.cleanupExpired();
 
     const respond = (body, status = 200) =>
       new Response(JSON.stringify(body), {
@@ -353,55 +328,63 @@ export class SessionStore {
 
     if (parts[0] === "session") {
       const id = parts[1];
+      const key = "session:" + id;
 
       if (request.method === "POST" && parts.length === 2) {
-        this.sessions.set(id, { status: "waiting", createdAt: Date.now() });
-        await this.persistSessions();
+        // Har bir sessiya O'ZINING alohida kalitiga yoziladi — boshqa
+        // qurilma/sessiya bir vaqtda yozsa ham hech narsani "bosib
+        // ketmaydi" (avvalgi to'liq-ro'yxat dizaynida shu muammo bor edi).
+        await this.state.storage.put(key, { status: "waiting", createdAt: Date.now() });
         return respond({ ok: true });
       }
 
       if (request.method === "GET" && parts.length === 2) {
-        const s = this.sessions.get(id);
-        if (!s) return respond({ ok: false, error: "not found" }, 404);
+        const s = await this.state.storage.get(key);
+        if (!s || this.isExpired(s.createdAt, 15 * 60 * 1000)) {
+          if (s) await this.state.storage.delete(key);
+          return respond({ ok: false, error: "not found" }, 404);
+        }
         return respond({ ok: true, session: s });
       }
 
       if (request.method === "POST" && parts[2] === "connect") {
         const body = await request.json();
-        const s = this.sessions.get(id);
-        if (!s) return respond({ ok: false, error: "not found" }, 404);
+        const s = await this.state.storage.get(key);
+        if (!s || this.isExpired(s.createdAt, 15 * 60 * 1000)) {
+          return respond({ ok: false, error: "not found" }, 404);
+        }
         s.status = "connected";
         s.chatId = body.chatId;
         s.username = body.username || null;
-        this.sessions.set(id, s);
-        await this.persistSessions();
+        await this.state.storage.put(key, s);
         return respond({ ok: true });
       }
     }
 
     if (parts[0] === "order") {
       const id = parts[1];
+      const key = "order:" + id;
 
       if (request.method === "POST" && parts.length === 2) {
         const body = await request.json();
-        this.orders.set(id, { ...body, createdAt: Date.now() });
-        await this.persistOrders();
+        await this.state.storage.put(key, { ...body, createdAt: Date.now() });
         return respond({ ok: true });
       }
 
       if (request.method === "GET" && parts.length === 2) {
-        const o = this.orders.get(id);
-        if (!o) return respond({ ok: false, error: "not found" }, 404);
+        const o = await this.state.storage.get(key);
+        if (!o || this.isExpired(o.createdAt, 60 * 60 * 1000)) {
+          return respond({ ok: false, error: "not found" }, 404);
+        }
         return respond({ ok: true, order: o });
       }
 
       if (request.method === "POST" && parts[2] === "status") {
         const body = await request.json();
-        const o = this.orders.get(id);
+        const o = await this.state.storage.get(key);
         if (!o) return respond({ ok: false, error: "not found" }, 404);
         o.status = body.status;
-        this.orders.set(id, o);
-        await this.persistOrders();
+        await this.state.storage.put(key, o);
         return respond({ ok: true, order: o });
       }
     }
