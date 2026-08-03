@@ -1855,6 +1855,7 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 
 <div class="search-bar" id="searchBar">
 <input type="text" id="searchInput" placeholder="Mahsulot nomini kiriting...">
+<button type="button" class="btn" id="searchGoBtn" style="height:46px;padding:0 22px;flex-shrink:0;">🔍 Qidirish</button>
 <div class="close-x" id="closeSearch">✕</div>
 </div>
 <video id="bgVideo" autoplay muted loop playsinline preload="auto">
@@ -3672,6 +3673,12 @@ searchInput.addEventListener('keydown', (e)=>{
     }
 });
 
+const searchGoBtn = document.getElementById('searchGoBtn');
+searchGoBtn.addEventListener('click', ()=>{
+    filterProducts(searchInput.value.trim().toLowerCase());
+    scrollToProducts();
+});
+
 function filterProducts(query){
     let totalVisible = 0;
     document.querySelectorAll('.grid-products').forEach(grid=>{
@@ -3697,8 +3704,6 @@ function filterProducts(query){
             msg.remove();
         }
     });
-
-    if(query) scrollToProducts();
 }
 
 /* ================= NAV / SCROLL BUTTONS ================= */
