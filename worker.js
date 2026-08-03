@@ -186,6 +186,25 @@ async function createOrder(request, env, store, cors) {
     },
   });
 
+  // ADMINGA DARHOL XABAR — mijoz "Ha" bosishini kutmasdan, buyurtma
+  // berilgan zahoti to'liq ma'lumot bilan yuboriladi.
+  if (env.TELEGRAM_ADMIN_CHAT_ID) {
+    const adminText =
+      `🆕 YANGI BUYURTMA (tasdiqlash kutilmoqda)\n\n` +
+      `🆔 Buyurtma ID: ${orderId}\n` +
+      `👤 Ism: ${orderData.name}\n` +
+      `📍 Manzil: ${orderData.address}\n\n` +
+      `🛒 Mahsulotlar:\n${itemsText}\n\n` +
+      `💰 Jami: ${orderData.total} so'm\n\n` +
+      `🔢 Telegram chat ID: ${orderData.chatId}\n` +
+      `🔗 Telegram username: ${orderData.username ? "@" + orderData.username : "(username yo'q)"}`;
+
+    await tgApi(env, "sendMessage", {
+      chat_id: env.TELEGRAM_ADMIN_CHAT_ID,
+      text: adminText,
+    });
+  }
+
   return json({ ok: true, orderId }, 200, cors);
 }
 
