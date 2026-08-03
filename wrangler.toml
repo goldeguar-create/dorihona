@@ -2,6 +2,10 @@ name = "pharmacare-bot"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
-[[kv_namespaces]]
-binding = "KV"
-id = "b4adc2f581fc48b5a5e75b6f58dd80ce"
+[[durable_objects.bindings]]
+name = "SESSION_STORE"
+class_name = "SessionStore"
+
+[[migrations]]
+tag = "v3"
+new_sqlite_classes = ["SessionStore"]

@@ -1,32 +1,37 @@
 /*
   BU FAYL CLOUDFLARE WORKER'DA ISHLAYDI.
   Bot tokeni bu yerda YOZILMAYDI — u alohida "Secret" sifatida saqlanadi.
- 
+
   Kerakli secretlar:
     TELEGRAM_BOT_TOKEN
     TELEGRAM_BOT_USERNAME   (@ belgisisiz)
     TELEGRAM_ADMIN_CHAT_ID  (ixtiyoriy — admin xabarnomasi uchun)
- 
-  Kerakli KV: KV
- 
-  ================= YANGI OQIM (v3) =================
-  Endi buyurtma FAQAT foydalanuvchi botni oldindan ochib "/start" bosgan
-  bo'lsa yaratiladi. Oqim:
- 
+
+  Kerakli Durable Object binding: SESSION_STORE (class SessionStore,
+  shu faylning pastki qismida e'lon qilingan)
+
+  ================= NEGA KV EMAS, DURABLE OBJECT? =================
+  Cloudflare KV "eventual consistency" tizimi — yozilgan ma'lumot
+  barcha data-markazlarga darhol emas, balki bir necha soniyadan
+  60 soniyagacha tarqaladi. Shu sabab bot "connected" deb yozgandan
+  keyin ham sayt buni darrov ko'rmasligi mumkin edi.
+
+  Durable Object — bitta global "joy"da ishlaydigan yagona obyekt.
+  Yozish ham, o'qish ham shu bitta joydan o'tadi, shuning uchun
+  hech qanday tarqalish kechikishi bo'lmaydi — o'zgarish DARHOL
+  ko'rinadi.
+
+  ================= OQIM (v4, Durable Object) =================
     1. Sayt /create-session chaqiradi -> sessionId qaytadi
     2. Foydalanuvchi botni ochadi (/start session_<sessionId>)
-       -> webhook orqali sessiya "connected" bo'ladi, chatId saqlanadi
-    3. Sayt /session-status orqali holatni kuzatadi. "connected" bo'lgach,
-       foydalanuvchiga buyurtma formasi ko'rsatiladi (ismi, manzili)
-    4. Sayt /create-order chaqiradi (sessionId bilan) -> chatId allaqachon
-       ma'lum bo'lgani uchun bot DARHOL o'sha odamga buyurtma tafsilotlari
-       va Ha/Yo'q tugmalarini yuboradi (yana /start kerak emas)
+       -> webhook orqali sessiya "connected" bo'ladi (DARHOL)
+    3. Sayt /session-status orqali holatni kuzatadi — kechikishsiz
+    4. Sayt /create-order chaqiradi (sessionId bilan) -> chatId
+       allaqachon ma'lum bo'lgani uchun bot DARHOL o'sha odamga
+       buyurtma tafsilotlari va Ha/Yo'q tugmalarini yuboradi
     5. Foydalanuvchi Ha/Yo'q bosadi -> /order-status orqali sayt ko'radi
- 
-  Bu orqali: botni ochmagan odam UMUMAN buyurtma bera olmaydi — chunki
-  /create-order chaqirilishidan oldin ulanish shart.
 */
- 
+
 export default {
   async fetch(request, env) {
     const cors = {
@@ -34,42 +39,53 @@ export default {
       "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
- 
+
     if (request.method === "OPTIONS") return new Response(null, { headers: cors });
- 
+
     const url = new URL(request.url);
- 
+    const store = getStore(env);
+
     if (request.method === "POST" && url.pathname.endsWith("/create-session")) {
-      return createSession(env, cors);
+      return createSession(env, store, cors);
     }
     if (request.method === "GET" && url.pathname.endsWith("/session-status")) {
-      return sessionStatus(url, env, cors);
+      return sessionStatus(url, store, cors);
     }
     if (request.method === "POST" && url.pathname.endsWith("/create-order")) {
-      return createOrder(request, env, cors);
+      return createOrder(request, env, store, cors);
     }
     if (request.method === "GET" && url.pathname.endsWith("/order-status")) {
-      return orderStatus(url, env, cors);
+      return orderStatus(url, store, cors);
     }
     if (request.method === "POST" && url.pathname.endsWith("/tg-webhook")) {
-      return tgWebhook(request, env);
+      return tgWebhook(request, env, store);
     }
- 
+
     return json({ ok: false, error: "Not found" }, 404, cors);
   },
 };
- 
+
+/* ================= YORDAMCHI FUNKSIYALAR ================= */
+
+function getStore(env) {
+  // Har doim BITTA global Durable Object'ga murojaat qilamiz —
+  // shu orqali barcha sessiya/buyurtmalar bitta joyda, darhol
+  // izchil (consistent) holatda saqlanadi.
+  const id = env.SESSION_STORE.idFromName("global");
+  return env.SESSION_STORE.get(id);
+}
+
 function json(body, status, headers) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { "Content-Type": "application/json", ...headers },
   });
 }
- 
+
 function randomId() {
   return Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
 }
- 
+
 async function tgApi(env, method, payload) {
   const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/${method}`, {
     method: "POST",
@@ -78,56 +94,69 @@ async function tgApi(env, method, payload) {
   });
   return res.json();
 }
- 
+
+/* Durable Object bilan gaplashish uchun kichik yordamchilar */
+
+async function doGet(store, path) {
+  const res = await store.fetch("https://do/" + path);
+  if (res.status === 404) return null;
+  return res.json();
+}
+
+async function doPost(store, path, body) {
+  const res = await store.fetch("https://do/" + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body || {}),
+  });
+  return res.json();
+}
+
 /* --- 1. Yangi sessiya yaratish (botga ulanishdan oldin) --- */
-async function createSession(env, cors) {
+async function createSession(env, store, cors) {
   const sessionId = randomId();
-  await env.KV.put(
-    "session:" + sessionId,
-    JSON.stringify({ status: "waiting", createdAt: Date.now() }),
-    { expirationTtl: 900 } // 15 daqiqa amal qiladi
-  );
- 
+  await doPost(store, "session/" + sessionId, {});
+
   const botLink = `https://t.me/${env.TELEGRAM_BOT_USERNAME}?start=session_${sessionId}`;
   return json({ ok: true, sessionId, botLink }, 200, cors);
 }
- 
+
 /* --- 2. Sayt sessiya holatini kuzatadi --- */
-async function sessionStatus(url, env, cors) {
+async function sessionStatus(url, store, cors) {
   const sessionId = url.searchParams.get("sessionId");
   if (!sessionId) return json({ ok: false, error: "sessionId kerak" }, 400, cors);
- 
-  const raw = await env.KV.get("session:" + sessionId);
-  if (!raw) return json({ ok: false, error: "Sessiya topilmadi yoki muddati tugagan" }, 404, cors);
- 
-  const data = JSON.parse(raw);
-  return json(
-    { ok: true, status: data.status, username: data.username || null },
-    200,
-    cors
-  );
+
+  const data = await doGet(store, "session/" + sessionId);
+  if (!data || !data.ok) {
+    return json({ ok: false, error: "Sessiya topilmadi yoki muddati tugagan" }, 404, cors);
+  }
+
+  const s = data.session;
+  return json({ ok: true, status: s.status, username: s.username || null }, 200, cors);
 }
- 
+
 /* --- 3. Buyurtma yaratish — FAQAT ulangan sessiya bilan --- */
-async function createOrder(request, env, cors) {
+async function createOrder(request, env, store, cors) {
   let body;
   try {
     body = await request.json();
   } catch {
     return json({ ok: false, error: "JSON xato" }, 400, cors);
   }
- 
+
   const sessionId = body.sessionId;
   if (!sessionId) return json({ ok: false, error: "Avval botga ulaning" }, 400, cors);
- 
-  const rawSession = await env.KV.get("session:" + sessionId);
-  if (!rawSession) return json({ ok: false, error: "Sessiya topilmadi yoki muddati tugagan" }, 404, cors);
- 
-  const session = JSON.parse(rawSession);
+
+  const data = await doGet(store, "session/" + sessionId);
+  if (!data || !data.ok) {
+    return json({ ok: false, error: "Sessiya topilmadi yoki muddati tugagan" }, 404, cors);
+  }
+
+  const session = data.session;
   if (session.status !== "connected" || !session.chatId) {
     return json({ ok: false, error: "Avval Telegram botga ulanishingiz kerak" }, 400, cors);
   }
- 
+
   const orderId = randomId();
   const orderData = {
     status: "pending",
@@ -137,14 +166,13 @@ async function createOrder(request, env, cors) {
     total: body.total || 0,
     chatId: session.chatId,          // botga ulangan haqiqiy chat
     username: session.username || null,
-    createdAt: Date.now(),
   };
- 
-  await env.KV.put("order:" + orderId, JSON.stringify(orderData), { expirationTtl: 3600 });
- 
+
+  await doPost(store, "order/" + orderId, orderData);
+
   // chatId allaqachon ma'lum — bot darhol xabar yubora oladi, yana /start shart emas
   const itemsText = (orderData.items || []).map((i) => `• ${i.name} x${i.qty}`).join("\n");
- 
+
   await tgApi(env, "sendMessage", {
     chat_id: session.chatId,
     text: `🧾 Buyurtma #${orderId}\n👤 ${orderData.name}\n📍 ${orderData.address}\n\n${itemsText}\n\n💰 Jami: ${orderData.total} so'm\n\nUshbu buyurtmani tasdiqlaysizmi?`,
@@ -157,26 +185,27 @@ async function createOrder(request, env, cors) {
       ],
     },
   });
- 
+
   return json({ ok: true, orderId }, 200, cors);
 }
- 
+
 /* --- 4. Sayt buyurtma holatini kuzatadi --- */
-async function orderStatus(url, env, cors) {
+async function orderStatus(url, store, cors) {
   const orderId = url.searchParams.get("orderId");
   if (!orderId) return json({ ok: false, error: "orderId kerak" }, 400, cors);
- 
-  const raw = await env.KV.get("order:" + orderId);
-  if (!raw) return json({ ok: false, error: "Buyurtma topilmadi yoki muddati tugagan" }, 404, cors);
- 
-  const data = JSON.parse(raw);
-  return json({ ok: true, status: data.status }, 200, cors);
+
+  const data = await doGet(store, "order/" + orderId);
+  if (!data || !data.ok) {
+    return json({ ok: false, error: "Buyurtma topilmadi yoki muddati tugagan" }, 404, cors);
+  }
+
+  return json({ ok: true, status: data.order.status }, 200, cors);
 }
- 
+
 /* --- 5. Telegram webhook --- */
-async function tgWebhook(request, env) {
+async function tgWebhook(request, env, store) {
   const update = await request.json();
- 
+
   if (update.message && update.message.text === "/myid") {
     await tgApi(env, "sendMessage", {
       chat_id: update.message.chat.id,
@@ -184,7 +213,7 @@ async function tgWebhook(request, env) {
     });
     return new Response("ok");
   }
- 
+
   // foydalanuvchi botni ochib /start session_<id> bosdi
   if (update.message && update.message.text && update.message.text.startsWith("/start")) {
     const parts = update.message.text.split(" ");
@@ -193,7 +222,7 @@ async function tgWebhook(request, env) {
     const username = update.message.from && update.message.from.username
       ? update.message.from.username
       : null;
- 
+
     if (!payload || !payload.startsWith("session_")) {
       await tgApi(env, "sendMessage", {
         chat_id: chatId,
@@ -201,47 +230,43 @@ async function tgWebhook(request, env) {
       });
       return new Response("ok");
     }
- 
+
     const sessionId = payload.replace("session_", "");
-    const raw = await env.KV.get("session:" + sessionId);
-    if (!raw) {
+    const data = await doGet(store, "session/" + sessionId);
+    if (!data || !data.ok) {
       await tgApi(env, "sendMessage", {
         chat_id: chatId,
         text: "Kechirasiz, bu havola muddati tugagan. Saytga qaytib qayta urinib ko'ring.",
       });
       return new Response("ok");
     }
- 
-    const session = JSON.parse(raw);
-    session.status = "connected";
-    session.chatId = chatId;
-    session.username = username;
-    await env.KV.put("session:" + sessionId, JSON.stringify(session), { expirationTtl: 900 });
- 
+
+    await doPost(store, "session/" + sessionId + "/connect", { chatId, username });
+
     await tgApi(env, "sendMessage", {
       chat_id: chatId,
       text: "✅ Ulanish muvaffaqiyatli! Endi saytga qaytib buyurtmangizni davom ettiring.",
     });
- 
+
     return new Response("ok");
   }
- 
+
   // Ha/Yo'q tugmasi bosildi
   if (update.callback_query) {
     const cq = update.callback_query;
     const [action, orderId] = (cq.data || "").split(":");
- 
-    const raw = await env.KV.get("order:" + orderId);
-    if (raw) {
-      const orderData = JSON.parse(raw);
-      orderData.status = action === "confirm" ? "confirmed" : "declined";
-      await env.KV.put("order:" + orderId, JSON.stringify(orderData), { expirationTtl: 3600 });
- 
+
+    const data = await doGet(store, "order/" + orderId);
+    if (data && data.ok) {
+      const newStatus = action === "confirm" ? "confirmed" : "declined";
+      const result = await doPost(store, "order/" + orderId + "/status", { status: newStatus });
+      const orderData = result.order;
+
       await tgApi(env, "answerCallbackQuery", {
         callback_query_id: cq.id,
         text: action === "confirm" ? "Rahmat, tasdiqlandi!" : "Buyurtma bekor qilindi.",
       });
- 
+
       await tgApi(env, "editMessageText", {
         chat_id: cq.message.chat.id,
         message_id: cq.message.message_id,
@@ -249,7 +274,7 @@ async function tgWebhook(request, env) {
           cq.message.text +
           (action === "confirm" ? "\n\n✅ TASDIQLANDI" : "\n\n❌ BEKOR QILINDI"),
       });
- 
+
       if (action === "confirm" && env.TELEGRAM_ADMIN_CHAT_ID) {
         const itemsText = (orderData.items || []).map((i) => `• ${i.name} x${i.qty}`).join("\n");
         const summaryText =
@@ -273,4 +298,114 @@ async function tgWebhook(request, env) {
   }
 
   return new Response("ok");
+}
+
+/* ================= DURABLE OBJECT ================= */
+/*
+  Bitta global obyekt sifatida ishlaydi: barcha sessiya va buyurtma
+  ma'lumotlari shu obyekt ichida, xotirada (tez) va disk-storage'da
+  (doimiy) saqlanadi. Yozish/o'qish ketma-ket, bitta joyda bajarilgani
+  uchun KV'dagi kabi "tarqalish kechikishi" umuman yo'q.
+*/
+export class SessionStore {
+  constructor(state) {
+    this.state = state;
+    this.sessions = new Map();
+    this.orders = new Map();
+
+    // DO birinchi marta ishga tushganda avvalgi holatni diskdan yuklaydi.
+    // blockConcurrencyWhile — shu tugagunча boshqa so'rovlar navbatda kutadi.
+    this.state.blockConcurrencyWhile(async () => {
+      const s = await this.state.storage.get("sessions");
+      if (s) this.sessions = new Map(Object.entries(s));
+      const o = await this.state.storage.get("orders");
+      if (o) this.orders = new Map(Object.entries(o));
+    });
+  }
+
+  async persistSessions() {
+    await this.state.storage.put("sessions", Object.fromEntries(this.sessions));
+  }
+  async persistOrders() {
+    await this.state.storage.put("orders", Object.fromEntries(this.orders));
+  }
+
+  cleanupExpired() {
+    const now = Date.now();
+    for (const [id, s] of this.sessions) {
+      if (now - s.createdAt > 15 * 60 * 1000) this.sessions.delete(id); // 15 daqiqa
+    }
+    for (const [id, o] of this.orders) {
+      if (now - o.createdAt > 60 * 60 * 1000) this.orders.delete(id); // 60 daqiqa
+    }
+  }
+
+  async fetch(request) {
+    const url = new URL(request.url);
+    const parts = url.pathname.split("/").filter(Boolean); // ["session", id] yoki ["session", id, "connect"]
+    this.cleanupExpired();
+
+    const respond = (body, status = 200) =>
+      new Response(JSON.stringify(body), {
+        status,
+        headers: { "Content-Type": "application/json" },
+      });
+
+    if (parts[0] === "session") {
+      const id = parts[1];
+
+      if (request.method === "POST" && parts.length === 2) {
+        this.sessions.set(id, { status: "waiting", createdAt: Date.now() });
+        await this.persistSessions();
+        return respond({ ok: true });
+      }
+
+      if (request.method === "GET" && parts.length === 2) {
+        const s = this.sessions.get(id);
+        if (!s) return respond({ ok: false, error: "not found" }, 404);
+        return respond({ ok: true, session: s });
+      }
+
+      if (request.method === "POST" && parts[2] === "connect") {
+        const body = await request.json();
+        const s = this.sessions.get(id);
+        if (!s) return respond({ ok: false, error: "not found" }, 404);
+        s.status = "connected";
+        s.chatId = body.chatId;
+        s.username = body.username || null;
+        this.sessions.set(id, s);
+        await this.persistSessions();
+        return respond({ ok: true });
+      }
+    }
+
+    if (parts[0] === "order") {
+      const id = parts[1];
+
+      if (request.method === "POST" && parts.length === 2) {
+        const body = await request.json();
+        this.orders.set(id, { ...body, createdAt: Date.now() });
+        await this.persistOrders();
+        return respond({ ok: true });
+      }
+
+      if (request.method === "GET" && parts.length === 2) {
+        const o = this.orders.get(id);
+        if (!o) return respond({ ok: false, error: "not found" }, 404);
+        return respond({ ok: true, order: o });
+      }
+
+      if (request.method === "POST" && parts[2] === "status") {
+        const body = await request.json();
+        const o = this.orders.get(id);
+        if (!o) return respond({ ok: false, error: "not found" }, 404);
+        o.status = body.status;
+        this.orders.set(id, o);
+        await this.persistOrders();
+        return respond({ ok: true, order: o });
+      }
+    }
+
+    return respond({ ok: false, error: "unknown route" }, 404);
+  }
 }
