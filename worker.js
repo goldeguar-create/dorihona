@@ -245,7 +245,7 @@ async function tgWebhook(request, env, store) {
     if (!payload || !payload.startsWith("session_")) {
       await tgApi(env, "sendMessage", {
         chat_id: chatId,
-        text: "Salom! Buyurtma berish uchun saytdagi \"Telegram botni ulash\" tugmasini bosing.",
+        text: "Salom! Buyurtma berish uchun saytdagi https://goldeguar-create.github.io/dorihona/ tugmasini bosing.",
       });
       return new Response("ok");
     }
