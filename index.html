@@ -58,6 +58,113 @@
 
 .hero > *{position:relative;z-index:1;}
 
+/* ================= 3D FLOATING PILLS / CAPSULES ================= */
+
+.pills-3d{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+    perspective:1200px;
+    overflow:hidden;
+}
+
+.pill-float{
+    position:absolute;
+    transform-style:preserve-3d;
+    will-change:transform;
+}
+
+.pill-3d{
+    transform-style:preserve-3d;
+    filter:drop-shadow(0 18px 26px rgba(15,92,56,.22));
+}
+
+.pill-3d svg{display:block;}
+
+@keyframes float3d-a{
+    0%,100%{ transform:translate3d(0,0,0) rotate(0deg); }
+    50%{ transform:translate3d(10px,-26px,40px) rotate(6deg); }
+}
+@keyframes float3d-b{
+    0%,100%{ transform:translate3d(0,0,0) rotate(0deg); }
+    50%{ transform:translate3d(-16px,-18px,60px) rotate(-8deg); }
+}
+@keyframes float3d-c{
+    0%,100%{ transform:translate3d(0,0,0) rotate(0deg); }
+    50%{ transform:translate3d(14px,-30px,20px) rotate(5deg); }
+}
+
+@keyframes spin3d-a{
+    from{ transform:rotateX(15deg) rotateY(0deg); }
+    to{ transform:rotateX(15deg) rotateY(360deg); }
+}
+@keyframes spin3d-b{
+    from{ transform:rotateX(-20deg) rotateY(0deg) rotateZ(10deg); }
+    to{ transform:rotateX(-20deg) rotateY(360deg) rotateZ(10deg); }
+}
+@keyframes spin3d-c{
+    from{ transform:rotateY(20deg) rotateX(0deg); }
+    to{ transform:rotateY(20deg) rotateX(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .pill-float, .pill-3d{ animation:none !important; }
+}
+
+/* ---- "Nega aynan biz" bo'limidagi 3D dorilar ---- */
+
+.pills-3d-section{
+    z-index:0;
+    opacity:.9;
+}
+
+.wp1{
+    top:2%;
+    right:4%;
+    width:76px;
+    animation:float3d-a 9.5s ease-in-out infinite;
+}
+.wp1 .pill-3d{ animation:spin3d-a 13s linear infinite; }
+
+.wp2{
+    top:40%;
+    left:2%;
+    width:42px;
+    animation:float3d-b 7.8s ease-in-out infinite;
+    animation-delay:.4s;
+}
+.wp2 .pill-3d{ animation:spin3d-b 10.5s linear infinite; }
+
+.wp3{
+    bottom:6%;
+    right:10%;
+    width:34px;
+    animation:float3d-c 8.2s ease-in-out infinite;
+    animation-delay:.9s;
+}
+.wp3 .pill-3d{ animation:spin3d-c 9.5s linear infinite reverse; }
+
+.wp4{
+    bottom:-2%;
+    left:8%;
+    width:66px;
+    animation:float3d-a 10.2s ease-in-out infinite;
+    animation-delay:.2s;
+}
+.wp4 .pill-3d{ animation:spin3d-b 12s linear infinite; }
+
+@media(max-width:980px){
+    .wp1{width:56px;}
+    .wp4{width:48px;}
+    .wp2,.wp3{width:30px;}
+}
+
+@media(max-width:560px){
+    .pills-3d-section{opacity:.6;}
+    .wp2{display:none;}
+}
+
 body{
     background:var(--paper);
     color:var(--ink);
@@ -1477,6 +1584,300 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* ================= GESTURE CONTROL ================= */
+
+/* ================= CHEMICAL REACTION ================= */
+
+#reactionCanvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:500;
+}
+
+.chem-pop{
+    position:fixed;
+    pointer-events:none;
+    z-index:501;
+    font-size:26px;
+    transform:translate(-50%,-50%) scale(.3);
+    opacity:0;
+    animation:chemPop .9s ease-out forwards;
+    filter:drop-shadow(0 4px 8px rgba(15,92,56,.35));
+}
+@keyframes chemPop{
+    0%{ transform:translate(-50%,-50%) scale(.3); opacity:0; }
+    25%{ transform:translate(-50%,-62%) scale(1.2); opacity:1; }
+    100%{ transform:translate(-50%,-120%) scale(.85); opacity:0; }
+}
+
+/* ================= PLANET PHARMACY ================= */
+
+.planet-fab{
+    position:fixed;
+    right:90px;
+    bottom:26px;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #2b3a67, #0b1024 70%);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    box-shadow:0 10px 24px rgba(11,16,36,.45);
+    cursor:pointer;
+    z-index:320;
+    border:none;
+    transition:.25s;
+}
+.planet-fab:hover{transform:translateY(-2px) rotate(8deg);box-shadow:0 14px 28px rgba(11,16,36,.55);}
+
+.planet-modal{
+    position:fixed;
+    inset:0;
+    z-index:900;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(1px 1px at 10% 20%, #fff, transparent),
+        radial-gradient(1px 1px at 80% 15%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 60% 70%, #fff, transparent),
+        radial-gradient(1px 1px at 30% 85%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 90% 60%, #fff, transparent),
+        radial-gradient(1px 1px at 45% 40%, #fff, transparent),
+        radial-gradient(1px 1px at 20% 55%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 70% 30%, #fff, transparent),
+        linear-gradient(180deg, #060814 0%, #0d1230 55%, #131a3d 100%);
+    overflow:hidden;
+}
+.planet-modal.show{display:flex;}
+
+.planet-close{
+    position:absolute;
+    top:22px;
+    right:22px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.2);
+    font-size:18px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+}
+
+.planet-head{
+    position:absolute;
+    top:34px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    color:#fff;
+    z-index:2;
+}
+.planet-head h3{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:4px;
+}
+.planet-head p{
+    font-size:13px;
+    opacity:.65;
+}
+
+.planet-field{
+    display:flex;
+    gap:64px;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:120px 40px 40px;
+}
+
+.planet{
+    width:132px;
+    height:132px;
+    border-radius:50%;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:planetFloat 4.5s ease-in-out infinite;
+    transition:transform .25s ease;
+}
+.planet:hover{transform:translateY(-6px) scale(1.05);}
+.planet-vitamin{
+    background:radial-gradient(circle at 32% 28%, #7CE8A6, #18A558 55%, #0F5C38 100%);
+    box-shadow:0 0 40px rgba(24,165,88,.55), inset -14px -14px 30px rgba(0,0,0,.25);
+}
+.planet-heart{
+    background:radial-gradient(circle at 32% 28%, #F3948A, #D9503A 55%, #8E2E1E 100%);
+    box-shadow:0 0 40px rgba(217,80,58,.55), inset -14px -14px 30px rgba(0,0,0,.25);
+    animation-delay:.6s;
+}
+.planet-kids{
+    background:radial-gradient(circle at 32% 28%, #8FC4FF, #2E7FD9 55%, #1A4A8E 100%);
+    box-shadow:0 0 40px rgba(46,127,217,.55), inset -14px -14px 30px rgba(0,0,0,.25);
+    animation-delay:1.2s;
+}
+.planet-ring{
+    position:absolute;
+    inset:-18px;
+    border:3px solid rgba(255,255,255,.28);
+    border-radius:50%;
+    transform:rotateX(72deg);
+    pointer-events:none;
+}
+.planet-label{
+    position:absolute;
+    bottom:-34px;
+    left:50%;
+    transform:translateX(-50%);
+    white-space:nowrap;
+    color:#fff;
+    font-size:13px;
+    font-weight:600;
+    text-align:center;
+}
+.planet-label small{
+    display:block;
+    font-weight:400;
+    opacity:.6;
+    font-size:11px;
+}
+
+@keyframes planetFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-14px); }
+}
+
+.planet-flash{
+    position:fixed;
+    inset:0;
+    background:#fff;
+    opacity:0;
+    pointer-events:none;
+    z-index:950;
+}
+
+.gesture-fab{
+    position:fixed;
+    right:22px;
+    bottom:26px;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:var(--green-deep);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    box-shadow:0 10px 24px rgba(15,92,56,.32);
+    cursor:pointer;
+    z-index:320;
+    border:none;
+    transition:.25s;
+}
+.gesture-fab:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(15,92,56,.4);}
+.gesture-fab.active{background:var(--green);}
+.gesture-fab.active::after{
+    content:'';
+    position:absolute;
+    inset:-5px;
+    border-radius:50%;
+    border:2px solid var(--green);
+    animation:gesturePulse 1.6s infinite;
+}
+@keyframes gesturePulse{
+    0%{transform:scale(.9);opacity:.9;}
+    100%{transform:scale(1.35);opacity:0;}
+}
+
+.gesture-panel{
+    position:fixed;
+    right:22px;
+    bottom:92px;
+    width:220px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 16px 40px rgba(15,92,56,.18);
+    padding:12px;
+    z-index:320;
+    display:none;
+    font-family:'Inter',sans-serif;
+}
+.gesture-panel.show{display:block;}
+.gesture-panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+.gesture-panel-title{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--green-deep);
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+.gesture-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--red);
+    flex-shrink:0;
+}
+.gesture-dot.live{background:var(--green);box-shadow:0 0 0 3px rgba(24,165,88,.2);}
+.gesture-video-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:4/3;
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d1a13;
+}
+.gesture-video-wrap video{
+    width:100%;height:100%;object-fit:cover;
+    transform:scaleX(-1);
+}
+.gesture-hint{
+    display:none;
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-size:26px;
+    color:#fff;
+    text-shadow:0 2px 6px rgba(0,0,0,.5);
+}
+.gesture-hint.show{display:block;}
+.gesture-status{
+    margin-top:8px;
+    font-size:11.5px;
+    color:var(--ink);
+    opacity:.65;
+    line-height:1.5;
+}
+.gesture-legend{
+    display:flex;
+    justify-content:space-between;
+    margin-top:8px;
+    font-size:11px;
+    color:var(--ink);
+    opacity:.75;
+}
+
 /* ---------- Responsive ---------- */
 
 @media(max-width:980px){
@@ -1809,6 +2210,7 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 
 </head>
 <body>
+<canvas id="reactionCanvas"></canvas>
 <div id="loader">
     <div class="loader-box">
         <div class="spinner"></div>
@@ -1862,8 +2264,6 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
     <source src="bg-video.mp4" type="video/mp4">
 </video>
 <section class="hero">
-
-
 
 <div class="left">
 
@@ -1933,16 +2333,70 @@ tasdiqlangan sharh
 </div>
 </div>
 
-<section class="section" style="padding-bottom:0;">
+<section class="section" style="padding-bottom:0;position:relative;overflow:hidden;">
 
-<div class="section-head">
+<div class="pills-3d pills-3d-section" aria-hidden="true">
+
+  <div class="pill-float wp1">
+    <div class="pill-3d">
+      <svg viewBox="0 0 100 44" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="capW1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#18A558"/>
+            <stop offset="100%" stop-color="#0F5C38"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="98" height="42" rx="21" fill="url(#capW1)"/>
+        <path d="M50 1 H79 A21 21 0 0 1 79 43 H50 Z" fill="#FAFBF8"/>
+        <rect x="1" y="1" width="98" height="42" rx="21" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="pill-float wp2">
+    <div class="pill-3d">
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="27" fill="#D98E2E"/>
+        <circle cx="24" cy="22" r="8" fill="rgba(255,255,255,.35)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="pill-float wp3">
+    <div class="pill-3d">
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="27" fill="#18A558"/>
+        <circle cx="24" cy="22" r="8" fill="rgba(255,255,255,.35)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="pill-float wp4">
+    <div class="pill-3d">
+      <svg viewBox="0 0 100 44" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="capW4" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#D98E2E"/>
+            <stop offset="100%" stop-color="#B9721F"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="98" height="42" rx="21" fill="#FAFBF8"/>
+        <path d="M50 1 H79 A21 21 0 0 1 79 43 H50 Z" fill="url(#capW4)"/>
+        <rect x="1" y="1" width="98" height="42" rx="21" fill="none" stroke="rgba(15,92,56,.15)" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-head" style="position:relative;z-index:1;">
 <div>
 <div class="eyebrow">Nega aynan biz</div>
 <h2>Dorixona emas — sog'liq bo'yicha hamkoringiz.</h2>
 </div>
 </div>
 
-<div class="why-grid">
+<div class="why-grid" style="position:relative;z-index:1;">
 
 <div class="why-item">
 <span class="why-icon">✅</span>
@@ -3681,7 +4135,57 @@ tasdiqlangan sharh
 
 <div class="toast" id="toast">✓ Mahsulot savatga qo'shildi</div>
 
+<!-- ================= GESTURE CONTROL ================= -->
+<div class="gesture-panel" id="gesturePanel">
+    <div class="gesture-panel-head">
+        <div class="gesture-panel-title"><span class="gesture-dot" id="gestureDot"></span>Gesture Control</div>
+    </div>
+    <div class="gesture-video-wrap">
+        <video id="gestureVideo" autoplay playsinline muted></video>
+        <div class="gesture-hint" id="gestureHint"></div>
+    </div>
+    <div class="gesture-legend">
+        <span>✋ Chap → Oldingi</span>
+        <span>👉 O'ng → Keyingi</span>
+    </div>
+    <div class="gesture-legend" style="margin-top:2px;">
+        <span>🤙 → Savatga kirish</span>
+        <span>👍 → Orqaga</span>
+    </div>
+    <div class="gesture-legend" style="margin-top:2px;">
+        <span>👊 → Dorini savatga qo'shish</span>
+    </div>
+    <div class="gesture-status" id="gestureStatus">Kamera ruxsatini so'rash uchun pastdagi tugmani bosing.</div>
+</div>
+<button class="gesture-fab" id="gestureFab" title="Qo'l harakati bilan boshqarish">🖐️</button>
+
+<!-- ================= PLANET PHARMACY ================= -->
+<button class="planet-fab" id="planetFab" title="Planet Pharmacy">🌍</button>
+<div class="planet-modal" id="planetModal">
+    <button class="planet-close" id="planetClose">✕</button>
+    <div class="planet-head">
+        <h3>🌍 Planet Pharmacy</h3>
+        <p>Sayyorani tanlang va uning ichiga uching</p>
+    </div>
+    <div class="planet-field">
+        <div class="planet planet-vitamin" data-planet="vitamin">
+            <div class="planet-ring"></div>
+            <div class="planet-label">🟢 Vitamin sayyorasi<small>Immunitet va kundalik quvvat</small></div>
+        </div>
+        <div class="planet planet-heart" data-planet="yurak">
+            <div class="planet-ring"></div>
+            <div class="planet-label">🔴 Yurak sayyorasi<small>Yurak-qon tomir salomatligi</small></div>
+        </div>
+        <div class="planet planet-kids" data-planet="bola">
+            <div class="planet-ring"></div>
+            <div class="planet-label">🔵 Bolalar sayyorasi<small>Ona va bola mahsulotlari</small></div>
+        </div>
+    </div>
+</div>
+<div class="planet-flash" id="planetFlash"></div>
+
 <script>
+
 /* ================= TABS ================= */
 
 document.querySelectorAll('.tab').forEach(tab=>{
@@ -3803,6 +4307,89 @@ function scrollToProducts(){
 }
 
 document.getElementById('headerOrderBtn').addEventListener('click', scrollToProducts);
+
+/* ================= PLANET PHARMACY =================
+   Har bir kategoriya alohida "sayyora" sifatida ko'rsatiladi.
+   Sayyoraga bosilganda uning ichiga "uchib kirish" animatsiyasi
+   o'ynaydi, so'ng mahsulotlar bo'limiga o'sha kategoriya bo'yicha
+   filtrlangan holda olib boradi. */
+(function(){
+    const fab = document.getElementById('planetFab');
+    const modal = document.getElementById('planetModal');
+    const closeBtn = document.getElementById('planetClose');
+    const flash = document.getElementById('planetFlash');
+    const planets = document.querySelectorAll('.planet');
+
+    const PLANET_INFO = {
+        vitamin: { query:'vitamin', tabText:'Vitaminlar', label:'🟢 Vitamin sayyorasiga' },
+        yurak: { query:'yurak', tabText:null, label:'🔴 Yurak sayyorasiga' },
+        bola: { query:'bola', tabText:'Ona va bola', label:'🔵 Bolalar sayyorasiga' }
+    };
+
+    function openPlanetModal(){
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    function closePlanetModal(){
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        planets.forEach(p => { p.style.transition = ''; p.style.transform = ''; p.style.opacity = ''; });
+    }
+
+    fab.addEventListener('click', openPlanetModal);
+    closeBtn.addEventListener('click', closePlanetModal);
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) closePlanetModal();
+    });
+
+    planets.forEach(planet => {
+        planet.addEventListener('click', () => {
+            const key = planet.dataset.planet;
+            const info = PLANET_INFO[key];
+            if(!info) return;
+
+            // boshqa sayyoralarni xiralashtiramiz, tanlangani esa ekranni to'ldirib "uchib kiradi"
+            planets.forEach(p => {
+                if(p === planet) return;
+                p.style.transition = 'opacity .4s ease, transform .4s ease';
+                p.style.opacity = '0';
+                p.style.transform = 'scale(.7)';
+            });
+            document.querySelector('.planet-head').style.transition = 'opacity .3s ease';
+            document.querySelector('.planet-head').style.opacity = '0';
+
+            planet.style.transition = 'transform .85s cubic-bezier(.16,.84,.44,1)';
+            planet.style.transform = 'scale(9)';
+
+            setTimeout(() => {
+                flash.style.transition = 'opacity .25s ease';
+                flash.style.opacity = '1';
+            }, 700);
+
+            setTimeout(() => {
+                closePlanetModal();
+                flash.style.opacity = '0';
+                document.querySelector('.planet-head').style.opacity = '';
+
+                // tegishli tabni faollashtiramiz (agar mavjud bo'lsa)
+                if(info.tabText){
+                    document.querySelectorAll('.tab').forEach(tab => {
+                        if(tab.textContent.trim() === info.tabText){
+                            const activeTab = document.querySelector('.tab.active');
+                            if(activeTab) activeTab.classList.remove('active');
+                            tab.classList.add('active');
+                        }
+                    });
+                }
+
+                filterProducts(info.query);
+                if(searchInput) searchInput.value = info.query;
+                scrollToProducts();
+                showToast('✓ ' + info.label + ' qo\'ndingiz');
+            }, 950);
+        });
+    });
+})();
 
 /* mobile hamburger menu */
 const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -4055,6 +4642,114 @@ overlay.addEventListener('click', ()=>{
     closeAiFn();
 });
 
+/* ================= CHEMICAL REACTION =================
+   Mahsulot "+" tugmasi bosilganda, xuddi ikkita reaktiv modda
+   qo'shilgandek, bosilgan nuqtadan rangli zarrachalar va
+   ko'piklar (fizz) portlaydi + qisqa emoji animatsiyasi chiqadi. */
+(function(){
+    const canvas = document.getElementById('reactionCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const REACTION_COLORS = ['#18A558','#0F5C38','#D98E2E','#D9503A','#6FD3A3','#F6E4C6'];
+    const EMOJI_SET = ['⚗️','🧪','✨','💥'];
+
+    let sparks = [];
+    let bubbles = [];
+    let running = false;
+
+    function spawnBurst(x, y){
+        for(let i=0;i<26;i++){
+            const angle = Math.random()*Math.PI*2;
+            const speed = 1.5 + Math.random()*4;
+            sparks.push({
+                x, y,
+                vx: Math.cos(angle)*speed,
+                vy: Math.sin(angle)*speed,
+                r: 2 + Math.random()*3,
+                color: REACTION_COLORS[Math.floor(Math.random()*REACTION_COLORS.length)],
+                life: 1,
+                decay: 0.015 + Math.random()*0.02
+            });
+        }
+        for(let i=0;i<14;i++){
+            bubbles.push({
+                x: x + (Math.random()-0.5)*40,
+                y: y + (Math.random()-0.5)*10,
+                vy: -(0.6 + Math.random()*1.4),
+                vx: (Math.random()-0.5)*0.6,
+                r: 2 + Math.random()*4,
+                color: REACTION_COLORS[Math.floor(Math.random()*REACTION_COLORS.length)],
+                life: 1,
+                decay: 0.008 + Math.random()*0.012
+            });
+        }
+        if(!running){ running = true; requestAnimationFrame(loop); }
+    }
+
+    function loop(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        sparks.forEach(p=>{
+            p.x += p.vx; p.y += p.vy;
+            p.vy += 0.06; // tortishish kuchi
+            p.life -= p.decay;
+        });
+        sparks = sparks.filter(p=>p.life>0);
+        sparks.forEach(p=>{
+            ctx.globalAlpha = Math.max(p.life,0);
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+            ctx.fill();
+        });
+
+        bubbles.forEach(b=>{
+            b.x += b.vx + Math.sin(b.y*0.05)*0.3;
+            b.y += b.vy;
+            b.life -= b.decay;
+        });
+        bubbles = bubbles.filter(b=>b.life>0);
+        bubbles.forEach(b=>{
+            ctx.globalAlpha = Math.max(b.life,0)*0.8;
+            ctx.strokeStyle = b.color;
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+            ctx.stroke();
+        });
+
+        ctx.globalAlpha = 1;
+
+        if(sparks.length || bubbles.length){
+            requestAnimationFrame(loop);
+        } else {
+            running = false;
+        }
+    }
+
+    function spawnEmojiPop(x, y){
+        const el = document.createElement('div');
+        el.className = 'chem-pop';
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.textContent = EMOJI_SET[Math.floor(Math.random()*EMOJI_SET.length)];
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 950);
+    }
+
+    window.triggerChemicalReaction = function(x, y){
+        spawnBurst(x, y);
+        spawnEmojiPop(x, y);
+    };
+})();
+
 document.querySelectorAll('.product-card').forEach(card=>{
     const addBtn = card.querySelector('.add-btn');
     if(!addBtn) return;
@@ -4074,6 +4769,19 @@ document.querySelectorAll('.product-card').forEach(card=>{
         }
         updateBadge();
         showToast('✓ "' + name + '" savatga qo\'shildi');
+        const rect = addBtn.getBoundingClientRect();
+        const cx = e.clientX || (rect.left + rect.width/2);
+        const cy = e.clientY || (rect.top + rect.height/2);
+        triggerChemicalReaction(cx, cy);
+    });
+
+    // Mahsulot kartochkasining o'zi (rasm/matn) bosilganda ham reaksiya chiqadi
+    card.addEventListener('click', (e)=>{
+        if(e.target.closest('.add-btn') || e.target.closest('.wishlist')) return;
+        const rect = card.getBoundingClientRect();
+        const cx = e.clientX || (rect.left + rect.width/2);
+        const cy = e.clientY || (rect.top + rect.height/2);
+        triggerChemicalReaction(cx, cy);
     });
 });
 
@@ -4672,6 +5380,264 @@ if('serviceWorker' in navigator){
         regs.forEach(reg => reg.unregister());
     });
 }
+
+/* ================= GESTURE CONTROL =================
+   Qo'l harakati bilan sahifa bo'limlari orasida navigatsiya:
+   ✋ chapga siljish → oldingi bo'lim
+   👉 o'ngga siljish → keyingi bo'lim
+   Barchasi foydalanuvchi qurilmasida (brauzerda) ishlaydi,
+   hech qanday video/rasm serverga yuborilmaydi. */
+(function(){
+    const fab = document.getElementById('gestureFab');
+    const panel = document.getElementById('gesturePanel');
+    const video = document.getElementById('gestureVideo');
+    const dot = document.getElementById('gestureDot');
+    const statusEl = document.getElementById('gestureStatus');
+    const hintEl = document.getElementById('gestureHint');
+
+    let stream = null;
+    let handLandmarker = null;
+    let rafId = null;
+    let active = false;
+    let loading = false;
+
+    // Barcha asosiy bo'limlar (navigatsiya "sahifalari" sifatida)
+    function getSections(){
+        return Array.from(document.querySelectorAll('body > section'));
+    }
+
+    function currentSectionIndex(sections){
+        const y = window.scrollY + window.innerHeight * 0.3;
+        let idx = 0;
+        sections.forEach((sec, i) => {
+            if(sec.offsetTop <= y) idx = i;
+        });
+        return idx;
+    }
+
+    function goToSection(direction){
+        const sections = getSections();
+        if(sections.length === 0) return;
+        const idx = currentSectionIndex(sections);
+        const nextIdx = Math.min(sections.length - 1, Math.max(0, idx + direction));
+        if(nextIdx === idx) return;
+        sections[nextIdx].scrollIntoView({behavior:'smooth', block:'start'});
+        flashHint(direction < 0 ? '⬅️' : '➡️');
+        showToast(direction < 0 ? '⬅️ Oldingi bo\'lim' : '➡️ Keyingi bo\'lim');
+    }
+
+    function flashHint(symbol){
+        hintEl.textContent = symbol;
+        hintEl.classList.add('show');
+        setTimeout(() => hintEl.classList.remove('show'), 450);
+    }
+
+    async function loadHandLandmarker(){
+        const visionModule = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs');
+        const { HandLandmarker, FilesetResolver } = visionModule;
+        const filesetResolver = await FilesetResolver.forVisionTasks(
+            'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm'
+        );
+        return await HandLandmarker.createFromOptions(filesetResolver, {
+            baseOptions: {
+                modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',
+                delegate: 'GPU'
+            },
+            runningMode: 'VIDEO',
+            numHands: 1
+        });
+    }
+
+    // Qo'l kaftining X o'qi bo'yicha harakatini kuzatib, tez siljishni "swipe" deb aniqlaymiz
+    let xHistory = [];
+    let lastSwipeAt = 0;
+    const SWIPE_COOLDOWN_MS = 1100;
+    const SWIPE_WINDOW_MS = 350;
+    const SWIPE_THRESHOLD = 0.28; // normalized (0..1) kadr kengligiga nisbatan
+
+    function processHandX(normX, now){
+        xHistory.push({x: normX, t: now});
+        xHistory = xHistory.filter(p => now - p.t <= SWIPE_WINDOW_MS);
+        if(xHistory.length < 2) return;
+
+        const oldest = xHistory[0];
+        const delta = normX - oldest.x; // kamera oynasi ustida ekran koordinatasi
+
+        if(now - lastSwipeAt < SWIPE_COOLDOWN_MS) return;
+
+        // Video CSS orqali ko'zguga o'xshab ag'darilgan (scaleX(-1)) —
+        // shu sababli foydalanuvchi nuqtai nazaridan o'ngga siljish uchun
+        // xom (raw) X qiymati kamayadi, chapga siljish uchun ortadi.
+        if(delta > SWIPE_THRESHOLD){
+            lastSwipeAt = now;
+            xHistory = [];
+            goToSection(-1); // ekranda chapga siljigan qo'l → oldingi
+        } else if(delta < -SWIPE_THRESHOLD){
+            lastSwipeAt = now;
+            xHistory = [];
+            goToSection(1); // ekranda o'ngga siljigan qo'l → keyingi
+        }
+    }
+
+    function detectLoop(){
+        if(!active || !handLandmarker) return;
+        const now = performance.now();
+        if(video.readyState >= 2){
+            const result = handLandmarker.detectForVideo(video, now);
+            if(result && result.landmarks && result.landmarks.length > 0){
+                const landmarks = result.landmarks[0];
+                const palm = landmarks[9]; // o'rta barmoq asosi ≈ kaft markazi
+                dot.classList.add('live');
+                processHandX(palm.x, now);
+                handlePose(classifyPose(landmarks), now);
+            } else {
+                dot.classList.remove('live');
+                handlePose(null, now);
+            }
+        }
+        rafId = requestAnimationFrame(detectLoop);
+    }
+
+    /* ---- Statik qo'l ishoralari: 👊 fist / 👍 thumbs-up / 🤙 shaka ----
+       Har bir barmoq "yozilgan" yoki "yumilgan" ekanligi, uning uchi
+       kaftga (wrist) nisbatan qanchalik uzoqligi orqali aniqlanadi. */
+    function dist2D(a, b){
+        const dx = a.x - b.x, dy = a.y - b.y;
+        return Math.sqrt(dx*dx + dy*dy);
+    }
+
+    function fingerExtended(landmarks, tipIdx, pipIdx){
+        const wrist = landmarks[0];
+        return dist2D(landmarks[tipIdx], wrist) > dist2D(landmarks[pipIdx], wrist) * 1.15;
+    }
+
+    function classifyPose(landmarks){
+        const thumb = fingerExtended(landmarks, 4, 2);
+        const index = fingerExtended(landmarks, 8, 6);
+        const middle = fingerExtended(landmarks, 12, 10);
+        const ring = fingerExtended(landmarks, 16, 14);
+        const pinky = fingerExtended(landmarks, 20, 18);
+
+        if(!thumb && !index && !middle && !ring && !pinky) return 'fist';       // 👊
+        if(thumb && !index && !middle && !ring && !pinky) return 'thumbsup';    // 👍
+        if(thumb && pinky && !index && !middle && !ring) return 'shaka';        // 🤙
+        return null;
+    }
+
+    let currentPose = null;
+    let poseStartAt = 0;
+    let poseCooldownUntil = 0;
+    const POSE_HOLD_MS = 550;      // ishora shuncha vaqt ushlab turilishi kerak
+    const POSE_COOLDOWN_MS = 1400; // bitta harakatdan keyingi kutish vaqti
+
+    function handlePose(pose, now){
+        if(pose !== currentPose){
+            currentPose = pose;
+            poseStartAt = now;
+            return;
+        }
+        if(!pose) return;
+        if(now < poseCooldownUntil) return;
+        if(now - poseStartAt >= POSE_HOLD_MS){
+            poseCooldownUntil = now + POSE_COOLDOWN_MS;
+            triggerPoseAction(pose);
+        }
+    }
+
+    function triggerPoseAction(pose){
+        if(pose === 'shaka'){
+            // 🤙 → savatga kirsin
+            const cartBtn = document.getElementById('cartBtn');
+            if(cartBtn) cartBtn.click();
+            flashHint('🤙');
+        } else if(pose === 'thumbsup'){
+            // 👍 → orqaga qaytsin
+            goToSection(-1);
+            flashHint('👍');
+        } else if(pose === 'fist'){
+            // 👊 → hozir ko'rinib turgan dorini savatga qo'shsin
+            addVisibleProductToCart();
+            flashHint('👊');
+        }
+    }
+
+    function addVisibleProductToCart(){
+        const cards = Array.from(document.querySelectorAll('.product-card'));
+        if(cards.length === 0) return;
+        const viewportCenter = window.innerHeight / 2;
+        let best = null, bestDist = Infinity;
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            if(rect.bottom < 0 || rect.top > window.innerHeight) return; // ekranda ko'rinmayapti
+            const cardCenter = rect.top + rect.height / 2;
+            const d = Math.abs(cardCenter - viewportCenter);
+            if(d < bestDist){ bestDist = d; best = card; }
+        });
+        if(best){
+            const addBtn = best.querySelector('.add-btn');
+            if(addBtn) addBtn.click(); // saytning o'z toast xabari chiqadi
+        }
+    }
+
+    async function startGesture(){
+        if(loading || active) return;
+        loading = true;
+        statusEl.textContent = 'Kamera va model yuklanmoqda...';
+        try{
+            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width:320, height:240 }, audio:false });
+            video.srcObject = stream;
+            await video.play();
+
+            if(!handLandmarker){
+                handLandmarker = await loadHandLandmarker();
+            }
+
+            active = true;
+            loading = false;
+            fab.classList.add('active');
+            fab.textContent = '🖐️';
+            statusEl.textContent = 'Faol — qo\'lingizni kamera oldida chapga yoki o\'ngga suring.';
+            detectLoop();
+        }catch(err){
+            loading = false;
+            active = false;
+            console.error('Gesture control error:', err);
+            if(err && (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError')){
+                statusEl.textContent = 'Kameraga ruxsat berilmadi. Brauzer sozlamalaridan ruxsat bering.';
+            } else {
+                statusEl.textContent = 'Gesture control ishga tushmadi. Qurilmangiz/brauzeringiz qo\'llab-quvvatlamasligi mumkin.';
+            }
+        }
+    }
+
+    function stopGesture(){
+        active = false;
+        loading = false;
+        if(rafId) cancelAnimationFrame(rafId);
+        if(stream){
+            stream.getTracks().forEach(t => t.stop());
+            stream = null;
+        }
+        dot.classList.remove('live');
+        fab.classList.remove('active');
+        statusEl.textContent = 'O\'chirilgan. Kamera ruxsatini so\'rash uchun pastdagi tugmani bosing.';
+    }
+
+    fab.addEventListener('click', () => {
+        panel.classList.toggle('show');
+        if(panel.classList.contains('show') && !active && !loading){
+            startGesture();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if(panel.classList.contains('show') && !panel.contains(e.target) && e.target !== fab){
+            panel.classList.remove('show');
+        }
+    });
+
+    window.addEventListener('beforeunload', stopGesture);
+})();
 </script>
 
 
