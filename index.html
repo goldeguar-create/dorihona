@@ -1984,6 +1984,95 @@ tasdiqlangan sharh
 
 </section>
 
+<section class="section" id="health-panel">
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Sog'liq paneli</div>
+      <h2>Tanangiz haqida bilib oling — bir necha soniyada.</h2>
+    </div>
+    <p>Bo'yingiz, vazningiz va yoshingizni kiriting — BMI, kunlik suv va kaloriya ehtiyojingizni hisoblaymiz.</p>
+  </div>
+
+  <div style="background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px;display:flex;gap:40px;flex-wrap:wrap;">
+
+    <!-- ===== KIRITISH FORMASI ===== -->
+    <div style="flex:1;min-width:280px;">
+
+      <div class="form-group">
+        <label>Jinsi</label>
+        <div class="pay-options" style="margin-bottom:0;">
+          <button type="button" class="pay-option active" id="hpGenderMale">👨 Erkak</button>
+          <button type="button" class="pay-option" id="hpGenderFemale">👩 Ayol</button>
+        </div>
+      </div>
+
+      <div class="form-row" style="margin-top:16px;">
+        <div class="form-group">
+          <label>Bo'yi (sm)</label>
+          <input type="number" id="hpHeight" placeholder="Masalan: 172" min="80" max="250">
+        </div>
+        <div class="form-group">
+          <label>Vazni (kg)</label>
+          <input type="number" id="hpWeight" placeholder="Masalan: 68" min="20" max="300">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Yoshi</label>
+          <input type="number" id="hpAge" placeholder="Masalan: 27" min="5" max="120">
+        </div>
+        <div class="form-group">
+          <label>Faollik darajasi</label>
+          <select id="hpActivity">
+            <option value="1.2">Kam harakatli (ofis ishi)</option>
+            <option value="1.375">Yengil faol (haftada 1-3 mashq)</option>
+            <option value="1.55" selected>O'rtacha faol (haftada 3-5 mashq)</option>
+            <option value="1.725">Yuqori faol (haftada 6-7 mashq)</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="btn full-btn" id="hpCalcBtn" style="margin-top:6px;">Hisoblash</button>
+      <p id="hpError" style="display:none;color:var(--red);font-size:12.5px;margin-top:10px;"></p>
+
+    </div>
+
+    <!-- ===== NATIJALAR ===== -->
+    <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:16px;" id="hpResults">
+
+      <div style="background:var(--mint);border-radius:14px;padding:22px 24px;">
+        <div class="eyebrow" style="margin-bottom:8px;">BMI (Tana massa indeksi)</div>
+        <div style="display:flex;align-items:baseline;gap:10px;">
+          <span id="hpBmiValue" style="font-family:'Fraunces',serif;font-size:34px;color:var(--green-deep);">—</span>
+          <span id="hpBmiLabel" style="font-size:13px;font-weight:600;color:#4B5A50;"></span>
+        </div>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 24px;">
+        <div class="eyebrow" style="margin-bottom:8px;">Kunlik suv me'yori</div>
+        <div style="font-family:'Fraunces',serif;font-size:28px;color:var(--ink);" id="hpWaterValue">—</div>
+        <p style="font-size:12.5px;color:#8A9A8F;margin-top:6px;">Taxminan 8 stakan (≈250ml) ga bo'linadi</p>
+      </div>
+
+      <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 24px;">
+        <div class="eyebrow" style="margin-bottom:8px;">Kunlik kaloriya ehtiyoji</div>
+        <div style="font-family:'Fraunces',serif;font-size:28px;color:var(--ink);" id="hpCalorieValue">—</div>
+        <p style="font-size:12.5px;color:#8A9A8F;margin-top:6px;">Vaznni saqlab turish uchun taxminiy miqdor</p>
+      </div>
+
+      <p style="font-size:11.5px;color:#8A9A8F;line-height:1.6;">
+        ⚠️ Bu hisob-kitoblar umumiy formulalarga asoslangan va tibbiy maslahat o'rnini bosmaydi.
+        Aniq tavsiya uchun farmatsevt yoki shifokorimizga murojaat qiling.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
 <section class="section" id="ai-section">
 
 <div class="section-head">
@@ -3813,6 +3902,104 @@ window.addEventListener('load', function () {
         }
     }, 1200);
 });
+
+/* ================= SOG'LIQ PANELI ================= */
+(function(){
+  const genderMaleBtn   = document.getElementById('hpGenderMale');
+  const genderFemaleBtn = document.getElementById('hpGenderFemale');
+  const heightEl   = document.getElementById('hpHeight');
+  const weightEl   = document.getElementById('hpWeight');
+  const ageEl      = document.getElementById('hpAge');
+  const activityEl = document.getElementById('hpActivity');
+  const calcBtn    = document.getElementById('hpCalcBtn');
+  const errorEl    = document.getElementById('hpError');
+
+  if(!calcBtn) return; // sahifada sog'liq paneli bo'lmasa, hech narsa qilinmaydi
+
+  const bmiValueEl   = document.getElementById('hpBmiValue');
+  const bmiLabelEl   = document.getElementById('hpBmiLabel');
+  const waterValueEl = document.getElementById('hpWaterValue');
+  const calorieValueEl = document.getElementById('hpCalorieValue');
+
+  let hpGender = 'male';
+
+  genderMaleBtn.addEventListener('click', () => {
+    hpGender = 'male';
+    genderMaleBtn.classList.add('active');
+    genderFemaleBtn.classList.remove('active');
+  });
+  genderFemaleBtn.addEventListener('click', () => {
+    hpGender = 'female';
+    genderFemaleBtn.classList.add('active');
+    genderMaleBtn.classList.remove('active');
+  });
+
+  function hpShowError(msg){
+    errorEl.textContent = msg;
+    errorEl.style.display = 'block';
+  }
+  function hpClearError(){
+    errorEl.style.display = 'none';
+  }
+
+  function bmiCategory(bmi){
+    if(bmi < 18.5) return {label:'Kam vazn', color:'#D98E2E'};
+    if(bmi < 25)   return {label:'Normal vazn', color:'#18A558'};
+    if(bmi < 30)   return {label:"Ortiqcha vazn", color:'#D98E2E'};
+    return {label:'Semizlik', color:'#D9503A'};
+  }
+
+  calcBtn.addEventListener('click', () => {
+    hpClearError();
+
+    const heightCm = parseFloat(heightEl.value);
+    const weightKg = parseFloat(weightEl.value);
+    const age = parseFloat(ageEl.value);
+    const activity = parseFloat(activityEl.value);
+
+    if(!heightCm || heightCm < 80 || heightCm > 250){
+      hpShowError('Iltimos, to\'g\'ri bo\'y kiriting (80–250 sm).');
+      heightEl.focus();
+      return;
+    }
+    if(!weightKg || weightKg < 20 || weightKg > 300){
+      hpShowError('Iltimos, to\'g\'ri vazn kiriting (20–300 kg).');
+      weightEl.focus();
+      return;
+    }
+    if(!age || age < 5 || age > 120){
+      hpShowError('Iltimos, to\'g\'ri yosh kiriting (5–120).');
+      ageEl.focus();
+      return;
+    }
+
+    // ---- BMI ----
+    const heightM = heightCm / 100;
+    const bmi = weightKg / (heightM * heightM);
+    const cat = bmiCategory(bmi);
+
+    bmiValueEl.textContent = bmi.toFixed(1);
+    bmiLabelEl.textContent = cat.label;
+    bmiLabelEl.style.color = cat.color;
+
+    // ---- Kunlik suv (≈33 ml / kg tana vazniga) ----
+    const waterMl = Math.round(weightKg * 33 / 50) * 50; // 50ml ga yaxlitlash
+    waterValueEl.textContent = (waterMl / 1000).toFixed(2).replace('.', ',') + ' litr';
+
+    // ---- Kaloriya (Mifflin-St Jeor formulasi) ----
+    let bmr;
+    if(hpGender === 'male'){
+      bmr = 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
+    } else {
+      bmr = 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+    }
+    const calories = Math.round((bmr * activity) / 10) * 10; // 10 kcal ga yaxlitlash
+
+    calorieValueEl.textContent = calories.toLocaleString('en-US').replace(/,/g,' ') + ' kkal';
+
+    document.getElementById('hpResults').scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+})();
 
 /* ================= CART ================= */
 
