@@ -212,6 +212,11 @@ header{
     position:sticky;
     top:0;
     z-index:50;
+    transition:box-shadow .3s ease, padding .3s ease;
+}
+header.scrolled{
+    padding:12px 8%;
+    box-shadow:0 10px 28px rgba(15,92,56,.1);
 }
 
 .logo{
@@ -557,6 +562,12 @@ nav a:hover::after{width:100%;}
     justify-content:center;
     font-size:26px;
     margin-bottom:20px;
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1), background .3s ease;
+}
+
+.cat-card:hover .cat-icon{
+    transform:translateY(-5px) rotate(-6deg) scale(1.08);
+    background:var(--mint-2);
 }
 
 .cat-card h4{font-size:18px;margin-bottom:8px;}
@@ -586,6 +597,18 @@ nav a:hover::after{width:100%;}
 
 .tab.active{background:var(--green-deep);color:#fff;border-color:var(--green-deep);}
 .tab:hover:not(.active){border-color:var(--green);color:var(--green-deep);}
+
+/* ---------- Mahsulot almashtirish effekti: toza fade ---------- */
+
+.grid-products.robot-glitch{
+    animation:gridSwap 700ms ease-in-out;
+}
+@keyframes gridSwap{
+    0%{ opacity:1; transform:translateY(0); }
+    45%{ opacity:0; transform:translateY(8px); }
+    55%{ opacity:0; transform:translateY(-8px); }
+    100%{ opacity:1; transform:translateY(0); }
+}
 
 /* ---------- Product grid ---------- */
 
@@ -627,6 +650,11 @@ nav a:hover::after{width:100%;}
     width:100%;
     height:100%;
     object-fit:cover;
+    transition:transform .5s cubic-bezier(.22,.9,.28,1);
+}
+
+.product-card:hover .product-thumb img{
+    transform:scale(1.09);
 }
 
 .product-tag{
@@ -1584,6 +1612,115 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* ================= EARTHQUAKE (sayt har 5 daqiqada qimirlaydi) =================
+   Bu klass position:fixed BO'LMAGAN elementlarga qo'llanadi (JS orqali tanlanadi),
+   shunda fixed panel/modallar (savat, checkout, gesture panel va h.k.) o'z joyida
+   qoladi va effekt tufayli "sakramaydi". */
+@keyframes earthquakeShake{
+    0%,100%{ transform:translate(0,0) rotate(0deg); }
+    10%{ transform:translate(-7px,4px) rotate(-.35deg); }
+    20%{ transform:translate(6px,-5px) rotate(.35deg); }
+    30%{ transform:translate(-6px,5px) rotate(-.3deg); }
+    40%{ transform:translate(7px,-4px) rotate(.3deg); }
+    50%{ transform:translate(-5px,3px) rotate(-.2deg); }
+    60%{ transform:translate(5px,-3px) rotate(.2deg); }
+    70%{ transform:translate(-4px,2px) rotate(-.1deg); }
+    80%{ transform:translate(4px,-2px) rotate(.1deg); }
+    90%{ transform:translate(-2px,1px); }
+}
+.earthquake-shake{
+    animation:earthquakeShake 900ms cubic-bezier(.36,.07,.19,.97);
+}
+
+/* ================= SCROLL-REVEAL (kartalar ko'rinishga kirganda) =================
+   "animation" xossasi ishlatiladi (transition emas), shunda kartalarning
+   o'z hover effektlari (transform bilan) bilan hech qanday to'qnashuv
+   bo'lmaydi — ikkalasi mustaqil CSS xossalari. */
+@keyframes revealUp{
+    0%{ opacity:0; transform:translateY(26px); }
+    100%{ opacity:1; transform:translateY(0); }
+}
+.reveal-up{
+    opacity:0;
+}
+.reveal-up.in-view{
+    animation:revealUp .7s cubic-bezier(.16,.84,.44,1) forwards;
+}
+
+/* ================= HISOBLAGICH POP (raqamlar sanalganda) ================= */
+@keyframes numPop{
+    0%{ transform:scale(.85); }
+    55%{ transform:scale(1.1); }
+    100%{ transform:scale(1); }
+}
+.strip-item .num.counting{
+    display:inline-block;
+    animation:numPop .5s ease;
+}
+
+/* ================= YUQORIGA QAYTISH TUGMASI ================= */
+.back-to-top{
+    position:fixed;
+    right:26px;
+    bottom:236px;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:var(--green-deep);
+    color:#fff;
+    border:none;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 10px 24px rgba(15,92,56,.3);
+    z-index:150;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(12px);
+    transition:opacity .3s ease, transform .3s ease, background .25s ease;
+}
+.back-to-top.show{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+}
+.back-to-top:hover{
+    background:var(--ink);
+    transform:translateY(-4px);
+}
+
+/* ================= YENGIL "IDLE" SUZISH ANIMATSIYALARI ================= */
+@keyframes iconFloatSoft{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-6px); }
+}
+.doc-photo, .blog-thumb{
+    animation:iconFloatSoft 3.6s ease-in-out infinite;
+}
+.doc-card:nth-child(2) .doc-photo, .blog-card:nth-child(2) .blog-thumb{ animation-delay:.4s; }
+.doc-card:nth-child(3) .doc-photo, .blog-card:nth-child(3) .blog-thumb{ animation-delay:.8s; }
+.doc-card:nth-child(4) .doc-photo{ animation-delay:1.2s; }
+
+/* Trust badge (hero'dagi "25k+ sharh" doirasi) uchun yumshoq nafas olish effekti */
+@keyframes badgeBreathe{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
+}
+.trust-badge{
+    animation:badgeBreathe 2.8s ease-in-out infinite;
+}
+
+/* Testimonial yulduzchalar hoverda porlaydi */
+.testi-card .rating{
+    transition:text-shadow .3s ease, transform .3s ease;
+}
+.testi-card:hover .rating{
+    text-shadow:0 0 14px rgba(217,142,46,.55);
+    transform:scale(1.05);
+}
+
 /* ================= GESTURE CONTROL ================= */
 
 /* ================= CHEMICAL REACTION ================= */
@@ -1617,8 +1754,8 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 
 .planet-fab{
     position:fixed;
-    right:90px;
-    bottom:26px;
+    right:26px;
+    bottom:166px;
     width:56px;
     height:56px;
     border-radius:50%;
@@ -1773,8 +1910,8 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 
 .gesture-fab{
     position:fixed;
-    right:22px;
-    bottom:26px;
+    right:26px;
+    bottom:96px;
     width:56px;
     height:56px;
     border-radius:50%;
@@ -1807,8 +1944,8 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
 
 .gesture-panel{
     position:fixed;
-    right:22px;
-    bottom:92px;
+    right:26px;
+    bottom:162px;
     width:220px;
     background:var(--paper);
     border:1px solid var(--line);
@@ -4135,6 +4272,8 @@ tasdiqlangan sharh
 
 <div class="toast" id="toast">✓ Mahsulot savatga qo'shildi</div>
 
+<button class="back-to-top" id="backToTopBtn" title="Yuqoriga qaytish">↑</button>
+
 <!-- ================= GESTURE CONTROL ================= -->
 <div class="gesture-panel" id="gesturePanel">
     <div class="gesture-panel-head">
@@ -4188,10 +4327,54 @@ tasdiqlangan sharh
 
 /* ================= TABS ================= */
 
+const TAB_CATEGORY_QUERY = {
+    "Barchasi": "",
+    "Retsept": "retsept",
+    "Vitaminlar": "vitamin",
+    "Qurilmalar": "qurilma",
+    "Teri parvarishi": "teri parvarishi",
+    "Ona va bola": "ona va bola"
+};
+
+let robotBusy = false;
+
+function runRobotTransition(fromText, toText, onSwap){
+    if(robotBusy) return;
+    robotBusy = true;
+
+    document.querySelectorAll('.grid-products').forEach(g=>g.classList.add('robot-glitch'));
+
+    // kontent yarmi xiralashgan (fade) paytida almashtiramiz
+    setTimeout(()=>{
+        onSwap();
+    }, 320);
+
+    setTimeout(()=>{
+        document.querySelectorAll('.grid-products').forEach(g=>g.classList.remove('robot-glitch'));
+        robotBusy = false;
+    }, 700);
+}
+
 document.querySelectorAll('.tab').forEach(tab=>{
     tab.addEventListener('click',()=>{
-        document.querySelector('.tab.active').classList.remove('active');
-        tab.classList.add('active');
+        if(robotBusy) return;
+        const activeTab = document.querySelector('.tab.active');
+        if(activeTab === tab) return;
+
+        const fromText = activeTab ? activeTab.textContent.trim() : '';
+        const toText = tab.textContent.trim();
+
+        runRobotTransition(fromText, toText, ()=>{
+            activeTab.classList.remove('active');
+            tab.classList.add('active');
+
+            const query = TAB_CATEGORY_QUERY.hasOwnProperty(toText)
+                ? TAB_CATEGORY_QUERY[toText]
+                : toText.toLowerCase();
+
+            if(typeof searchInput !== 'undefined' && searchInput) searchInput.value = query;
+            filterProducts(query);
+        });
     });
 });
 
@@ -4301,12 +4484,65 @@ function filterProducts(query){
 
 /* ================= NAV / SCROLL BUTTONS ================= */
 
+/* Har qanday bo'limga o'tishda robot effekti bilan scroll qiladi.
+   robotBusy paytida (masalan tab bosilib effekt allaqachon ishlab
+   turgan bo'lsa) oddiy scroll bilan cheklanadi — effektlar
+   bir-birining ustiga chiqib ketmasligi uchun. */
+function scrollToSectionWithRobot(targetEl, toLabel){
+    if(!targetEl) return;
+    if(robotBusy){
+        targetEl.scrollIntoView({behavior:'smooth', block:'start'});
+        return;
+    }
+    runRobotTransition('sahifa', toLabel || 'bo\'lim', ()=>{
+        targetEl.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+}
+
 function scrollToProducts(){
-    const el = document.getElementById('products');
-    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    scrollToSectionWithRobot(document.getElementById('products'), 'Mahsulotlar');
 }
 
 document.getElementById('headerOrderBtn').addEventListener('click', scrollToProducts);
+
+/* ================= NAV MENYU: bo'limlar orasida robot effekti =================
+   Header'dagi va mobil menyudagi havolalar bosilganda ham xuddi
+   kategoriya tab'lari kabi robot effekti ishga tushadi. Real anchor
+   (masalan #products) mavjud bo'lsa o'sha bo'limga, "#" bo'lsa esa
+   sahifa boshiga olib boradi. */
+document.querySelectorAll('nav a, .mobile-link').forEach(link=>{
+    link.addEventListener('click', (e)=>{
+        const href = link.getAttribute('href');
+        const label = link.textContent.trim();
+
+        const closeMobileNav = ()=>{
+            if(mobileNav.classList.contains('open')){
+                mobileNav.classList.remove('open');
+                hamburgerBtn.textContent = '☰';
+            }
+        };
+
+        if(!href || href === '#'){
+            e.preventDefault();
+            closeMobileNav();
+            if(robotBusy){
+                window.scrollTo({top:0, behavior:'smooth'});
+                return;
+            }
+            runRobotTransition('sahifa', label, ()=>{
+                window.scrollTo({top:0, behavior:'smooth'});
+            });
+            return;
+        }
+
+        const target = document.querySelector(href);
+        if(!target) return;
+
+        e.preventDefault();
+        closeMobileNav();
+        scrollToSectionWithRobot(target, label);
+    });
+});
 
 /* ================= PLANET PHARMACY =================
    Har bir kategoriya alohida "sayyora" sifatida ko'rsatiladi.
@@ -5637,6 +5873,127 @@ if('serviceWorker' in navigator){
     });
 
     window.addEventListener('beforeunload', stopGesture);
+})();
+
+/* ================= EARTHQUAKE (har 5 daqiqada) =================
+   Sahifadagi position:fixed BO'LMAGAN barcha yuqori darajadagi
+   elementlar (header, hero, bo'limlar, footer va h.k.) birgalikda
+   qisqa "zilzila" effekti bilan qimirlaydi. Fixed panellar (savat,
+   checkout, AI modal, gesture panel va shu kabilar) computedStyle
+   orqali avtomatik chetlab o'tiladi, shuning uchun ular joyidan
+   siljib ketmaydi. */
+(function(){
+    function getShakeableTopLevelElements(){
+        return Array.from(document.body.children).filter(el=>{
+            const cs = window.getComputedStyle(el);
+            return cs.position !== 'fixed';
+        });
+    }
+
+    function triggerEarthquake(){
+        const els = getShakeableTopLevelElements();
+        els.forEach(el => el.classList.add('earthquake-shake'));
+        setTimeout(()=>{
+            els.forEach(el => el.classList.remove('earthquake-shake'));
+        }, 950);
+    }
+
+    setInterval(triggerEarthquake, 5 * 60 * 1000);
+})();
+
+/* ================= SCROLL-REVEAL: kartalar ko'rinishga kirganda ================= */
+(function(){
+    const revealSelector = '.cat-card, .product-card, .why-item, .doc-card, .blog-card, .testi-card, .faq-item, .rx-step, .promo-card';
+    const revealEls = document.querySelectorAll(revealSelector);
+    revealEls.forEach(el => el.classList.add('reveal-up'));
+
+    if(!('IntersectionObserver' in window)){
+        revealEls.forEach(el => el.classList.add('in-view'));
+        return;
+    }
+
+    const revealObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            if(!entry.isIntersecting) return;
+            const el = entry.target;
+            const siblings = Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal-up'));
+            const idx = siblings.indexOf(el);
+            el.style.animationDelay = Math.min(idx * 60, 360) + 'ms';
+            el.classList.add('in-view');
+            revealObserver.unobserve(el);
+        });
+    }, {threshold:0.12, rootMargin:'0px 0px -30px 0px'});
+
+    revealEls.forEach(el => revealObserver.observe(el));
+})();
+
+/* ================= HISOBLAGICH: "1,200+" kabi raqamlar sanaladi ================= */
+(function(){
+    const nums = document.querySelectorAll('.strip-item .num');
+    if(nums.length === 0) return;
+
+    function animateCounter(el){
+        const raw = el.textContent.trim();
+        const match = raw.match(/^([\d.,]+)(.*)$/);
+        if(!match){ return; }
+        const target = parseInt(match[1].replace(/[.,]/g,''), 10);
+        const suffix = match[2] || '';
+        if(isNaN(target)){ return; }
+
+        el.classList.add('counting');
+        const duration = 1100;
+        const startTime = performance.now();
+
+        function step(now){
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+            el.textContent = current.toLocaleString('en-US').replace(/,/g, ' ') + suffix;
+            if(progress < 1){
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = raw;
+            }
+        }
+        requestAnimationFrame(step);
+    }
+
+    const stripEl = document.querySelector('.strip');
+    if(!stripEl || !('IntersectionObserver' in window)) return;
+
+    const stripObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                nums.forEach(animateCounter);
+                stripObserver.disconnect();
+            }
+        });
+    }, {threshold:0.4});
+    stripObserver.observe(stripEl);
+})();
+
+/* ================= HEADER: scroll paytida soya + yuqoriga qaytish tugmasi ================= */
+(function(){
+    const headerEl = document.querySelector('header');
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    function onScroll(){
+        const y = window.scrollY || window.pageYOffset;
+        if(headerEl){
+            headerEl.classList.toggle('scrolled', y > 30);
+        }
+        if(backToTopBtn){
+            backToTopBtn.classList.toggle('show', y > 480);
+        }
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    if(backToTopBtn){
+        backToTopBtn.addEventListener('click', ()=>{
+            window.scrollTo({top:0, behavior:'smooth'});
+        });
+    }
 })();
 </script>
 
