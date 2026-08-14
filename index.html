@@ -1239,6 +1239,9 @@ footer{background:var(--ink);color:#B9C7BE;padding:60px 8% 30px;}
     0%{background:var(--mint-2);}
     100%{background:transparent;}
 }
+.product-card.like-pop{
+    animation:likePop .4s ease;
+}
 
 .hamburger{display:none;font-size:20px;}
 
@@ -4412,8 +4415,18 @@ document.querySelectorAll('.wishlist').forEach(w=>{
             const grid = card ? card.parentElement : null;
             if(card && grid){
                 grid.prepend(card);
-                card.style.animation = 'none';
-                requestAnimationFrame(()=>{ card.style.animation = 'likePop .4s ease'; });
+
+                /* scroll-reveal ("reveal-up") bilan to'qnashmasligi uchun
+                   kartani to'liq ko'rinadigan holatga majburan o'tkazamiz,
+                   so'ng alohida "like-pop" klassi bilan animatsiya beramiz */
+                card.classList.remove('reveal-up');
+                card.classList.add('in-view');
+                card.style.animation = '';
+
+                card.classList.remove('like-pop');
+                void card.offsetWidth; // reflow — animatsiya qayta ishga tushishi uchun
+                card.classList.add('like-pop');
+
                 showToast('♥ Sevimlilarga qo\'shildi va ro\'yxat boshiga chiqarildi');
             }
         }
@@ -5999,4 +6012,4 @@ if('serviceWorker' in navigator){
 
 
 </body>
-</html>git
+</html>
